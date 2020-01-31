@@ -25,8 +25,15 @@ Input :
         lDot            '.'
         lComma          ','
         lSemicolon      ';'
-        lQuote
-        lBackslash
+        lQuote		'"'
+	lQuestionMark	"?"
+	lSlash		"/"
+	lPercent	"%"
+	lAmpersand	"&"
+	lOrBar		"|"
+        lExclamation	"!"
+	lUnderscore	"_"
+	lBackslash
         lLeftAngle      '<'
         lRightAngle     '>'
         lLeftParen      '('
