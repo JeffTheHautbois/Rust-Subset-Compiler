@@ -26,13 +26,13 @@ Input :
         lComma          ','
         lSemicolon      ';'
         lQuote		'"'
-	lQuestionMark	"?"
-	lSlash		"/"
-	lPercent	"%"
-	lAmpersand	"&"
-	lOrBar		"|"
-        lExclamation	"!"
-	lUnderscore	"_"
+	lQuestionMark	'?'
+	lSlash		'/'
+	lPercent	'%'
+	lAmpersand	'&'
+	lOrBar		'|'
+        lNot		'!'
+	lUnderscore	'_'
 	lBackslash
         lLeftAngle      '<'
         lRightAngle     '>'
@@ -158,7 +158,7 @@ Scan :
             | '/':
                 [
                     | '/':
-			@Commnet
+			@Comment
 		    | '*':
                         @AlternateComment
                     | *:
