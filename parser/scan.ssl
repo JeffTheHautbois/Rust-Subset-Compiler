@@ -155,12 +155,14 @@ Scan :
             | lTab:
             | ';':
                 .pSemicolon
-            | '(':
+            | '/':
                 [
-                    | '*':
+                    | '/':
+			@Commnet
+		    | '*':
                         @AlternateComment
                     | *:
-                        .pLeftParen
+                        .pSlash
                 ]
             | ')':
                 .pRightParen
@@ -218,8 +220,6 @@ Scan :
                     | *:
                         .pGreater
                 ]
-            | '{':
-                @Comment
             | '*':
                 .pStar
             | lNewPage:
@@ -287,10 +287,9 @@ Comment :
         % Discard the contents of a comment
 
         {[
-            | '}':
-                >
             | lNewLine:
                 .pNewLine
+		>
             | lEndFile:         % comment must be closed before EOF
                 #eCommentEOF
                 .pEndFile
@@ -303,7 +302,7 @@ AlternateComment :
         {[
             | '*':
                 [
-                    | ')':
+                    | '/':
                         >
                     | *:
                 ]
