@@ -98,19 +98,19 @@ Output :
         pComma
         pSemicolon
         pColon
-        pSlash "/"
-        pPercent "%"
-        pOrBar "|"
-        pNot "!"
-        pUnderscore "_"
-        pQuestionMark "?"
-        pDoubleAmpersand "&&"
-        pDoubleOrBar "||"
+        pSlash
+        pPercent 
+        pOrBar 
+        pNot 
+        pUnderscore 
+        pQuestionMark 
+        pDoubleAmpersand 
+        pDoubleOrBar 
         pEquals
-        pDoubleEquals "=="
-        pPlusEquals "+="
-        pMinusEquals "-="
-        pEqualGreater "=>"
+        pDoubleEquals 
+        pPlusEquals 
+        pMinusEquals 
+        pEqualGreater 
         pNotEqual
         pLess
         pLessEqual
@@ -118,8 +118,8 @@ Output :
         pGreater
         pLeftParen
         pRightParen
-        pRightBrace "}"
-        pLeftBrace "{"
+        pRightBrace 
+        pLeftBrace 
         pLeftBracket
         pRightBracket
         lastSyntaxToken = pRightBracket;
@@ -204,12 +204,7 @@ Scan :
             | '-':
                 .pMinus
             | '.':
-                [
-                    | '.':
-                        .pDotDot
-                    | *:
-                        .pDot
-                ]
+                .pDot
             | '<':
                 [
                     | '>':
