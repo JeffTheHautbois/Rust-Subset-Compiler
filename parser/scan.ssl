@@ -25,8 +25,15 @@ Input :
         lDot            '.'
         lComma          ','
         lSemicolon      ';'
-        lQuote
-        lBackslash
+        lQuote		'"'
+	lQuestionMark	'?'
+	lSlash		'/'
+	lPercent	'%'
+	lAmpersand	'&'
+	lOrBar		'|'
+        lNot		'!'
+	lUnderscore	'_'
+	lBackslash
         lLeftAngle      '<'
         lRightAngle     '>'
         lLeftParen      '('
@@ -91,7 +98,19 @@ Output :
         pComma
         pSemicolon
         pColon
+        pSlash
+        pPercent 
+        pOrBar 
+        pNot 
+        pUnderscore 
+        pQuestionMark 
+        pDoubleAmpersand 
+        pDoubleOrBar 
         pEquals
+        pDoubleEquals 
+        pPlusEquals 
+        pMinusEquals 
+        pEqualGreater 
         pNotEqual
         pLess
         pLessEqual
@@ -99,10 +118,11 @@ Output :
         pGreater
         pLeftParen
         pRightParen
+        pRightBrace 
+        pLeftBrace 
         pLeftBracket
         pRightBracket
-        pDotDot
-        lastSyntaxToken = pDotDot;
+        lastSyntaxToken = pRightBracket;
 
 Error :
         eIllegalChar = 5
@@ -141,12 +161,14 @@ Scan :
             | lTab:
             | ';':
                 .pSemicolon
-            | '(':
+            | '/':
                 [
-                    | '*':
+                    | '/':
+			@Comment
+		    | '*':
                         @AlternateComment
                     | *:
-                        .pLeftParen
+                        .pSlash
                 ]
             | ')':
                 .pRightParen
@@ -182,12 +204,7 @@ Scan :
             | '-':
                 .pMinus
             | '.':
-                [
-                    | '.':
-                        .pDotDot
-                    | *:
-                        .pDot
-                ]
+                .pDot
             | '<':
                 [
                     | '>':
@@ -204,8 +221,6 @@ Scan :
                     | *:
                         .pGreater
                 ]
-            | '{':
-                @Comment
             | '*':
                 .pStar
             | lNewPage:
@@ -273,10 +288,9 @@ Comment :
         % Discard the contents of a comment
 
         {[
-            | '}':
-                >
             | lNewLine:
                 .pNewLine
+		>
             | lEndFile:         % comment must be closed before EOF
                 #eCommentEOF
                 .pEndFile
@@ -289,7 +303,7 @@ AlternateComment :
         {[
             | '*':
                 [
-                    | ')':
+                    | '/':
                         >
                     | *:
                 ]
