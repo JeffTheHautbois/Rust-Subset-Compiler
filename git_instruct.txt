@@ -1,0 +1,5 @@
+$ git checkout --track origin/dev
+Branch dev set up to track remote branch dev from origin.
+Switched to a new branch 'dev'
+
+
