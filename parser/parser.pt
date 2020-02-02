@@ -71,23 +71,30 @@ program ScannerParser(output, stdIdentifiers, scanSsl, parseSsl, source, parseSt
         lComma = 8;
         lSemicolon = 9;
         lQuote = 10;
-        lBackslash = 11;
-        lLeftAngle = 12;
-        lRightAngle = 13;
-        lLeftParen = 14;
-        lRightParen = 15;
-        lLeftBracket = 16;
-        lRightBracket = 17;
-        lLeftBrace = 18;
-        lRightBrace = 19;
-        lBlank = 20;
-        lIllegal = 21;
-        lNewLine = 22;
-        lCarriageReturn = 23;
-        lTab = 24;
-        lNewPage = 25;
-        lEndFile = 26;
-        lastCharClass = 26;
+        lQuestionMark = 11;
+        lSlash = 12;
+        lPercent = 13;
+        lAmpersand = 14;
+        lOrBar = 15;
+        lNot = 16;
+        lUnderscore = 17;
+        lBackslash = 18;
+        lLeftAngle = 19;
+        lRightAngle = 20;
+        lLeftParen = 21;
+        lRightParen = 22;
+        lLeftBracket = 23;
+        lRightBracket = 24;
+        lLeftBrace = 25;
+        lRightBrace = 26;
+        lBlank = 27;
+        lIllegal = 28;
+        lNewLine = 29;
+        lCarriageReturn = 30;
+        lTab = 31;
+        lNewPage = 32;
+        lEndFile = 33;
+        lastCharClass = 33;
 
         { Output Tokens }
         pMod = 0;
@@ -123,18 +130,31 @@ program ScannerParser(output, stdIdentifiers, scanSsl, parseSsl, source, parseSt
         pComma = 26;
         pSemicolon = 27;
         pColon = 28;
-        pEquals = 29;
-        pNotEqual = 30;
-        pLess = 31;
-        pLessEqual = 32;
-        pGreaterEqual = 33;
-        pGreater = 34;
-        pLeftParen = 35;
-        pRightParen = 36;
-        pLeftBracket = 37;
-        pRightBracket = 38;
-        pDotDot = 39;
-        lastSyntaxToken = 39;
+        pSlash = 29;
+        pPercent = 30;
+        pOrBar = 31;
+        pNot = 32;
+        pUnderscore = 33;
+        pQuestionMark = 34;
+        pDoubleAmpersand = 35;
+        pDoubleOrBar = 36;
+        pEquals = 37;
+        pDoubleEquals = 38;
+        pPlusEquals = 39;
+        pMinusEquals = 40;
+        pEqualGreater = 41;
+        pNotEqual = 42;
+        pLess = 43;
+        pLessEqual = 44;
+        pGreaterEqual = 45;
+        pGreater = 46;
+        pLeftParen = 47;
+        pRightParen = 48;
+        pRightBrace = 49;
+        pLeftBrace = 50;
+        pLeftBracket = 51;
+        pRightBracket = 52;
+        lastSyntaxToken = 52;
 
         { Input/Output Tokens }
 
@@ -151,15 +171,15 @@ program ScannerParser(output, stdIdentifiers, scanSsl, parseSsl, source, parseSt
 
         { S/SL Rule Table Addresses } {
         Scan = 0;
-        Identifier = 212;
-        AlternateComment = 325;
-        Integer = 229;
-        StringLiteral = 244;
-        Comment = 296;
+        Identifier = 203;
+        Comment = 287;
+        AlternateComment = 312;
+        Integer = 220;
+        StringLiteral = 235;
         }
 
         { S/SL Table Parameters }
-        sslTblSize = 361;
+        sslTblSize = 348;
         minSslTableValue = -32767;
         maxSslTableValue = 32767;
 
@@ -894,7 +914,14 @@ program ScannerParser(output, stdIdentifiers, scanSsl, parseSsl, source, parseSt
 
             charClassMap[ord(tab)] := lTab;
             charClassMap[ord(blank)] := lBlank;
-            charClassMap[ord(quote)] := lQuote;
+            charClassMap[ord('?')] := lQuestionMark; 
+	    charClassMap[ord('/')] := lSlash;
+	    charClassMap[ord('%')] := lPercent; 
+	    charClassMap[ord('&')] := lAmpersand; 
+	    charClassMap[ord('|')] := lOrBar;
+ 	    charClassMap[ord('!')] := lNot; 
+ 	    charClassMap[ord('_')] := lUnderscore; 
+	    charClassMap[ord('"')] := lQuote;
             charClassMap[ord(backslash)] := lBackslash;
             charClassMap[ord(carriagereturn)] := lCarriageReturn;
             charClassMap[ord('(')] := lLeftParen;
