@@ -226,9 +226,9 @@ type PredeclaredId :
 
         % Predeclared type names
         firstPredeclaredType = firstPredeclaredId
-        pidInteger = firstPredeclaredType
-        pidChar
-        pidBoolean
+        pidInt = firstPredeclaredType	%changed from pidInteger -> pidInt
+        pidStr				%changed from pidChar -> pidStr
+        pidBoolean				%changed from pidBoolean -> pidBool
         pidText
         lastPredeclaredType = pidText
 
@@ -237,8 +237,8 @@ type PredeclaredId :
         pidFalse
         pidReset
         pidRewrite
-        pidWrite
-        pidWriteln
+        pidPrint	%change from pidWrite -> pidPrint
+        pidPrintln	%change from pidWriteln -> pidPrintln
         pidRead
         pidReadln
         pidChr
@@ -255,9 +255,9 @@ type PredeclaredId :
         lastSpecialId = pidOutput;
 
 type StdType :
-        stdInteger
-        stdChar
-        stdBoolean
+        stdInt		% Integer -> Int
+        stdStr		% Char -> Str	
+        stdBool		% Boolean -> Bool
         stdText;
 
 
