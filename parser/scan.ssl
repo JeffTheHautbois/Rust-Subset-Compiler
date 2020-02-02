@@ -25,14 +25,14 @@ Input :
         lDot            '.'
         lComma          ','
         lSemicolon      ';'
-        lQuote		'"'
-	lQuestionMark	'?'
-	lSlash		'/'
-	lPercent	'%'
-	lAmpersand	'&'
-	lOrBar		'|'
-        lNot		'!'
-	lUnderscore	'_'
+        lQuote		'"'	%Changed this to double quote synonym
+	lQuestionMark	'?'	%Added this symbol identifier
+	lSlash		'/'	%Added this symbol identifier
+	lPercent	'%'	%Added this symbol identifier
+	lAmpersand	'&'	%Added this symbol identifier
+	lOrBar		'|'	%Added this symbol identifier
+        lNot		'!'	%Added this symbol identifier
+	lUnderscore	'_'	%Added this symbol identifier
 	lBackslash
         lLeftAngle      '<'
         lRightAngle     '>'
@@ -163,14 +163,15 @@ Scan :
             | lTab:
             | ';':
                 .pSemicolon
-            | '/':
+	    %Changed the comment style in the following case statement
+            | '/':	%New symbol for entrance into a comment	
                 [
-                    | '/':
+                    | '/':	%Standard one line comment is now started with //
 			@Comment
-		    | '*':
+		    | '*':	%Alternate block comments are now started with /*
                         @AlternateComment
                     | *:
-                        .pSlash
+                        .pSlash	%If there's no comment output pSlash token
                 ]
             | ')':
                 .pRightParen
@@ -305,7 +306,7 @@ AlternateComment :
         {[
             | '*':
                 [
-                    | '/':
+                    | '/':	%New style for block comment closing added
                         >
                     | *:
                 ]
