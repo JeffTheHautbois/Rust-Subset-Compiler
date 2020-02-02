@@ -53,19 +53,21 @@ Input :
 
 Output :
         % Keyword tokens -
-        %   Tokens pDiv through pRepeat are keywords which will be separated
+        %   Tokens pMod through pWhile are keywords which will be separated
         %   from user defined identifiers by the Screener.  This Scanner
-        %   treats them all as identifiers.
-        pMod 
-        firstKeywordToken = pMod
-        pPub
-        pMain
-        pLet
-        pMut
-        pFn
-	pLoop
-	pBreak
-	pMatch
+        %   treats them all as identifiers
+	% Old PT keywords removed: pDiv pOr pAnd pNot pThen pEnd pUntil pDo
+	% pArray pProgram pVar pProcedure pBegin pCase pRepeat
+	pMod		 % mod keyword remains
+        firstKeywordToken = pMod % first keyword token updated to pMod
+        pPub		 % pub keyword added
+        pMain % main keyword added
+        pLet		 % let keyword added
+        pMut		 % mut keyword added
+        pFn		 % fn keyword added
+	pLoop		 % loop keyword added
+	pBreak		 % break keyword added
+	pMatch		 % match keyword added
         pElse
         pOf
         pFile
@@ -73,7 +75,7 @@ Output :
         pType
         pIf
         pWhile
-        lastKeywordToken = pWhile
+        lastKeywordToken = pWhile % last keyword token modifed to pWhile
 
         % Scanner tokens -
         %   These are the tokens actually recognized by the Scanner itself.
