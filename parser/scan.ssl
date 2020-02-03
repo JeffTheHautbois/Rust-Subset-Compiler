@@ -204,13 +204,14 @@ Scan :
                         @Identifier
                     | *:
                 ]
-            | '=': [ 
-		            | '=':
-			            .pDoubleEquals
+            | '=': 
+		[ 
+	            | '=':
+		            .pDoubleEquals
                     | '>':
-                        .pEqualGreater
-		            | *: 
-			            .pEquals
+			    .pEqualGreater
+		    | *: 
+		            .pEquals
                 ]
             | '+': [
 		            | '=':
