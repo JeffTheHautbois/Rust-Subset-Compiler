@@ -58,7 +58,7 @@ program ScannerParser(output, stdIdentifiers, scanSsl, parseSsl, source, parseSt
         { Semantic Operations }
         oBufferSave = 14;
 
-        { Input Tokens }
+        { Input Tokens }	{Copied in new input tokens from scan.def}
         lLetter = 0;
         firstCharClass = 0;
         lDigit = 1;
@@ -96,7 +96,7 @@ program ScannerParser(output, stdIdentifiers, scanSsl, parseSsl, source, parseSt
         lEndFile = 33;
         lastCharClass = 33;
 
-        { Output Tokens }
+        { Output Tokens }	{Copied in new output tokens from scan.def}
         pMod = 0;
         firstKeywordToken = 0;
         pPub = 1;
@@ -914,14 +914,14 @@ program ScannerParser(output, stdIdentifiers, scanSsl, parseSsl, source, parseSt
 
             charClassMap[ord(tab)] := lTab;
             charClassMap[ord(blank)] := lBlank;
-            charClassMap[ord('?')] := lQuestionMark; 
-	    charClassMap[ord('/')] := lSlash;
-	    charClassMap[ord('%')] := lPercent; 
-	    charClassMap[ord('&')] := lAmpersand; 
-	    charClassMap[ord('|')] := lOrBar;
-	    charClassMap[ord('!')] := lNot; 
-	    charClassMap[ord('_')] := lUnderscore; 
-	    charClassMap[ord('"')] := lQuote;
+            charClassMap[ord('?')] := lQuestionMark;	{Added this identifier to character class} 
+	    charClassMap[ord('/')] := lSlash;		{Added this identifier to character class}
+	    charClassMap[ord('%')] := lPercent;		{Added this identifier to character class}
+	    charClassMap[ord('&')] := lAmpersand; 	{Added this identifier to character class}
+	    charClassMap[ord('|')] := lOrBar;		{Added this identifier to character class}
+ 	    charClassMap[ord('!')] := lNot;		{Added this identifier to character class} 
+ 	    charClassMap[ord('_')] := lUnderscore;	{Added this identifier to character class} 
+	    charClassMap[ord('"')] := lQuote;		{Changed this identifier to be double quotes}
             charClassMap[ord(backslash)] := lBackslash;
             charClassMap[ord(carriagereturn)] := lCarriageReturn;
             charClassMap[ord('(')] := lLeftParen;

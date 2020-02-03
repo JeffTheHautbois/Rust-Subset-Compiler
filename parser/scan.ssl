@@ -25,15 +25,15 @@ Input :
         lDot            '.'
         lComma          ','
         lSemicolon      ';'
-        lQuote		'"'
-	lQuestionMark	'?'
-	lSlash		'/'
-	lPercent	'%'
-	lAmpersand	'&'
-	lOrBar		'|'
-        lNot		'!'
-	lUnderscore	'_'
-	lBackslash
+        lQuote		'"'	%Changed this to double quote synonym
+	    lQuestionMark	'?'	%Added this symbol identifier
+	    lSlash		'/'	%Added this symbol identifier
+	    lPercent	'%'	%Added this symbol identifier
+	    lAmpersand	'&'	%Added this symbol identifier
+	    lOrBar		'|'	%Added this symbol identifier
+        lNot		'!'	%Added this symbol identifier
+	    lUnderscore	'_'	%Added this symbol identifier
+	    lBackslash
         lLeftAngle      '<'
         lRightAngle     '>'
         lLeftParen      '('
@@ -65,9 +65,9 @@ Output :
         pLet		 % let keyword added
         pMut		 % mut keyword added
         pFn		 % fn keyword added
-	pLoop		 % loop keyword added
-	pBreak		 % break keyword added
-	pMatch		 % match keyword added
+	    pLoop		 % loop keyword added
+	    pBreak		 % break keyword added
+	    pMatch		 % match keyword added
         pElse
         pOf
         pFile
@@ -163,21 +163,28 @@ Scan :
             | lTab:
             | ';':
                 .pSemicolon
-            | '/':
+	    %Changed the comment style in the following case statement
+            | '/':	%New symbol for entrance into a comment	
                 [
-                    | '/':
+                    | '/':	%Standard one line comment is now started with //
 			@Comment
-		    | '*':
+		    | '*':	%Alternate block comments are now started with /*
                         @AlternateComment
                     | *:
-                        .pSlash
+                        .pSlash	%If there's no comment output pSlash token
                 ]
+	        | '(':
+		        .pLeftParen
             | ')':
                 .pRightParen
             | '[':
                 .pLeftBracket
             | ']':
                 .pRightBracket
+	        | '{':
+		        .pLeftBrace
+	        | '}':
+		        .pRightBrace
             | ',':
                 .pComma
             | ':':
@@ -197,14 +204,30 @@ Scan :
                         @Identifier
                     | *:
                 ]
-            | '=':
-                .pEquals
-            | '+':
-                .pPlus
+            | '=': 
+		[ 
+	            | '=':
+		            .pDoubleEquals
+                    | '>':
+			    .pEqualGreater
+		    | *: 
+		            .pEquals
+                ]
+            | '+': [
+		            | '=':
+			            .pPlusEquals
+		            | *:
+			            .pPlus
+		            ]
+            
             | lQuote:
                 @StringLiteral
-            | '-':
-                .pMinus
+            | '-': [
+                    | '=':
+                        .pMinusEquals
+                    | *:
+                        .pMinus
+                    ]
             | '.':
                 .pDot
             | '<':
@@ -225,6 +248,28 @@ Scan :
                 ]
             | '*':
                 .pStar
+            | '!':
+                .pNot
+            | '&':
+                [
+                    |'&':
+                        .pDoubleAmpersand
+                    | *:
+                        #eIllegalChar
+                ]
+            | '|': 
+                [
+                    |'|':
+                        .pDoubleOrBar
+                    | *:
+                        .pOrBar
+                ]
+            | '_':
+                .pUnderscore
+            | '%':
+                .pPercent
+            | '?':
+                .pQuestionMark
             | lNewPage:
             | lEndFile:
                 .pEndFile
@@ -238,7 +283,7 @@ Identifier :
         % Assemble an identifier token
 
         {[
-            | lLetter, lDigit:
+            | lLetter, lDigit,lUnderscore:
                 oBufferSave
             | *:
                 .pIdentifier
@@ -305,7 +350,7 @@ AlternateComment :
         {[
             | '*':
                 [
-                    | '/':
+                    | '/':	%New style for block comment closing added
                         >
                     | *:
                 ]
