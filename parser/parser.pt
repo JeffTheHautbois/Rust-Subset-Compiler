@@ -914,16 +914,6 @@ program ScannerParser(output, stdIdentifiers, scanSsl, parseSsl, source, parseSt
 
             charClassMap[ord(tab)] := lTab;
             charClassMap[ord(blank)] := lBlank;
-<<<<<<< Updated upstream
-            charClassMap[ord('?')] := lQuestionMark; 
-	    charClassMap[ord('/')] := lSlash;
-	    charClassMap[ord('%')] := lPercent; 
-	    charClassMap[ord('&')] := lAmpersand; 
-	    charClassMap[ord('|')] := lOrBar;
-	    charClassMap[ord('!')] := lNot; 
-	    charClassMap[ord('_')] := lUnderscore; 
-	    charClassMap[ord('"')] := lQuote;
-=======
             charClassMap[ord('?')] := lQuestionMark;	{Added this identifier to character class} 
 	    charClassMap[ord('/')] := lSlash;		{Added this identifier to character class}
 	    charClassMap[ord('%')] := lPercent;		{Added this identifier to character class}
@@ -932,7 +922,6 @@ program ScannerParser(output, stdIdentifiers, scanSsl, parseSsl, source, parseSt
  	    charClassMap[ord('!')] := lNot;		{Added this identifier to character class} 
  	    charClassMap[ord('_')] := lUnderscore;	{Added this identifier to character class} 
 	    charClassMap[ord('"')] := lQuote;		{Changed this identifier to be double quotes}
->>>>>>> Stashed changes
             charClassMap[ord(backslash)] := lBackslash;
             charClassMap[ord(carriagereturn)] := lCarriageReturn;
             charClassMap[ord('(')] := lLeftParen;
