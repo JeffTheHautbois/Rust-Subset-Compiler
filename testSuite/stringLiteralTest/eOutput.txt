@@ -1,0 +1,18 @@
+The test file ./doubleQuote_null_fail.pt yeilded:
+  #eIllegalChar 
+
+The test file ./doubleQuote_text_pass.pt yeilded:
+   .pStringLiteral
+  % Output token text 'Hi there' 
+
+The test file ./doubleQuote_null_pass.pt yeilded:
+   .pStringLiteral 
+
+The test file ./doubleQuote_text_fail.pt yeilded:
+  #eIllegalChar
+  .pIdentifier
+  % Output token text 'hi'
+  .pIdentifier
+  % Output token text 'there'
+ #eIllegalChar 
+

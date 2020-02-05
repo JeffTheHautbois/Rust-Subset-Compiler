@@ -1,0 +1,37 @@
+The test file ./newBlockCommentPass.pt yeilded:
+   .pNewLine
+  .pNewLine
+  .pNewLine 
+
+The test file ./oldBlockCommentFail.pt yeilded:
+  .pLeftParen
+ .pStar
+  .pIdentifier
+  % Output token text 'some'
+  .pIdentifier
+  % Output token text 'comment'
+ .pNewLine
+  .pIdentifier
+  % Output token text 'another'
+  .pIdentifier
+  % Output token text 'comment'
+ .pNewLine
+  .pIdentifier
+  % Output token text 'last'
+  .pIdentifier
+  % Output token text 'comment'
+ .pNewLine
+ .pStar
+ .pRightParen 
+
+The test file ./oldSingleLineCommentFail.pt yeilded:
+  .pLeftBrace
+  .pIdentifier
+  % Output token text 'some'
+  .pIdentifier
+  % Output token text 'comment'
+ .pRightBrace 
+
+The test file ./newSingleLineCommentPass.pt yeilded:
+  
+

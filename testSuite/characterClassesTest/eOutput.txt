@@ -1,0 +1,41 @@
+The test file ./newQuotesPass.pt yeilded:
+   .pStringLiteral
+  % Output token text 'This is a string 123!' 
+
+The test file ./newOrBarPass.pt yeilded:
+  .pOrBar 
+
+The test file ./newQuestionMarkPass.pt yeilded:
+  .pQuestionMark 
+
+The test file ./newUnderscrorePass.pt yeilded:
+  .pUnderscore 
+
+The test file ./newPercentPass.pt yeilded:
+  .pPercent 
+
+The test file ./newNotPass.pt yeilded:
+  .pNot 
+
+The test file ./newSlashPass.pt yeilded:
+  .pSlash 
+
+The test file ./oldQuotesFail.pt yeilded:
+  #eIllegalChar
+  .pIdentifier
+  % Output token text 'this'
+  .pIdentifier
+  % Output token text 'is'
+  .pIdentifier
+  % Output token text 'no'
+  .pIdentifier
+  % Output token text 'longer'
+  .pIdentifier
+  % Output token text 'a'
+  .pIdentifier
+  % Output token text 'string'
+  .pInteger
+  % Output token text '123'
+ .pNot
+ #eIllegalChar 
+

@@ -1,0 +1,71 @@
+The test file ./oldEqualPass.pt yeilded:
+  .pEquals 
+
+The test file ./newPlusEqualsPass.pt yeilded:
+  .pPlusEquals 
+
+The test file ./newNotEqualsPass.pt yeilded:
+  .pNotEqual 
+
+The test file ./newMinusEqualsPass.pt yeilded:
+  .pMinusEquals 
+
+The test file ./oldPlusPass.pt yeilded:
+  .pPlus 
+
+The test file ./newOrBarPass.pt yeilded:
+  .pOrBar 
+
+The test file ./newUnderscoreIdentifierPass.pt yeilded:
+   .pIdentifier
+  % Output token text 'xyz_xy' 
+
+The test file ./oldNotEqualsFail.pt yeilded:
+  .pLess
+ .pGreater 
+
+The test file ./oldDotPass.pt yeilded:
+  .pDot 
+
+The test file ./newDoubleAmpersandPass.pt yeilded:
+  .pDoubleAmpersand 
+
+The test file ./oldLessEqualsPass.pt yeilded:
+  .pLessEqual 
+
+The test file ./oldNotEqualFail.pt yeilded:
+  .pLess
+ .pGreater 
+
+The test file ./newRightBracePass.pt yeilded:
+  .pRightBrace 
+
+The test file ./newEqualGreaterThanPass.pt yeilded:
+  .pEqualGreater 
+
+The test file ./oldColonEqualsFail.pt yeilded:
+  .pColon
+ .pEquals 
+
+The test file ./oldDotDotFail.pt yeilded:
+  .pDot
+ .pDot 
+
+The test file ./oldMinusPass.pt yeilded:
+  .pMinus 
+
+The test file ./newEqualGreaterPass.pt yeilded:
+  .pEqualGreater 
+
+The test file ./newDoubleBarPass.pt yeilded:
+  .pDoubleOrBar 
+
+The test file ./oldGreaterEqualsPass.pt yeilded:
+  .pGreaterEqual 
+
+The test file ./newDoubleEqualsPass.pt yeilded:
+  .pDoubleEquals 
+
+The test file ./newLeftBracePass.pt yeilded:
+  .pLeftBrace 
+

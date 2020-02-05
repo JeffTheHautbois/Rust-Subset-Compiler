@@ -1,0 +1,111 @@
+The test file ./old_do_fail.pt yeilded:
+   .pIdentifier
+  % Output token text 'do' 
+
+The test file ./old_or_fail.pt yeilded:
+   .pIdentifier
+  % Output token text 'or' 
+
+The test file ./old_and_fail.pt yeilded:
+   .pIdentifier
+  % Output token text 'and' 
+
+The test file ./old_end_fail.pt yeilded:
+   .pIdentifier
+  % Output token text 'end' 
+
+The test file ./old_until_fail.pt yeilded:
+   .pIdentifier
+  % Output token text 'until' 
+
+The test file ./changed_str_unkwn.pt yeilded:
+   .pIdentifier
+  % Output token text 'str' 
+
+The test file ./old_array_fail.pt yeilded:
+   .pIdentifier
+  % Output token text 'array' 
+
+The test file ./old_program_fail.pt yeilded:
+   .pIdentifier
+  % Output token text 'program' 
+
+The test file ./new_pub_pass.pt yeilded:
+   .pIdentifier (screened to pPub) 
+
+The test file ./new_main_pass.pt yeilded:
+   .pIdentifier (screened to pMain) 
+
+The test file ./new_break_pass.pt yeilded:
+   .pIdentifier (screened to pBreak) 
+
+The test file ./new_fn_pass.pt yeilded:
+   .pIdentifier (screened to pFn) 
+
+The test file ./new_int_pass.pt yeilded:
+   .pIdentifier
+  % Output token text 'int' 
+
+The test file ./changed_println_unkwn.pt yeilded:
+   .pIdentifier
+  % Output token text 'println' 
+
+The test file ./old_procedure_fail.pt yeilded:
+   .pIdentifier
+  % Output token text 'procedure' 
+
+The test file ./new_let_pass.pt yeilded:
+   .pIdentifier (screened to pLet) 
+
+The test file ./new_mod_pass.pt yeilded:
+   .pIdentifier (screened to pMod) 
+
+The test file ./old_begin_fail.pt yeilded:
+   .pIdentifier
+  % Output token text 'begin' 
+
+The test file ./new_mut_pass.pt yeilded:
+   .pIdentifier (screened to pMut) 
+
+The test file ./changed_int_unkwn.pt yeilded:
+   .pIdentifier
+  % Output token text 'int' 
+
+The test file ./old_case_fail.pt yeilded:
+   .pIdentifier
+  % Output token text 'case' 
+
+The test file ./old_then_fail.pt yeilded:
+   .pIdentifier
+  % Output token text 'then' 
+
+The test file ./new_match_pass.pt yeilded:
+   .pIdentifier (screened to pMatch) 
+
+The test file ./changed_print_unkwn.pt yeilded:
+   .pIdentifier
+  % Output token text 'print' 
+
+The test file ./changed_bool_unkwn.pt yeilded:
+   .pIdentifier
+  % Output token text 'bool' 
+
+The test file ./old_repeat_fail.pt yeilded:
+   .pIdentifier
+  % Output token text 'repeat' 
+
+The test file ./new_loop_pass.pt yeilded:
+   .pIdentifier (screened to pLoop) 
+
+The test file ./old_var_fail.pt yeilded:
+   .pIdentifier
+  % Output token text 'var' 
+
+The test file ./old_div_fail.pt yeilded:
+   .pIdentifier
+  % Output token text 'div' 
+
+The test file ./old_not_fail.pt yeilded:
+   .pIdentifier
+  % Output token text 'not' 
+
