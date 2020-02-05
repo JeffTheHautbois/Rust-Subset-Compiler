@@ -1,7 +1,11 @@
+Changes: 
+    - Changed character class symbol of single quote to double quote
+    - Modified the charClassMap to recognize lQuote when a double quote is encountered
+    
 Test files:
     doubleQuote_null_fail.pt
         - This test checks if single quotes (with no text) are valid characters 
-        Expected Output: Not recognize single quotes with "#eIllegalChar"
+        Expected Output: Not recognize single quotes, declare "#eIllegalChar"
 
     doubleQuote_null_pass.pt
         - This test checks if double quotes (with no text) are valid characters 
@@ -9,7 +13,7 @@ Test files:
 
     doubleQuote_text_fail.pt
         - This test checks if double quotes (with text) are valid characters 
-        Expected Output: Not recognize single quotes with "#eIllegalChar"
+        Expected Output: Not recognize single quotes, declare "#eIllegalChar"
 
     doubleQuote_text_pass.pt
         - This test checks if double quotes (with text) are valid characters 
