@@ -28,5 +28,6 @@ it expects QUST alternative syntax
 - The tests included QUST unique cases such as underscores in identifiers,
 equal greater, logic operations and other symbols that represented themselves
 - All tests can be found in testSuite dir
+- More details on tests in syntaxTestDescription in testSuite
 
 * All changes are identified in comments made in scan.ssl
