@@ -7,15 +7,22 @@
 Qust compiler?
 ==================================================================
 1) Added new QUST output syntax tokens and identifier adjustement in scan.ssl
+- left brace ("{"), right brace ("}"), plus equals ("+="), minus equals ("–="), slash ("/"),
+percent ("%"), double equals ("=="), double ampersand ("&&"), double or bar ("||"),
+or bar ("|"), not ("!"), underscore ("_"), question mark ("?") and equal greater ("=>"),
+replacing or removing the old PT symbols that are no longer used in Qust (<>,:=,&,..)
 - This change allows for new symbols such as "!=","+=","-=".....etc that 
 exist in QUST but not PT to be recognized during scan. Comments can be 
 found inside scan.ssl for all items removed and added
 - The implementation was done by adding new input tokens and adjusting 
 the scan rule accordingly to properly identify new operators and 
 syntax.
+- Updated ScanIdentifiers and parser.pt to contain the new references
+- First word and last word variables updated
 
 2) Added new tests that have full coverage over the added QUST syntax in testSuite
-- This change ensures nothing else was broken after the changes were added
+- This change ensures nothing else was broken after the changes were added,
+important since a compiler must be reliable.
 - A Pass/Fail indicator in the file names shows the scanner belongs
 to QUST and no longer works with the PT unique syntax, but rather
 it expects QUST alternative syntax
