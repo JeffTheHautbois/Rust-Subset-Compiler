@@ -1,0 +1,13 @@
+This set of tests checks the change made to the syntax output tokens
+in sca.ssl.The names of the test files explain what they do rather well.
+For example newEqualGreater.pt expects that when run through the scanner
+the equalGreater QUST symbol '=>' will be recognized and will yeild the 
+output of a pEqualGreater token. This obviously requires the implementation of
+the pEqualGreater, which is tested along with all other additions and 
+removals between PT and Pascal in this directory. One
+should be able to extrapolate this example to the rest of the pass
+case tests. For failure case tests such as oldNotEqualFail.pt we simply
+expect an illegal token or a different token. As an additional note the 
+double ampersand and other logical operators unique to QUST are tested in 
+this directory . To run all syntax output token related tests run the 
+bash script testAllLocal.sh    
