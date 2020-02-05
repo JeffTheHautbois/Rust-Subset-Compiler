@@ -4,10 +4,37 @@ For example newEqualGreater.pt expects that when run through the scanner
 the equalGreater QUST symbol '=>' will be recognized and will yeild the 
 output of a pEqualGreater token. This obviously requires the implementation of
 the pEqualGreater, which is tested along with all other additions and 
-removals between PT and Pascal in this directory. One
-should be able to extrapolate this example to the rest of the pass
-case tests. For failure case tests such as oldNotEqualFail.pt we simply
-expect an illegal token or a different token. As an additional note the 
-double ampersand and other logical operators unique to QUST are tested in 
-this directory . To run all syntax output token related tests run the 
-bash script testAllLocal.sh    
+removals between PT and Pascal in this directory. For failure case tests 
+such as oldNotEqualFail.pt we simply expect an illegal token or a different 
+token. As an additional note the double ampersand and other logical 
+operators unique to QUST are tested in this directory . To run all syntax 
+output token related tests run the bash script testAllLocal.sh    
+
+- These tests ensure nothing else was broken after the changes were added,
+important since a compiler must be reliable.
+- A Pass/Fail indicator in the file name of every test shows if the token
+tested is expected to pass or fail based on old and new specifications, old 
+being PT, new being QUST. This is important since the scanner belongs
+to QUST and no longer works with the PT unique syntax, but rather
+it expects QUST alternative syntax.
+- The tests included QUST unique cases such as underscores in identifiers,
+equal greater, logic operations and other symbols that represented themselves
+- All tests can be found in testSuite dir
+
+Symbols Tested: 
+
+QUST: left brace ("{"), right brace ("}"), plus equals ("+="), minus equals ("–="), slash ("/"),
+percent ("%"), double equals ("=="), double ampersand ("&&"), double or bar ("||"),
+or bar ("|"), not ("!"), underscore ("_"), question mark ("?"), equal greater ("=>"), plus
+removing and testing PT tokens no longer used in QUST as instructed in outline and based 
+on Project Description.
+
+PT Token Operators No Longer Used Removed, Replaced, and Tested:
+PT Qust
+ := = 
+ <> !=
+
+* Test Output is visible by running the bash script, all tests
+* match expected QUST output tokens
+
+* All changes are identified in comments made in scan.ssl
