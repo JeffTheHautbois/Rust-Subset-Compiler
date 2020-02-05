@@ -95,23 +95,23 @@ Output :
         pPlus
         pMinus
         pStar
-        pColonEquals
+        pColonEquals %ColonEquals output token added
         pDot
         pComma
         pSemicolon
         pColon
-        pSlash
-        pPercent 
+        pSlash %Slash output token added
+        pPercent %Percent output token added
         pOrBar 
-        pNot 
-        pUnderscore 
-        pQuestionMark 
-        pDoubleAmpersand 
-        pDoubleOrBar 
+        pNot %Not output token added
+        pUnderscore %Underscore output token added
+        pQuestionMark %Question mark output token added
+        pDoubleAmpersand %DoubleAmpersand output token added
+        pDoubleOrBar %Double or bar output token added
         pEquals
-        pDoubleEquals 
-        pPlusEquals 
-        pMinusEquals 
+        pDoubleEquals %DoubleEquals output token added
+        pPlusEquals %PlusEquals output token added
+        pMinusEquals %MinusEquals output token added
         pEqualGreater 
         pNotEqual
         pLess
@@ -120,8 +120,8 @@ Output :
         pGreater
         pLeftParen
         pRightParen
-        pRightBrace 
-        pLeftBrace 
+        pRightBrace %RightBrace output token added
+        pLeftBrace %LeftBrace output token added
         pLeftBracket
         pRightBracket
         lastSyntaxToken = pRightBracket;
@@ -181,9 +181,9 @@ Scan :
                 .pLeftBracket
             | ']':
                 .pRightBracket
-	        | '{':
+	        | '{': %Left brace recognized as output token
 		        .pLeftBrace
-	        | '}':
+	        | '}': %Right brace recognized as output token
 		        .pRightBrace
             | ',':
                 .pComma
@@ -206,15 +206,15 @@ Scan :
                 ]
             | '=': 
 		[ 
-	            | '=':
-		            .pDoubleEquals
-                    | '>':
+	            | '=': %Double equals recognized as output token
+		            .pDoubleEquals 
+                    | '>': %Equal greater recognized as output token
 			    .pEqualGreater
 		    | *: 
 		            .pEquals
                 ]
             | '+': [
-		            | '=':
+		            | '=': %Plus equals recognized as output token, checked first
 			            .pPlusEquals
 		            | *:
 			            .pPlus
@@ -223,7 +223,7 @@ Scan :
             | lQuote:
                 @StringLiteral
             | '-': [
-                    | '=':
+                    | '=': %Minus equals recognized as output token, checked first
                         .pMinusEquals
                     | *:
                         .pMinus
@@ -248,27 +248,27 @@ Scan :
                 ]
             | '*':
                 .pStar
-            | '!':
+            | '!': %Not symbol recognized as output token
                 .pNot
             | '&':
                 [
                     |'&':
-                        .pDoubleAmpersand
+                        .pDoubleAmpersand %Double ampersand recognized as output token
                     | *:
-                        #eIllegalChar
+                        #eIllegalChar 
                 ]
-            | '|': 
+            | '|': %Bar recognized as output token
                 [
                     |'|':
-                        .pDoubleOrBar
+                        .pDoubleOrBar %Double bar output token
                     | *:
                         .pOrBar
                 ]
-            | '_':
+            | '_': %Underscore recognized as output token
                 .pUnderscore
-            | '%':
+            | '%': %Percent recognized as output token
                 .pPercent
-            | '?':
+            | '?': %Question mark recognized as output token
                 .pQuestionMark
             | lNewPage:
             | lEndFile:
@@ -283,7 +283,7 @@ Identifier :
         % Assemble an identifier token
 
         {[
-            | lLetter, lDigit,lUnderscore:
+            | lLetter, lDigit,lUnderscore: %underscore in identifier accepted
                 oBufferSave
             | *:
                 .pIdentifier
