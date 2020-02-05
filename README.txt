@@ -13,3 +13,14 @@ in that directory.
 Editor plugins for the syntax colorization of PT and S/SL
 source files using Vim are in the editors subdirectory.
 See the README there for installation information.
+
+TEST DIRECTORY: testSuit
+DOCUMENTATION DIRECTORY: changeDocumentation
+SOURCE DIRECTORY: Rust-Subset-Compiler
+
+Group account: cisc458l
+
+The name, ID#, and NetID of each student in the group.
+Murtadha Al-Dallal 10197327, 15mad3
+
+
