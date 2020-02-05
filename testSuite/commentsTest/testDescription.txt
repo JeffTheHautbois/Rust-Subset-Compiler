@@ -1,1 +1,8 @@
-This set of tests checks the change of the PT comments which used to be { } for single line comments and (* *) for block comments to the new Rust style which is // for single line comments and /* */ for multi line comments.  
+This set of tests checks the change of the PT comments which used to be { } 
+for single line comments and (* *) for block comments to the new Rust style 
+which is // for single line comments and /* */ for multi line comments. The 
+4 files names explain what they do, newBlockCommentsPass.pt will check the
+new /* */ style comments. For comments an expected pass is no token output
+other than newLines and EoF. A Fail like seen in oldBlockCommentsFail.pt
+will give a token for the braces in (* *) and the all the contents of the
+comment. To run all comment related tests run the bash script testAllLocal.sh    
