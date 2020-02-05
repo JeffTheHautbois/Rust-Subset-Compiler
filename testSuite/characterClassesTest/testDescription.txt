@@ -1,0 +1,15 @@
+This set of tests checks the change made to the character classes.
+The names of the test files explain what they do rather well. For 
+example newPercentPass.pt expects that when run through the scanner
+the percent symbol '%' will be recognized and will yeild the output 
+of a pPercent token. This obviously requires the implementation of
+the pPercent syntax token to function and for this reason the
+pPercent will not be re-tested in the syntaxTokenTest directory. One
+should be able to extrapolate this example to the rest of the pass
+case tests. For failure case tests such as oldQuotesFail.pt we simply
+expect an illegal token. The only new character class that was
+implemented and not tested here was the ampersand because a single
+ampersand does not exist in Qust. Instead the double ampersand is
+tested in syntax toekens which offers enough test coverage to ensure
+the ampersand has been properly added to the character classes. To 
+run all character class related tests run the bash script testAllLocal.sh    

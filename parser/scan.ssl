@@ -95,7 +95,7 @@ Output :
         pPlus
         pMinus
         pStar
-        pColonEquals %ColonEquals output token added
+        %ColonEquals output token removed
         pDot
         pComma
         pSemicolon
@@ -187,13 +187,9 @@ Scan :
 		        .pRightBrace
             | ',':
                 .pComma
-            | ':':
-                [
-                    | '=':
-                        .pColonEquals
-                    | *:
-                        .pColon
-                ]
+            | ':': %removed PT ColonEqual
+		    .pColon
+               
             | lDigit:
                 oBufferSave
                 @Integer
@@ -230,10 +226,8 @@ Scan :
                     ]
             | '.':
                 .pDot
-            | '<':
-                [
-                    | '>':
-                        .pNotEqual
+            | '<':  %removed PT <>
+                [  
                     | '=':
                         .pLessEqual
                     | *:
@@ -248,8 +242,12 @@ Scan :
                 ]
             | '*':
                 .pStar
-            | '!': %Not symbol recognized as output token
-                .pNot
+            | '!': [ %Not symbol recognized as output token
+                |'=':
+                        .pNotEqual %Changing to Qust Not Equal
+                |*:
+                        .pNot
+                ]
             | '&':
                 [
                     |'&':
