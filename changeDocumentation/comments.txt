@@ -1,0 +1,23 @@
+The style of comments was changed in the scanner from the old style
+single line commnets of PT { } to the new Qust // and the from the 
+block comments of PT (* *) to the new Qust /* */.
+
+The changes were made in the S/SL code in scan.ssl. The new comments
+case start at line 166 in scan.ssl when a slash is recognized. If
+this slash is followed by another we enter into the standard one line
+commnet rule, if the first slash is followed by a '*' we enter into the
+block comment rules called AlternateComment and if the first slash is
+followed by anything else we emit a pSlash token and move on. This is
+different from PT which was two case statements, one for the '{' 
+and one for the '('.
+
+For the sinlge line comment rule 'Comment' on line 332, there is no
+user written closing symbol, instead the lnewLine token is used to
+identify the end of a comment and the program returns from the rule.
+If the case finds an EoF before the pNewLine it throws and error
+as this is not expected behavior and if it sees anything else it
+throws away the characters as they are part of the commented out line.
+
+For the block comment rule 'AlternateCommnet' on line 347, the only
+change made is changing the style of closing brace for a block
+comment in PT which was *) to Quest */.   

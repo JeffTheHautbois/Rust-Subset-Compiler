@@ -1,0 +1,17 @@
+This file outlines the changes made to implement new chanracter classes
+and change some of the old character classes. All changes made exist 
+within the parser directory. 
+
+The added character class symbols were '?', '/', '%', '&', '|', '!',
+and '_'. The quote was changed from a single quote to double '"'.
+
+In the scan.ssl directory the new scanner input tokens were added under 
+the 'Input' header near the top of the file along with the associated
+synonyms. This allows the scanner to identify these new incoming symbols
+as unique tokens instead of illegals, which would happen in the olf PT
+scanner. The quote was the only modification made to an existing
+character class.
+
+In parser.pt the initialization of the character class map was modified
+from line 917-924 to add the new characters and modify the existing
+quote. 
