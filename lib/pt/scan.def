@@ -68,36 +68,35 @@
         pPlus = 21;
         pMinus = 22;
         pStar = 23;
-        pColonEquals = 24;
-        pDot = 25;
-        pComma = 26;
-        pSemicolon = 27;
-        pColon = 28;
-        pSlash = 29;
-        pPercent = 30;
-        pOrBar = 31;
-        pNot = 32;
-        pUnderscore = 33;
-        pQuestionMark = 34;
-        pDoubleAmpersand = 35;
-        pDoubleOrBar = 36;
-        pEquals = 37;
-        pDoubleEquals = 38;
-        pPlusEquals = 39;
-        pMinusEquals = 40;
-        pEqualGreater = 41;
-        pNotEqual = 42;
-        pLess = 43;
-        pLessEqual = 44;
-        pGreaterEqual = 45;
-        pGreater = 46;
-        pLeftParen = 47;
-        pRightParen = 48;
-        pRightBrace = 49;
-        pLeftBrace = 50;
-        pLeftBracket = 51;
-        pRightBracket = 52;
-        lastSyntaxToken = 52;
+        pDot = 24;
+        pComma = 25;
+        pSemicolon = 26;
+        pColon = 27;
+        pSlash = 28;
+        pPercent = 29;
+        pOrBar = 30;
+        pNot = 31;
+        pUnderscore = 32;
+        pQuestionMark = 33;
+        pDoubleAmpersand = 34;
+        pDoubleOrBar = 35;
+        pEquals = 36;
+        pDoubleEquals = 37;
+        pPlusEquals = 38;
+        pMinusEquals = 39;
+        pEqualGreater = 40;
+        pNotEqual = 41;
+        pLess = 42;
+        pLessEqual = 43;
+        pGreaterEqual = 44;
+        pGreater = 45;
+        pLeftParen = 46;
+        pRightParen = 47;
+        pRightBrace = 48;
+        pLeftBrace = 49;
+        pLeftBracket = 50;
+        pRightBracket = 51;
+        lastSyntaxToken = 51;
 
         { Input/Output Tokens }
 
@@ -114,14 +113,14 @@
 
         { S/SL Rule Table Addresses } {
         Scan = 0;
-        Identifier = 308;
-        Comment = 394;
-        AlternateComment = 419;
-        Integer = 327;
-        StringLiteral = 342;
+        Identifier = 302;
+        Comment = 388;
+        AlternateComment = 413;
+        Integer = 321;
+        StringLiteral = 336;
         }
 
         { S/SL Table Parameters }
-        sslTblSize = 455;
+        sslTblSize = 449;
         minSslTableValue = -32767;
         maxSslTableValue = 32767;
