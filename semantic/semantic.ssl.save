@@ -226,9 +226,10 @@ type PredeclaredId :
 
         % Predeclared type names
         firstPredeclaredType = firstPredeclaredId
-        pidInt = firstPredeclaredType	%changed from pidInteger -> pidInt
-        pidStr				%changed from pidChar -> pidStr
-        pidBoolean				%changed from pidBoolean -> pidBool
+        
+pidInt = firstPredeclaredType	%changed from pidInteger -> pidInt
+        pidStr				%add from pidChar -> pidStr
+        pidBoolean				%add from pidBoolean -> pidBool
         pidText
         lastPredeclaredType = pidText
 

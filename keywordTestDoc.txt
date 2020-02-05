@@ -1,0 +1,28 @@
+For keyword unit test naming converntion:
+xxx is the a single keyword/non-keyword in each .pt unit test
+
+old_xxx_fail.pt are for old PT Pascal keywords that are 
+no longer recognized by the Qust screener/scanner
+
+The following old keyword unit test will output 
+.pIdentifier accompanied by identifier text value:
+div mode or and not then end until do array
+program var procedure begin case repeat
+
+new_xxx_pass are for new Qust keywords that are added 
+ssltrace -e will output pXxx token for the newly added keywords 
+
+The following new keyword unit tests will output
+.pIdentifier token screened to corresponding pKeywordToken:
+pub mod main let mut fn loop break match.
+
+changed_xxx_unkwn are for unit tests made to modified predefined identifiers
+However the unit tests output are unknown at this stage because 
+ssltrace output handles predefined identifiers the same way as a compound
+identifier. The unit test is not complete without examining Parser which
+is Phase 2 of the project.
+
+The following predefined identifiers will output
+.pIdentifier accompanied by associated value text:
+int str bool print println
+
