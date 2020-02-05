@@ -21,7 +21,8 @@ SOURCE DIRECTORY: Rust-Subset-Compiler
 To run all tests, execute the 'testAll.sh' progarm found
 in the testSuite directory. To run a subset of tests, run
 the 'testAllLocal.sh' program found in the individual
-testing directories.
+testing directories. Please note that these bash scripts
+remove the trailing new line and EOF tokens from each test.
 
 Group account: cisc458l
 
