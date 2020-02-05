@@ -4,5 +4,7 @@ cd ../syntaxTokenTest
 ./testAllLocal.sh
 cd ../commentsTest
 ./testAllLocal.sh
-cd ../keyworkTest
+cd ../keywordTest
+./testAllLocal.sh
+cd ../stringLiteralTest
 ./testAllLocal.sh
