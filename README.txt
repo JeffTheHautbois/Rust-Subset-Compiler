@@ -14,9 +14,14 @@ Editor plugins for the syntax colorization of PT and S/SL
 source files using Vim are in the editors subdirectory.
 See the README there for installation information.
 
-TEST DIRECTORY: testSuit
+TEST DIRECTORY: testSuite
 DOCUMENTATION DIRECTORY: changeDocumentation
 SOURCE DIRECTORY: Rust-Subset-Compiler
+
+To run all tests, execute the 'testAll.sh' progarm found
+in the testSuite directory. To run a subset of tests, run
+the 'testAllLocal.sh' program found in the individual
+testing directories.
 
 Group account: cisc458l
 
