@@ -1,0 +1,12 @@
+Test files:
+    doubleQuote_null_fail.pt
+        - This test checks if single quotes (with no text) are valid characters 
+
+    doubleQuote_null_pass.pt
+        - This test checks if double quotes (with no text) are valid characters 
+
+    doubleQuote_text_fail.pt
+        - This test checks if double quotes (with text) are valid characters 
+
+    doubleQuote_text_pass.pt
+        - This test checks if double quotes (with text) are valid characters 
