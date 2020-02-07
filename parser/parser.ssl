@@ -168,40 +168,49 @@ Program :
 			')'
 			.sParmEnd
 			'{'
-	%		@Block
-			'}'
+			@Block
 		|'{':
 			.sModule
-			'}'
+			@Block
 	];
 
-%Block :
-%        % Strictly speaking, standard Pascal requires that declarations
-%        % appear only in the order consts, types, vars, procedures.
-%        % We allow arbitrary intermixing of these instead to preserve
-%        % programmer sanity.
-%        {[
-%            | 'const':
-%                .sConst
+Block :
+        % Strictly speaking, standard Pascal requires that declarations
+        % appear only in the order consts, types, vars, procedures.
+        % We allow arbitrary intermixing of these instead to preserve
+        % programmer sanity.
+	.sBegin
+	{[
+            | 'const':
+                .sConst
 %                @ConstantDefinitions
-%            | 'type':
-%                .sType
+            | 'type':
+                .sType
 %                @TypeDefinitions
-%            | 'var':
-%                .sVar
+            | 'var':
+                .sVar
 %                @VariableDeclarations
-%            | 'procedure':
-%                .sProcedure
+            | 'procedure':
+                .sProcedure
 %                % procedure name
-%                pIdentifier  .sIdentifier
+                pIdentifier  .sIdentifier
 %                @ProcedureHeading
-%                @Block  ';'
-%            | *:
-%                >
-%        ]}
-%        'begin'
-%        @BeginStmt;
-%
+                @Block  ';'
+            | pIdentifier:
+%                @AssignmentOrCallStmt
+            | pIf:
+%                @IfStmt
+            | pWhile:
+%                @WhileStmt			%%--TODO:Re-order the statements and declarations in order of which are called more
+            | pMatch:
+%                @MatchStmt
+            | pLoop:
+%                @LoopStmt
+	    | '}':
+                >
+	]}
+	.sEnd;
+
 %ConstantDefinitions :
 %        % Accept one or more named constant definitions
 %        pIdentifier  .sIdentifier
