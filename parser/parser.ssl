@@ -220,23 +220,27 @@ UnsignedIntegerConstant :
         ];
 
 TypeDefinitions :
-        % Accept one or more named type definitions.
+        % Type can only accept one definition per call
         pIdentifier  .sIdentifier
         '='  @TypeBody  ';'
-        {[
-            | pIdentifier:
-                .sIdentifier
-                '='  @TypeBody  ';'
-            | *:
-                >
-        ]};
+	; % end of type definition
+	
+	%--- following loop choice block is removed
+       	%---{[ 
+       	%---    | pIdentifier:
+       	%---        .sIdentifier
+       	%---        '='  @TypeBody  ';'
+       	%---    | *:
+       	%---        >
+       	%---]};
 
 TypeBody :
         [
-            | 'array':
+	%--- Remove '..' choice and add '[',']' for array range
+            |'[':   %  'array': 
                 .sArray
-                '['  @SimpleType  ']'
-                'of'  @SimpleType
+                @SimpleType
+		']'
             | 'file':
                 .sFile
                 'of'  @SimpleType
@@ -251,15 +255,16 @@ SimpleType :
             | pIdentifier:
                 .sIdentifier
                 [
-                    | '..':
+                    | ',': %---changed '..' to ','
                         .sRange         %% this may be unnecessary
                         @OptionallySignedIntegerConstant
                     | *:
                 ]
             | *:
-                @OptionallySignedIntegerConstant
-                '..'  .sRange
-                @OptionallySignedIntegerConstant
+	%--- removed no longer valid beg .. end range dec
+        	%---@OptionallySignedIntegerConstant
+        	%---    '..'  .sRange
+        	%---@OptionallySignedIntegerConstant
         ];
 
 OptionallySignedIntegerConstant :
