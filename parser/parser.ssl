@@ -140,22 +140,30 @@ Output :
 rules
 
 Program :
-        'program'  .sProgram
-        % program name
-        pIdentifier
-        % program parameters
-        '('
-        {
-            pIdentifier  .sIdentifier
-            [
-                | ',':
-                | *:
-                    >
-            ]
-        }
-        ')'
-        .sParmEnd
-        ';'  @Block  '.';
+        pMod  
+	pIdentifier %program/module name
+	[
+		|'(': 
+			.sProgram
+			{
+			    pIdentifier  .sIdentifier
+			    [
+				| ',':
+				| *:
+				    >
+			    ]
+			}
+			')'
+			.sParmEnd
+			'{'
+			@Block
+			'}'
+		|'{':
+			.sMod
+			'}'
+		|*:
+			%%TODO: Add illegal s token		
+	];
 
 Block :
         % Strictly speaking, standard Pascal requires that declarations
