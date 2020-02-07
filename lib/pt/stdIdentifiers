@@ -1,0 +1,61 @@
+% Keywords and predeclared identifiers of PT Pascal    Ver. 4.1
+%   The total number of keywords and predeclared identifiers in this file
+%   must be the same as the value of numberStdIdentifiers in parser.pt
+
+% Language keywords 
+%   These must be in the exact same order as the keyword token definitions 
+%   in the Output section of scan.ssl and the Input section of parser.ssl
+
+% Qust -- keywords added (beginning)
+mod
+pub
+main
+let
+mut
+fn
+loop
+break
+match
+% Quest --  keywords added (end)
+else
+of
+file
+const
+type
+if
+while
+
+% End of keywords
+
+% Predeclared identifiers
+%   These must be in the exact same order as the PredeclaredId type definition
+%   in semantic.ssl.  
+
+% Predeclared type names
+int	% changed from integer -> int
+str	% changed from char -> str
+bool	% changed from boolean -> bool
+text
+
+% Predeclared constants
+true
+false
+
+% Predeclared procedures and functions
+reset
+rewrite
+print	% changed from write -> print
+println	% changed from writelin -> println
+read
+readln
+chr
+ord
+eoln
+eof
+assign
+
+% Predeclared files
+input
+output
+
+% End of predeclared identifiers
