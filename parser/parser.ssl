@@ -168,13 +168,11 @@ Program :
 			')'
 			.sParmEnd
 			'{'
-			@Block
+	%		@Block
 			'}'
 		|'{':
-			.sMod
+			.sModule
 			'}'
-		|*:
-			%%TODO: Add illegal s token		
 	];
 
 %Block :
@@ -570,5 +568,4 @@ Program :
 %            | *:
 %        ];
 %
->>>>>>> TokenDefParserMurt
 end

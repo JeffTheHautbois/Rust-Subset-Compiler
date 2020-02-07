@@ -130,10 +130,11 @@
         { Type Values }
 
         { S/SL Rule Table Addresses } {
+        Program = 0;
         }
 
         { S/SL Table Parameters } {
-        sslTblSize = 0;
+        sslTblSize = 49;
         minSslTableValue = -32767;
         maxSslTableValue = 32767;
 	}
