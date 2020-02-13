@@ -180,34 +180,44 @@ Block :
         % We allow arbitrary intermixing of these instead to preserve
         % programmer sanity.
 	.sBegin
-	{[
-            | 'const':
-                .sConst
-%                @ConstantDefinitions
-            | 'type':
-                .sType
-%                @TypeDefinitions
-            | 'var':
-                .sVar
-%                @VariableDeclarations
-            | 'procedure':
-                .sProcedure
-%                % procedure name
-                pIdentifier  .sIdentifier
-%                @ProcedureHeading
-                @Block  ';'
-            | pIdentifier:
-%                @AssignmentOrCallStmt
-            | pIf:
-%                @IfStmt
-            | pWhile:
-%                @WhileStmt			%%--TODO:Re-order the statements and declarations in order of which are called more
-            | pMatch:
-%                @MatchStmt
-            | pLoop:
-%                @LoopStmt
-	    | '}':
-                >
+	{[                   %%TODO: Re-order case block for expected occurance
+        | '}':
+        >
+        | 'const':
+            .sConst
+           %@ConstantDefinitions
+        | 'type':
+            .sType
+           %@TypeDefinitions
+        | 'let':
+            .sVar
+            %@VariableDeclarations
+        | 'fn':
+            .sProcedure
+            % routine name
+            pIdentifier  .sIdentifier
+            @ProcedureHeading
+            @Block
+        | 'pub':
+            'fn'
+            .sProcedure
+            % routine name
+            pIdentifier .sIdentifier
+            .sPublic
+            @ProcedureHeading
+            @Block
+        | pIdentifier:
+            %@AssignmentOrCallStmt
+        | pIf:
+            %@IfStmt
+        | pMod:         %%This expects that we don't have nested programs
+            %@ModuleStmt
+        | pLoop:    
+            %@LoopStmt        
+        | pMatch:
+            %@MatchStmt
+        | pWhile:
+            %@WhileStmt
 	]}
 	.sEnd;
 
@@ -312,34 +322,33 @@ Block :
 %                >
 %        ]};
 %
-%ProcedureHeading :
-%        % Accept zero or more procedure formal parameter declarations.
-%        [
-%            | '(':
-%                {
-%                    % formal parameter identifier
-%                    [
-%                        | 'var':
-%                            pIdentifier  .sIdentifier
-%                            .sVar
-%                        | *:
-%                            pIdentifier  .sIdentifier
-%                    ]
-%                    ':'
-%                    % type identifier
-%                    pIdentifier  .sIdentifier
-%                    [
-%                        | ';':
-%                        | *:
-%                            >
-%                    ]
-%                }
-%                ')'
-%            | *:
-%        ]
-%        ';'
-%        .sParmEnd;
-%
+ProcedureHeading :
+        % Accept zero or more procedure formal parameter declarations.
+        [
+            | '(':
+                {
+                    % formal parameter identifier
+                    [
+                        | 'mut':
+                            pIdentifier  .sIdentifier
+                            .sVar
+                        | *:
+                            pIdentifier  .sIdentifier
+                    ]
+                    ':'
+                    % type identifier
+                    pIdentifier  .sIdentifier
+                    [
+                        | ',':
+                        | *:
+                            >
+                    ]
+                }
+                ')'
+            | *:
+        ]
+        .sParmEnd;
+
 %Statement :
 %        [
 %            | pIdentifier:
@@ -578,3 +587,4 @@ Block :
 %        ];
 %
 end
+
