@@ -152,8 +152,8 @@ Output :
 rules
 
 Program :
-        pMod  
-	'main' %program/module name
+    pMod  
+    'main' %program/module name
 	[
 		|'(': 
 			.sProgram
@@ -187,10 +187,10 @@ Block :
 	.sBegin
 	{[                   %%TODO: Re-order case block for expected occurance
         | '}':
-       		>
+            >
         | 'const':
-            .sConst
-           %@ConstantDefinitions
+            pConst .sConst
+            @ConstantDefinitions
         | 'type':
             .sType
            @TypeDefinitions
