@@ -1,0 +1,2 @@
+//Invalid declaration of consecutive type seperated by semi-colons
+mod main(){type t=int; u=str}

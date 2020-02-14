@@ -153,17 +153,22 @@ rules
 
 Program :
         pMod  
-	pIdentifier %program/module name
+	'main' %program/module name
 	[
 		|'(': 
 			.sProgram
 			{
-			    pIdentifier  .sIdentifier
-			    [
-				| ',':
-				| *:
-				    >
-			    ]
+				[
+					|pIdentifier:
+			    		  .sIdentifier
+			    			[
+							| ',':
+							| *:
+				    			>
+			    			]
+					|*:
+						> 
+				]
 			}
 			')'
 			.sParmEnd
@@ -182,13 +187,13 @@ Block :
 	.sBegin
 	{[                   %%TODO: Re-order case block for expected occurance
         | '}':
-        >
+       		>
         | 'const':
             .sConst
            %@ConstantDefinitions
         | 'type':
             .sType
-           %@TypeDefinitions
+           @TypeDefinitions
         | 'let':
             .sVar
             %@VariableDeclarations
