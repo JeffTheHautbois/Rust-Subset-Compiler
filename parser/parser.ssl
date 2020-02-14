@@ -150,50 +150,76 @@ Output :
 
 
 rules
+
 Program :
-        'program'  .sProgram
-        % program name
-        pIdentifier
-        % program parameters
-        '('
-        {
-            pIdentifier  .sIdentifier
-            [
-                | ',':
-                | *:
-                    >
-            ]
-        }
-        ')'
-        .sParmEnd
-        ';'  @Block  '.';
+        pMod  
+	pIdentifier %program/module name
+	[
+		|'(': 
+			.sProgram
+			{
+			    pIdentifier  .sIdentifier
+			    [
+				| ',':
+				| *:
+				    >
+			    ]
+			}
+			')'
+			.sParmEnd
+			'{'
+			@Block
+		|'{':
+			.sModule
+			@Block
+	];
 
 Block :
         % Strictly speaking, standard Pascal requires that declarations
         % appear only in the order consts, types, vars, procedures.
         % We allow arbitrary intermixing of these instead to preserve
         % programmer sanity.
-        {[
-            | 'const':
-                .sConst
-                @ConstantDefinitions
-            | 'type':
-                .sType
-                @TypeDefinitions
-            | 'var':
-                .sVar
-                @VariableDeclarations
-            | 'procedure':
-                .sProcedure
-                % procedure name
-                pIdentifier  .sIdentifier
-                @ProcedureHeading
-                @Block  ';'
-            | *:
-                >
-        ]}
-        'begin'
-        @BeginStmt;
+	.sBegin
+	{[                   %%TODO: Re-order case block for expected occurance
+        | '}':
+        >
+        | 'const':
+            .sConst
+           %@ConstantDefinitions
+        | 'type':
+            .sType
+           %@TypeDefinitions
+        | 'let':
+            .sVar
+            %@VariableDeclarations
+        | 'fn':
+            .sProcedure
+            % routine name
+            pIdentifier  .sIdentifier
+            @ProcedureHeading
+            @Block
+        | 'pub':
+            'fn'
+            .sProcedure
+            % routine name
+            pIdentifier .sIdentifier
+            .sPublic
+            @ProcedureHeading
+            @Block
+        | pIdentifier:
+            %@AssignmentOrCallStmt
+        | pIf:
+            %@IfStmt
+        | pMod:         %%This expects that we don't have nested programs
+            %@ModuleStmt
+        | pLoop:    
+            %@LoopStmt        
+        | pMatch:
+            %@MatchStmt
+        | pWhile:
+            %@WhileStmt
+	]}
+	.sEnd;
 
 ConstantDefinitions :
         % Accept one or more named constant definitions
@@ -308,7 +334,7 @@ ProcedureHeading :
                 {
                     % formal parameter identifier
                     [
-                        | 'var':
+                        | 'mut':
                             pIdentifier  .sIdentifier
                             .sVar
                         | *:
@@ -318,7 +344,7 @@ ProcedureHeading :
                     % type identifier
                     pIdentifier  .sIdentifier
                     [
-                        | ';':
+                        | ',':
                         | *:
                             >
                     ]
@@ -326,8 +352,8 @@ ProcedureHeading :
                 ')'
             | *:
         ]
-        ';'
         .sParmEnd;
+
 %Statement :
 %        [
 %            | pIdentifier:
@@ -565,5 +591,5 @@ ProcedureHeading :
 %            | *:
 %        ];
 %
->>>>>>> origin/TokenDefParserMurt
 end
+
