@@ -189,7 +189,7 @@ Block :
         | '}':
             >
         | 'const':
-            pConst .sConst
+            .sConst
             @ConstantDefinitions
         | 'type':
             .sType
@@ -229,13 +229,16 @@ Block :
 ConstantDefinitions :
         % Accept one or more named constant definitions
         pIdentifier  .sIdentifier
-        '=' @ConstantValue ';'
+        '=' @ConstantValue %--- remove ';' and place ',' into loop choice 
         {[
-            | pIdentifier:
-                .sIdentifier
-                '=' @ConstantValue ';'
-            | *:
-                >
+	    |',':
+	       pIdentifier
+		.sIdentifier
+                '=' @ConstantValue
+	    | * :
+		';' %--- force match semi-colon for last const variable declaration
+		    %--- else throws error
+		>
         ]};
 
 ConstantValue :
