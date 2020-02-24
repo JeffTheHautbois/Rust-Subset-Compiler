@@ -374,7 +374,7 @@ ProcedureHeading :
 %
 %AssignmentOrCallStmt :
 %        [
-%            | ':=':
+%            | '=': %Changed to Qust Standard Operator
 %                .sAssignmentStmt
 %                .sIdentifier    % identifier accepted in the Statement rule
 %                @Expression
@@ -507,9 +507,9 @@ ProcedureHeading :
 %Expression :
 %        @SimpleExpression
 %        [
-%            | '=':
+%            | '==': %Changed to Qust Operator
 %                @SimpleExpression  .sEq
-%            | '<>':
+%            | '!=': %Changed to Qust Operator
 %                @SimpleExpression  .sNE
 %            | '<':
 %                @SimpleExpression  .sLT
@@ -536,7 +536,7 @@ ProcedureHeading :
 %                @Term  .sAdd
 %            | '-':
 %                @Term  .sSubtract
-%            | 'or':
+%            | '||': %Changed to Qust Or
 %                .sInfixOr  @Term  .sOr
 %            | *:
 %                >
@@ -547,11 +547,11 @@ ProcedureHeading :
 %        {[
 %            | '*':
 %                @Factor  .sMultiply
-%            | 'div':
+%            | '/': %Changed to Qust Div
 %                @Factor  .sDivide
-%            | 'mod':
+%            | '%': %Change to Qust mod
 %                @Factor  .sModulus
-%            | 'and':
+%            | '&&': %Change to Qust And
 %                .sInfixAnd  @Factor  .sAnd
 %            | *:
 %                >
