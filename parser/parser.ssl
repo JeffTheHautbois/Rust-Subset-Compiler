@@ -358,7 +358,7 @@ ProcedureHeading :
 %        [
 %            | pIdentifier:
 %                @AssignmentOrCallStmt
-%            | 'begin':
+%            | '{': % Change to Qust statement form
 %                @BeginStmt
 %            | 'if':
 %                @IfStmt
@@ -366,7 +366,7 @@ ProcedureHeading :
 %                @WhileStmt
 %            | 'case':
 %                @CaseStmt
-%            | 'repeat':
+%            | 'loop': % Change to Qust general loop statement
 %                @RepeatStmt
 %            | *:
 %                .sNullStmt
@@ -427,7 +427,7 @@ ProcedureHeading :
 %            @Statement
 %            [
 %                | ';':
-%                | 'end':
+%                | '}': %Changed to Qust end statement form
 %                    .sEnd
 %                    >
 %            ]
