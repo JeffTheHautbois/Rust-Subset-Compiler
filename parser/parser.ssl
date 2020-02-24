@@ -278,7 +278,7 @@ TypeDefinitions :
 
 TypeBody :
         [
-	%--- Remove '..' choice and add '[',']' for array range
+	%---remove '..' choice and add '[ : ]' for array range
             |'[':   %  'array': 
                 .sArray
                 @SimpleType
@@ -297,7 +297,7 @@ SimpleType :
             | pIdentifier:
                 .sIdentifier
                 [
-                    | ',': %---changed '..' to ','
+                    | ':': %---changed '..' to ':'
                         .sRange         %% this may be unnecessary
                         @OptionallySignedIntegerConstant
                     | *:
