@@ -151,12 +151,12 @@ Output :
 	rules
 
 	Program :
-		pMod  
-		'main' %program/module name
+		pMod %changed to expect mod keywork instead of 'program' 
+		'main' %program/module name, changed to require it be called main
 		.sProgram
 		'(' 
 		{[
-			| pIdentifier :
+			| pIdentifier :		%Added another case block to allow Quest program to have no params
 				.sIdentifier
 				[
 					| ',':
@@ -177,6 +177,10 @@ Output :
 		% appear only in the order consts, types, vars, procedures.
 		% We allow arbitrary intermixing of these instead to preserve
 		% programmer sanity.
+		% As such block has been changed to be very different with a loop
+		% and case for any statement or declaration possible. A block is 
+		% finished when it arrives at the '}' token or 'break' (where
+		% break is only used for loop stmts).
 		.sBegin
 		{[                   %%TODO: Re-order case block for expected occurance
 		| '}':
@@ -213,7 +217,7 @@ Output :
 		| pWhile:
 		    @WhileStmt
 		| pMod:         %This expects that we don't have nested programs
-		    .sModule
+		    .sModule	%Added this to handle Qust modules. No module rule
 		    %module name
 		    .sIdentifier
 		    '{'
@@ -363,12 +367,14 @@ ProcedureHeading :
 	% Accept zero or more procedure formal parameter declarations.
 	'('
 	[
-		|')':
+		|')':	% This case added to check for empty param list
 		|*:
 			{
-				% formal parameter identifier
+				% Added a case to param checking loop to allow params to start
+				% with either 'mut' the param identifier name 
 				[
 					| 'mut':
+						% formal parameter identifier
 						pIdentifier  .sIdentifier
 						%type identifier
 						':'
@@ -380,7 +386,9 @@ ProcedureHeading :
 						':'
 							pIdentifier .sIdentifier
 					| *:
-						%Need an illegal toekn to throw here	
+						% Need this case so we don't default to matching 
+						% 'mut'. We don't have error tokens in this phase
+						% but if we did we'd throw and illegal toekn here	
 				]
 				%check if we have more params or not
 				[
@@ -505,10 +513,11 @@ MatchStmt :
         .sCaseStmt
         @Expression
         .sExpnEnd
-        '{'
+        '{'	%Changed PT's 'of' to '{' for match
         @MatchAlternative
-        {[
-	    | '}':
+        {[		% Removed the case for ';' in PT because the end of 
+			% a statement or declaration is handled elsewhere
+	    | '}':	%Changed Pt's 'end' to '}'
 		>
 	    | *:
 		@MatchAlternative
@@ -520,7 +529,7 @@ MatchAlternative :
         % one or more optionally signed integer constants
 	'|'
 	[ 
-	    |'_':
+	    |'_':	%Added case for Qust's otherwise match
 		    .sCaseOtherwise 
 		    '=>' '{' @Block
 	    |*:
@@ -533,9 +542,9 @@ MatchAlternative :
 		    ]
 		}
 		.sLabelEnd
-		'=>' '{'  @Block 
-	];
-
+		'=>' '{'  @Block	% changed PT's ':' to Qust '=>' 
+	];				% and allowed for statements 
+					% and declarations.
 
 %RepeatStmt :
 %        .sRepeatStmt
