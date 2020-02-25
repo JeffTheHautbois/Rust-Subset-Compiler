@@ -131,15 +131,15 @@
 
         { S/SL Rule Table Addresses } {
         Program = 0;
-        Block = 56;
-        ConstantDefinitions = 154;
-        ProcedureHeading = 244;
-        ConstantValue = 184;
-        UnsignedIntegerConstant = 224;
+        Block = 39;
+        ConstantDefinitions = 133;
+        ProcedureHeading = 223;
+        ConstantValue = 163;
+        UnsignedIntegerConstant = 203;
         }
 
         { S/SL Table Parameters } {
-        sslTblSize = 290;
+        sslTblSize = 272;
         minSslTableValue = -32767;
         maxSslTableValue = 32767;
 	}

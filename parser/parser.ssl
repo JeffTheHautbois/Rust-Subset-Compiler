@@ -25,9 +25,9 @@ Input :
         pLet		 'let'  % let keyword added
         pMut		 'mut'  % mut keyword added
         pFn		     'fn'   % fn keyword added
-	    pLoop		 'loop' % loop keyword added
-	    pBreak		 'break' % break keyword added
-	    pMatch		 'match' % match keyword added
+	pLoop		 'loop' % loop keyword added
+	pBreak		 'break' % break keyword added
+	pMatch		 'match' % match keyword added
         pElse        'else'
         pOf          'of'
         pFile        'file'
@@ -152,32 +152,26 @@ Output :
 rules
 
 Program :
-    pMod  
-    'main' %program/module name
-	[
-		|'(': 
-			.sProgram
-			{
-                [
-                    | pIdentifier :
-                        .sIdentifier
-                        [
-                            | ',':
-                            | *:
-                                >
-                        ]
-                    | * :
-                        >
-                ]
-			}
-			')'
-			.sParmEnd
-			'{'
-			@Block
-		|'{':
-			.sModule
-			@Block
-	];
+	pMod  
+	'main' %program/module name
+	.sProgram
+	'(' 
+	{[
+        	| pIdentifier :
+                	.sIdentifier
+                	[
+                		| ',':
+                		| *:
+               	 			>
+        		]
+		| *:
+			>
+	]
+	}
+	')'
+	.sParmEnd
+	'{'
+	@Block;
 
 Block :
         % Strictly speaking, standard Pascal requires that declarations
@@ -202,7 +196,6 @@ Block :
             % routine name
             pIdentifier  .sIdentifier
             @ProcedureHeading
-            @Block
         | 'pub':
             'fn'
             .sProcedure
@@ -210,7 +203,6 @@ Block :
             pIdentifier .sIdentifier
             .sPublic
             @ProcedureHeading
-            @Block
         | pIdentifier:
             %@AssignmentOrCallStmt
         | pIf:
@@ -328,31 +320,34 @@ UnsignedIntegerConstant :
 %        ]};
 %
 ProcedureHeading :
+	% This is the routine handling section (PT procedure, or Qust functions) 
         % Accept zero or more procedure formal parameter declarations.
-        [
-            | '(':
-                {
-                    % formal parameter identifier
-                    [
-                        | 'mut':
-                            pIdentifier  .sIdentifier
-                            .sVar
-                        | *:
-                            pIdentifier  .sIdentifier
-                    ]
-                    ':'
-                    % type identifier
-                    pIdentifier  .sIdentifier
-                    [
-                        | ',':
-                        | *:
-                            >
-                    ]
-                }
-                ')'
-            | *:
-        ]
-        .sParmEnd;
+        '('
+        {
+		% formal parameter identifier
+		[
+			| 'mut':
+				pIdentifier  .sIdentifier
+				.sVar
+			| pIdentifier:
+				.sIdentifier
+			| *:
+				>
+		]
+			%type identifier
+			':'
+				pIdentifier .sIdentifier
+			%check if we have more params or not
+			[
+				| ',':
+				| *: 
+					>
+			]
+        }
+	')'
+        .sParmEnd
+	'{'
+	@Block;
 
 %Statement :
 %        [
