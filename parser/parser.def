@@ -132,14 +132,23 @@
         { S/SL Rule Table Addresses } {
         Program = 0;
         Block = 56;
-        ConstantDefinitions = 154;
-        ProcedureHeading = 244;
-        ConstantValue = 184;
-        UnsignedIntegerConstant = 224;
+        ConstantDefinitions = 158;
+        ProcedureHeading = 248;
+        IfStmt = 378;
+        WhileStmt = 417;
+        ConstantValue = 188;
+        UnsignedIntegerConstant = 228;
+        AssignmentOrCallStmt = 294;
+        Expression = 428;
+        CallStmt = 334;
+        SimpleExpression = 482;
+        Term = 535;
+        Factor = 579;
+        IdentifierExtension = 637;
         }
 
         { S/SL Table Parameters } {
-        sslTblSize = 290;
+        sslTblSize = 667;
         minSslTableValue = -32767;
         maxSslTableValue = 32767;
 	}

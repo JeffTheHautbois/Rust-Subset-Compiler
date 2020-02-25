@@ -214,7 +214,7 @@ Block :
         | pIdentifier:
             %@AssignmentOrCallStmt
         | pIf:
-            %@IfStmt
+            @IfStmt
         | pMod:         %%This expects that we don't have nested programs
             %@ModuleStmt
         | pLoop:    
@@ -222,7 +222,7 @@ Block :
         | pMatch:
             %@MatchStmt
         | pWhile:
-            %@WhileStmt
+            @WhileStmt
 	]}
 	.sEnd;
 
@@ -372,55 +372,54 @@ ProcedureHeading :
 %                .sNullStmt
 %        ];
 %
-%AssignmentOrCallStmt :
-%        [
-%            | '=': %Changed to Qust Standard Operator
-%                .sAssignmentStmt
-%                .sIdentifier    % identifier accepted in the Statement rule
-%                @Expression
-%                .sExpnEnd
-%            | '[':
-%                .sAssignmentStmt
-%                .sIdentifier
-%                .sSubscript
-%                @Expression
-%                .sExpnEnd
-%                ']'  ':='
-%                @Expression
-%                .sExpnEnd
-%            | *:
-%                @CallStmt
-%        ];
-%
-%CallStmt :
-%        .sCallStmt
-%        .sIdentifier    % procedure identifier accepted in the Statement rule
-%        % accept zero or more actual parameters
-%        [
-%            | '(':
-%                {
-%                    @Expression
-%                    .sExpnEnd
-%                    % allow a field width specification to occur in calls
-%                    % to the standard procedures write and writeln
-%                    [
-%                        | ':':
-%                            .sFieldWidth
-%                            @Expression
-%                            .sExpnEnd
-%                        | *:
-%                    ]
-%                    [
-%                        | ',':
-%                        | *:
-%                            >
-%                    ]
-%                }
-%                ')'
-%            | *:        % no actual parameters
-%        ]
-%        .sParmEnd;
-%
+AssignmentOrCallStmt :
+        [
+            | '=': %Changed to Qust Standard Operator
+                .sAssignmentStmt
+                .sIdentifier    % identifier accepted in the Statement rule
+                @Expression
+                .sExpnEnd
+            | '[':
+                .sAssignmentStmt
+                .sIdentifier
+                .sSubscript
+                @Expression
+                .sExpnEnd
+                ']'  '=' %changedd to Qust Standard operator
+                @Expression
+                .sExpnEnd
+            | *:
+                @CallStmt
+        ];
+CallStmt :
+        .sCallStmt
+        .sIdentifier    % procedure identifier accepted in the Statement rule
+        % accept zero or more actual parameters
+        [
+            | '(':
+                {
+                    @Expression
+                    .sExpnEnd
+                    % allow a field width specification to occur in calls
+                    % to the standard procedures write and writeln
+                    [
+                        | ':':
+                            .sFieldWidth
+                            @Expression
+                            .sExpnEnd
+                        | *:
+                    ]
+                    [
+                        | ',':
+                        | *:
+                            >
+                    ]
+                }
+                ')'
+            | *:        % no actual parameters
+        ]
+        .sParmEnd;
+
 %BeginStmt : %Don't need
 %        .sBegin
 %        {
@@ -433,19 +432,25 @@ ProcedureHeading :
 %            ]
 %        };
 %
-%IfStmt :
-%        .sIfStmt
-%        @Expression
-%        .sExpnEnd
-%        %'then'  .sThen %commenting this out
-%        @Statement
-%        [
-%            | 'else':
-%                .sElse
-%                @Statement
-%            | *:
-%        ];
-%
+IfStmt :
+        .sIfStmt
+        @Expression
+        .sExpnEnd
+        %'then'  .sThen %commenting this out
+        '{'
+        @Block
+        [
+            | 'else': 
+                    [
+                    |'if':
+                        @IfStmt
+                    |'{':
+                       .sElse
+                       @Block
+                    ]
+            | *:
+        ];
+
 %CaseStmt :
 %        .sCaseStmt
 %        @Expression
@@ -483,13 +488,14 @@ ProcedureHeading :
 %        .sLabelEnd
 %        ':'  @Statement;
 %
-%WhileStmt :
-%        .sWhileStmt
-%        @Expression
-%        .sExpnEnd
-%        %'do' Commenting this out, not necessary
-%        @Statement;
-%
+WhileStmt :
+        .sWhileStmt
+        @Expression
+        .sExpnEnd
+        '{'
+        %'do' Commenting this out, not necessary
+        @Block;
+
 %RepeatStmt :
 %        .sRepeatStmt
 %        {
@@ -504,92 +510,92 @@ ProcedureHeading :
 %        @Expression
 %        .sExpnEnd;
 %
-%Expression :
-%        @SimpleExpression
-%        [
-%            | '==': %Changed to Qust Operator
-%                @SimpleExpression  .sEq
-%            | '!=': %Changed to Qust Operator
-%                @SimpleExpression  .sNE
-%            | '<':
-%                @SimpleExpression  .sLT
-%            | '<=':
-%                @SimpleExpression  .sLE
-%            | '>':
-%                @SimpleExpression  .sGT
-%            | '>=':
-%                @SimpleExpression  .sGE
-%            | *:
-%        ];
-%
-%SimpleExpression :
-%        [
-%            | '+':
-%                @Term
-%            | '-':
-%                @Term  .sNegate
-%            | *:
-%                @Term
-%        ]
-%        {[
-%            | '+':
-%                @Term  .sAdd
-%            | '-':
-%                @Term  .sSubtract
-%            | '||': %Changed to Qust Or
-%                .sInfixOr  @Term  .sOr
-%            | *:
-%                >
-%        ]};
-%
-%Term :
-%        @Factor
-%        {[
-%            | '*':
-%                @Factor  .sMultiply
-%            | '/': %Changed to Qust Div
-%                @Factor  .sDivide
-%            | '%': %Change to Qust mod
-%                @Factor  .sModulus
-%            | '&&': %Change to Qust And
-%                .sInfixAnd  @Factor  .sAnd
-%            | *:
-%                >
-%        ]};
-%
-%Factor :
-%        [
-%            | pIdentifier:
-%                .sIdentifier
-%                @IdentifierExtension
-%            | pInteger:
-%                .sInteger
-%            | '(':
-%                @Expression  ')'
-%            | '!': %Changed to Qust Not
-%                @Factor
-%                .sNot
-%            | pStringLiteral:
-%                .sStringLiteral
-%            | 'file':
-%                .sFile '(' @Expression ')'
-%                .sExpnEnd
-%        ];
-%
-%IdentifierExtension :
-%        % Handle subscripts and function actual parameter lists
-%        [
-%            | '[':
-%                .sSubscript
-%                @Expression  ']'
-%                .sExpnEnd
-%            | '(':
-%                .sParmBegin
-%                @Expression  ')'
-%                .sExpnEnd
-%                .sParmEnd
-%            | *:
-%        ];
-%
+Expression :
+        @SimpleExpression
+        [
+            | '==': %Changed to Qust Operator
+                @SimpleExpression  .sEq
+            | '!=': %Changed to Qust Operator
+                @SimpleExpression  .sNE
+            | '<':
+                @SimpleExpression  .sLT
+            | '<=':
+                @SimpleExpression  .sLE
+            | '>':
+                @SimpleExpression  .sGT
+            | '>=':
+                @SimpleExpression  .sGE
+            | *:
+        ];
+
+SimpleExpression :
+        [
+            | '+':
+                @Term
+            | '-':
+                @Term  .sNegate
+            | *:
+                @Term
+        ]
+        {[
+            | '+':
+                @Term  .sAdd
+            | '-':
+                @Term  .sSubtract
+            | '||': %Changed to Qust Or
+                .sInfixOr  @Term  .sOr
+            | *:
+                >
+        ]};
+
+Term :
+        @Factor
+        {[
+            | '*':
+                @Factor  .sMultiply
+            | '/': %Changed to Qust Div
+                @Factor  .sDivide
+            | '%': %Change to Qust mod
+                @Factor  .sModulus
+            | '&&': %Change to Qust And
+                .sInfixAnd  @Factor  .sAnd
+            | *:
+                >
+        ]};
+
+Factor :
+        [
+            | pIdentifier:
+                .sIdentifier
+                @IdentifierExtension
+            | pInteger:
+                .sInteger
+            | '(':
+                @Expression  ')'
+            | '!': %Changed to Qust Not
+                @Factor
+                .sNot
+            | pStringLiteral:
+                .sStringLiteral
+            | 'file':
+                .sFile '(' @Expression ')'
+                .sExpnEnd
+        ];
+
+IdentifierExtension :
+        % Handle subscripts and function actual parameter lists
+        [
+            | '[':
+                .sSubscript
+                @Expression  ']'
+                .sExpnEnd
+            | '(':
+                .sParmBegin
+                @Expression  ')'
+                .sExpnEnd
+                .sParmEnd
+            | *:
+        ];
+
 end
 
