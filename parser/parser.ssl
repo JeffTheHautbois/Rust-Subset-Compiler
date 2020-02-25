@@ -317,18 +317,47 @@ Output :
 			@UnsignedIntegerConstant
 		];
 
-	VariableDeclarations :
-		% Accept one or more variable declarations.
-		pIdentifier  .sIdentifier
-		':'  @TypeBody  ';'
-		{[
-		    | pIdentifier:
-			.sIdentifier
-			':'  @TypeBody  ';'
-		    | *:
-			>
-		]};
-
+VariableDeclarations :
+	% Accept one or more variable declarations.
+	[
+            % Accept mutable variables
+            | pMut:
+               pIdentifier  .sIdentifier
+                ':' @TypeBody
+                % Handle single and multiple declarations or initial values
+                {[
+                    | '=':
+                        .sInitialValue
+                        pInteger .sInteger
+                        .sExpnEnd
+                    |',':
+                        pIdentifier
+                        .sIdentifier
+                        ':' @TypeBody
+                    |*:
+                        ';'
+                        >
+                ]}
+                .sMutable
+            % Accept immutable variables
+            | *:
+                pIdentifier  .sIdentifier
+                ':' @TypeBody
+                % Handle single and multiple declarations or initial values
+                {[
+                    | '=':
+                        .sInitialValue
+                        pInteger .sInteger
+                        .sExpnEnd
+                    |',':
+                        pIdentifier
+                        .sIdentifier
+                        ':' @TypeBody
+                    |*:
+                        ';'
+                        >
+                ]}
+        ];
 ProcedureHeading :
 	% This is the routine handling section (PT procedure, or Qust functions) 
 	% Accept zero or more procedure formal parameter declarations.

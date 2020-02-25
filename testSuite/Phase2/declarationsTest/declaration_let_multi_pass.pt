@@ -1,0 +1,4 @@
+//mutli variable declaration
+mod main (){
+	let v:int, c:int;
+}
