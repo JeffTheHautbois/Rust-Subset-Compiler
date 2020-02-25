@@ -1,0 +1,2 @@
+//valid consecutive type declaration on the same line
+mod main(){type t=int; type u=str;}
