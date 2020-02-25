@@ -507,11 +507,26 @@ MatchAlternative :
 		'=>' '{'  @Block 
 	];
 
-
 %RepeatStmt :
 %        .sRepeatStmt
 %        {
 %            @Statement
+%            [
+%                | ';':
+%                | 'until':
+%                    .sRepeatEnd
+%                    >
+%            ]
+%        }
+%        @Expression
+%        .sExpnEnd;
+%
+
+%LoopStmt : % Changed from PT Repeat Stmt to QUST Loop Stmt
+%        .sRepeatStmt
+%		'{'
+%        {
+%            @Block
 %            [
 %                | ';':
 %                | 'until':
