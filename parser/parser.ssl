@@ -206,14 +206,18 @@ Output :
 		    %@AssignmentOrCallStmt
 		| pIf:
 		    %@IfStmt
-		| pMod:         %%This expects that we don't have nested programs
-		    %@ModuleStmt
 		| pLoop:    
 		    %@LoopStmt        
 		| pMatch:
 		    %@MatchStmt
 		| pWhile:
 		    %@WhileStmt
+		| pMod:         %This expects that we don't have nested programs
+		    .sModule
+		    %module name
+		    .sIdentifier
+		    '{'
+		    @Block
 		]}
 		.sEnd;
 
