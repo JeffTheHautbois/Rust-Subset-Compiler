@@ -1,0 +1,6 @@
+//statment short form assignments with single expression
+mod main (output){
+	let mut i : int = 10;
+	i += 8;
+	i -= 5;
+}
