@@ -189,7 +189,7 @@ Output :
 		   @TypeDefinitions
 		| 'let':
 		    .sVar
-		    %@VariableDeclarations
+		    @VariableDeclarations
 		| 'fn':
 		    .sProcedure
 		    % routine name
@@ -203,7 +203,8 @@ Output :
 		    .sPublic
 		    @ProcedureHeading
 		| pIdentifier:
-		    %@AssignmentOrCallStmt
+		    @AssignmentOrCallStmt
+		    pSemicolon
 		| pIf:
 		    @IfStmt
 		| pLoop:    
@@ -338,8 +339,8 @@ VariableDeclarations :
                         ';'
                         >
                 ]}
-                .sMutable
-            % Accept immutable variables
+                .sMutable %--- emit .sMutable token at the end
+            %--- Non mutable variable declaration choice is added
             | *:
                 pIdentifier  .sIdentifier
                 ':' @TypeBody
@@ -413,8 +414,23 @@ ProcedureHeading :
 %                .sNullStmt
 %        ];
 %
+
 AssignmentOrCallStmt :
         [
+	    | '+=':%--- add standard Operator
+		.sAssignmentStmt
+		.sIdentifier
+		.sIdentifier
+		@Expression
+		.sAdd
+		.sExpnEnd
+	    | '-=':%--- subtract standard Operator
+		.sAssignmentStmt
+		.sIdentifier
+		.sIdentifier
+		@Expression
+		.sSubtract
+		.sExpnEnd	 
             | '=': %Changed to Qust Standard Operator
                 .sAssignmentStmt
                 .sIdentifier    % identifier accepted in the Statement rule
@@ -585,7 +601,6 @@ SimpleExpression :
             | '-':
                 @Term  .sSubtract
             | '||': %Changed to Qust Or
-
                 .sInfixOr  @Term  .sOr
             | *:
                 >
@@ -601,7 +616,6 @@ Term :
             | '%': %Change to Qust mod
                 @Factor  .sModulus
             | '&&': %Change to Qust And
-
                 .sInfixAnd  @Factor  .sAnd
             | *:
                 >
@@ -617,7 +631,6 @@ Factor :
             | '(':
                 @Expression  ')'
             | '!': %Changed to Qust Not
-
                 @Factor
                 .sNot
             | pStringLiteral:
@@ -625,6 +638,7 @@ Factor :
             | 'file':
                 .sFile '(' @Expression ')'
                 .sExpnEnd
+	    | *:
         ];
 
 IdentifierExtension :
