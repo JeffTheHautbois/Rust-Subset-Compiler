@@ -103,257 +103,263 @@ Output :
         sNegate
         sModule         %Added QUST Module output
         sPublic         %Added QUST Module output
-        sMutable        %Added QUST variable output token
-        sInitialValue   %Added QUST variable output token
-        sArray
-        sFile
-        sRange
-        sCaseStmt
-        sCaseOtherwise   %added QUST case alternative token
-        sCaseEnd
-        sLabelEnd
-        sExpnEnd
-        sNullStmt
-        sAssignmentStmt
-        sSubscript
-        sCallStmt
-        sFieldWidth
-        sIfStmt
-        sThen
-        sElse
-        sWhileStmt
-        %Removed PT tokens RepeatStmt and RepeatEnd
-        sLoopStmt       %added QUST output token
-        sLoopBreakIf    %added QUST output token
-        sLoopEnd        %added QUST output token
-        sEq
-        sNE
-        sLT
-        sLE
-        sGT
-        sGE
-        sAdd
-        sSubtract
-        sMultiply
-        sDivide
-        sModulus
-        sInfixOr
-        sOr
-        sInfixAnd
-        sSubstring      %Added QUST string operation
-        SLength         %Added QUST string operation
-        sAnd
-        sNot
-        sNewLine
-        sEndOfFile
-        lastSemanticToken = sEndOfFile;
+		sMutable        %Added QUST variable output token
+		sInitialValue   %Added QUST variable output token
+		sArray
+		sFile
+		sRange
+		sCaseStmt
+		sCaseOtherwise   %added QUST case alternative token
+		sCaseEnd
+		sLabelEnd
+		sExpnEnd
+		sNullStmt
+		sAssignmentStmt
+		sSubscript
+		sCallStmt
+		sFieldWidth
+		sIfStmt
+		sThen
+		sElse
+		sWhileStmt
+		%Removed PT tokens RepeatStmt and RepeatEnd
+		sLoopStmt       %added QUST output token
+		sLoopBreakIf    %added QUST output token
+		sLoopEnd        %added QUST output token
+		sEq
+		sNE
+		sLT
+		sLE
+		sGT
+		sGE
+		sAdd
+		sSubtract
+		sMultiply
+		sDivide
+		sModulus
+		sInfixOr
+		sOr
+		sInfixAnd
+		sSubstring      %Added QUST string operation
+		SLength         %Added QUST string operation
+		sAnd
+		sNot
+		sNewLine
+		sEndOfFile
+		lastSemanticToken = sEndOfFile;
 
+	rules
 
-rules
-
-Program :
-	pMod  
-	'main' %program/module name
-	.sProgram
-	'(' 
-	{[
-        	| pIdentifier :
-                	.sIdentifier
-                	[
-                		| ',':
-                		| *:
-               	 			>
-        		]
-		| *:
-			>
-	]
-	}
-	')'
-	.sParmEnd
-	'{'
-	@Block;
-
-Block :
-        % Strictly speaking, standard Pascal requires that declarations
-        % appear only in the order consts, types, vars, procedures.
-        % We allow arbitrary intermixing of these instead to preserve
-        % programmer sanity.
-	.sBegin
-	{[                   %%TODO: Re-order case block for expected occurance
-        | '}':
-            >
-        | 'const':
-            .sConst
-            @ConstantDefinitions
-        | 'type':
-            .sType
-           @TypeDefinitions
-        | 'let':
-            .sVar
-            %@VariableDeclarations
-        | 'fn':
-            .sProcedure
-            % routine name
-            pIdentifier  .sIdentifier
-            @ProcedureHeading
-        | 'pub':
-            'fn'
-            .sProcedure
-            % routine name
-            pIdentifier .sIdentifier
-            .sPublic
-            @ProcedureHeading
-        | pIdentifier:
-            %@AssignmentOrCallStmt
-        | pIf:
-            %@IfStmt
-        | pMod:         %%This expects that we don't have nested programs
-            %@ModuleStmt
-        | pLoop:    
-            %@LoopStmt        
-        | pMatch:
-            %@MatchStmt
-        | pWhile:
-            %@WhileStmt
-	]}
-	.sEnd;
-
-ConstantDefinitions :
-        % Accept one or more named constant definitions
-        pIdentifier  .sIdentifier
-        '=' @ConstantValue %--- remove ';' and place ',' into loop choice 
-        {[
-	    |',':
-	       pIdentifier
-		.sIdentifier
-                '=' @ConstantValue
-	    | * :
-		';' %--- force match semi-colon for last const variable declaration
-		    %--- else throws error
-		>
-        ]};
-
-ConstantValue :
-        [
-            | pInteger:
-                .sInteger
-            | pIdentifier:
-                .sIdentifier
-            | '-':
-                @UnsignedIntegerConstant
-                .sNegate
-            | '+':
-                @UnsignedIntegerConstant
-            | pStringLiteral:
-                .sStringLiteral
-        ];
-
-UnsignedIntegerConstant :
-        [
-            | pIdentifier:
-                .sIdentifier
-            | pInteger:
-                .sInteger
-        ];
-
-TypeDefinitions :
-        % Type can only accept one definition per call
-        pIdentifier  .sIdentifier
-        '='  @TypeBody  ';'
-	; % end of type definition
-	
-	%--- following loop choice block is removed
-       	%---{[ 
-       	%---    | pIdentifier:
-       	%---        .sIdentifier
-       	%---        '='  @TypeBody  ';'
-       	%---    | *:
-       	%---        >
-       	%---]};
-
-TypeBody :
-        [
-	%---remove '..' choice and add '[ : ]' for array range
-            |'[':   %  'array': 
-                .sArray
-                @SimpleType
-		']'
-            | 'file':
-                .sFile
-                'of'  @SimpleType
-            | *:
-                @SimpleType
-        ];
-
-SimpleType :
-        % A simple type is a named type (possibly predefined)
-        % or a subrange type specification
-        [
-            | pIdentifier:
-                .sIdentifier
-                [
-                    | ':': %---changed '..' to ':'
-                        .sRange         %% this may be unnecessary
-                        @OptionallySignedIntegerConstant
-                    | *:
-                ]
-            | *:
-	%--- removed no longer valid beg .. end range dec
-        	%---@OptionallySignedIntegerConstant
-        	%---    '..'  .sRange
-        	%---@OptionallySignedIntegerConstant
-        ];
-
-OptionallySignedIntegerConstant :
-        [
-            | '-':
-                @UnsignedIntegerConstant
-                .sNegate
-            | '+':
-                @UnsignedIntegerConstant
-            | *:
-                @UnsignedIntegerConstant
-        ];
-
-VariableDeclarations :
-        % Accept one or more variable declarations.
-        pIdentifier  .sIdentifier
-        ':'  @TypeBody  ';'
-        {[
-            | pIdentifier:
-                .sIdentifier
-                ':'  @TypeBody  ';'
-            | *:
-                >
-        ]};
-
-ProcedureHeading :
-	% This is the routine handling section (PT procedure, or Qust functions) 
-        % Accept zero or more procedure formal parameter declarations.
-        '('
-        {
-		% formal parameter identifier
-		[
-			| 'mut':
-				pIdentifier  .sIdentifier
-				.sVar
-			| pIdentifier:
+	Program :
+		pMod  
+		'main' %program/module name
+		.sProgram
+		'(' 
+		{[
+			| pIdentifier :
 				.sIdentifier
+				[
+					| ',':
+					| *:
+						>
+				]
 			| *:
 				>
 		]
-			%type identifier
-			':'
-				pIdentifier .sIdentifier
-			%check if we have more params or not
+		}
+		')'
+		.sParmEnd
+		'{'
+		@Block;
+
+	Block :
+		% Strictly speaking, standard Pascal requires that declarations
+		% appear only in the order consts, types, vars, procedures.
+		% We allow arbitrary intermixing of these instead to preserve
+		% programmer sanity.
+		.sBegin
+		{[                   %%TODO: Re-order case block for expected occurance
+		| '}':
+		    >
+		| 'const':
+		    .sConst
+		    @ConstantDefinitions
+		| 'type':
+		    .sType
+		   @TypeDefinitions
+		| 'let':
+		    .sVar
+		    %@VariableDeclarations
+		| 'fn':
+		    .sProcedure
+		    % routine name
+		    pIdentifier  .sIdentifier
+		    @ProcedureHeading
+		| 'pub':
+		    'fn'
+		    .sProcedure
+		    % routine name
+		    pIdentifier .sIdentifier
+		    .sPublic
+		    @ProcedureHeading
+		| pIdentifier:
+		    %@AssignmentOrCallStmt
+		| pIf:
+		    %@IfStmt
+		| pMod:         %%This expects that we don't have nested programs
+		    %@ModuleStmt
+		| pLoop:    
+		    %@LoopStmt        
+		| pMatch:
+		    %@MatchStmt
+		| pWhile:
+		    %@WhileStmt
+		]}
+		.sEnd;
+
+	ConstantDefinitions :
+		% Accept one or more named constant definitions
+		pIdentifier  .sIdentifier
+		'=' @ConstantValue %--- remove ';' and place ',' into loop choice 
+		{[
+		    |',':
+		       pIdentifier
+			.sIdentifier
+			'=' @ConstantValue
+		    | * :
+			';' %--- force match semi-colon for last const variable declaration
+			    %--- else throws error
+			>
+		]};
+
+	ConstantValue :
+		[
+		    | pInteger:
+			.sInteger
+		    | pIdentifier:
+			.sIdentifier
+		    | '-':
+			@UnsignedIntegerConstant
+			.sNegate
+		    | '+':
+			@UnsignedIntegerConstant
+		    | pStringLiteral:
+			.sStringLiteral
+		];
+
+	UnsignedIntegerConstant :
+		[
+		    | pIdentifier:
+			.sIdentifier
+		    | pInteger:
+			.sInteger
+		];
+
+	TypeDefinitions :
+		% Type can only accept one definition per call
+		pIdentifier  .sIdentifier
+		'='  @TypeBody  ';'
+		; % end of type definition
+		
+		%--- following loop choice block is removed
+		%---{[ 
+		%---    | pIdentifier:
+		%---        .sIdentifier
+		%---        '='  @TypeBody  ';'
+		%---    | *:
+		%---        >
+		%---]};
+
+	TypeBody :
+		[
+		%---remove '..' choice and add '[ : ]' for array range
+		    |'[':   %  'array': 
+			.sArray
+			@SimpleType
+			']'
+		    | 'file':
+			.sFile
+			'of'  @SimpleType
+		    | *:
+			@SimpleType
+		];
+
+	SimpleType :
+		% A simple type is a named type (possibly predefined)
+		% or a subrange type specification
+		[
+		    | pIdentifier:
+			.sIdentifier
 			[
-				| ',':
-				| *: 
-					>
+			    | ':': %---changed '..' to ':'
+				.sRange         %% this may be unnecessary
+				@OptionallySignedIntegerConstant
+			    | *:
 			]
-        }
-	')'
-        .sParmEnd
+		    | *:
+		%--- removed no longer valid beg .. end range dec
+			%---@OptionallySignedIntegerConstant
+			%---    '..'  .sRange
+			%---@OptionallySignedIntegerConstant
+		];
+
+	OptionallySignedIntegerConstant :
+		[
+		    | '-':
+			@UnsignedIntegerConstant
+			.sNegate
+		    | '+':
+			@UnsignedIntegerConstant
+		    | *:
+			@UnsignedIntegerConstant
+		];
+
+	VariableDeclarations :
+		% Accept one or more variable declarations.
+		pIdentifier  .sIdentifier
+		':'  @TypeBody  ';'
+		{[
+		    | pIdentifier:
+			.sIdentifier
+			':'  @TypeBody  ';'
+		    | *:
+			>
+		]};
+
+ProcedureHeading :
+	% This is the routine handling section (PT procedure, or Qust functions) 
+	% Accept zero or more procedure formal parameter declarations.
+	'('
+	[
+		|')':
+		|*:
+			{
+				% formal parameter identifier
+				[
+					| 'mut':
+						pIdentifier  .sIdentifier
+						%type identifier
+						':'
+							pIdentifier .sIdentifier
+						.sMutable
+					| pIdentifier:
+						.sIdentifier
+						%type identifier
+						':'
+							pIdentifier .sIdentifier
+					| *:
+						%Need an illegal toekn to throw here	
+				]
+				%check if we have more params or not
+				[
+					| ',':
+					| *:
+						>
+				]
+			}
+		')'
+	]
+	.sParmEnd
 	'{'
 	@Block;
 

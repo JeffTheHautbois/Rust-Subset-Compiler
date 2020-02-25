@@ -1,0 +1,3 @@
+mod main(){
+	fn myFunction(input1 : str, input2 : int, input3 : int){}
+}
