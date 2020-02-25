@@ -1,0 +1,7 @@
+mod main(){
+	match i {
+		| 42 => {
+			//Declaration or Statement
+		} 
+	}
+}

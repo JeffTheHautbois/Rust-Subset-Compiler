@@ -476,7 +476,7 @@ MatchStmt :
         .sCaseStmt
         @Expression
         .sExpnEnd
-        '|'
+        '{'
         @MatchAlternative
         {[
 	    | '}':

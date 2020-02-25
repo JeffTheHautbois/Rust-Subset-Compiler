@@ -1,0 +1,13 @@
+mod main(){
+	match i {
+	    | 42 | 43 => {
+		    //Declarations and statements
+		}
+	    | 44 => {
+		//Declarations and statements
+	        }
+	    | _ => {
+		//Declarations and statements
+		}
+	}
+}
