@@ -132,30 +132,30 @@
         { S/SL Rule Table Addresses } {
         Program = 0;
         Block = 39;
-        ConstantDefinitions = 149;
-        TypeDefinitions = 239;
-        ProcedureHeading = 409;
-        IfStmt = 553;
-        MatchStmt = 603;
-        WhileStmt = 592;
-        ConstantValue = 179;
-        UnsignedIntegerConstant = 219;
-        TypeBody = 250;
-        SimpleType = 276;
-        OptionallySignedIntegerConstant = 297;
-        VariableDeclarations = 317;
-        AssignmentOrCallStmt = 469;
-        Expression = 668;
-        CallStmt = 509;
-        MatchAlternative = 629;
-        SimpleExpression = 722;
-        Term = 775;
-        Factor = 819;
-        IdentifierExtension = 877;
+        ConstantDefinitions = 155;
+        TypeDefinitions = 245;
+        VariableDeclarations = 323;
+        ProcedureHeading = 415;
+        AssignmentOrCallStmt = 475;
+        IfStmt = 591;
+        MatchStmt = 641;
+        WhileStmt = 630;
+        ConstantValue = 185;
+        UnsignedIntegerConstant = 225;
+        TypeBody = 256;
+        SimpleType = 282;
+        OptionallySignedIntegerConstant = 303;
+        SimpleExpression = 760;
+        Expression = 706;
+        CallStmt = 547;
+        MatchAlternative = 667;
+        Term = 813;
+        Factor = 857;
+        IdentifierExtension = 915;
         }
 
         { S/SL Table Parameters } {
-        sslTblSize = 907;
+        sslTblSize = 945;
         minSslTableValue = -32767;
         maxSslTableValue = 32767;
 	}
