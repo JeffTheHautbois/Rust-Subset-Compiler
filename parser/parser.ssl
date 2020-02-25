@@ -189,7 +189,7 @@ Output :
 		   @TypeDefinitions
 		| 'let':
 		    .sVar
-		    %@VariableDeclarations
+		    @VariableDeclarations
 		| 'fn':
 		    .sProcedure
 		    % routine name
@@ -328,8 +328,9 @@ VariableDeclarations :
                 {[
                     | '=':
                         .sInitialValue
-                        pInteger .sInteger
+                        @Expression
                         .sExpnEnd
+                        
                     |',':
                         pIdentifier
                         .sIdentifier
@@ -347,8 +348,8 @@ VariableDeclarations :
                 {[
                     | '=':
                         .sInitialValue
-                        pInteger .sInteger
-                        .sExpnEnd
+                        @Expression
+				        .sExpnEnd
                     |',':
                         pIdentifier
                         .sIdentifier
