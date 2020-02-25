@@ -158,17 +158,17 @@ Program :
 		|'(': 
 			.sProgram
 			{
-                [
-                    | pIdentifier :
-                        .sIdentifier
-                        [
-                            | ',':
-                            | *:
-                                >
-                        ]
-                    | * :
-                        >
-                ]
+				[
+					|pIdentifier:
+			    		  .sIdentifier
+			    			[
+							| ',':
+							| *:
+				    			>
+			    			]
+					|*:
+						> 
+				]
 			}
 			')'
 			.sParmEnd
@@ -189,11 +189,11 @@ Block :
         | '}':
             >
         | 'const':
-            pConst .sConst
+            .sConst
             @ConstantDefinitions
         | 'type':
             .sType
-           %@TypeDefinitions
+           @TypeDefinitions
         | 'let':
             .sVar
             %@VariableDeclarations
@@ -229,13 +229,16 @@ Block :
 ConstantDefinitions :
         % Accept one or more named constant definitions
         pIdentifier  .sIdentifier
-        '=' @ConstantValue ';'
+        '=' @ConstantValue %--- remove ';' and place ',' into loop choice 
         {[
-            | pIdentifier:
-                .sIdentifier
-                '=' @ConstantValue ';'
-            | *:
-                >
+	    |',':
+	       pIdentifier
+		.sIdentifier
+                '=' @ConstantValue
+	    | * :
+		';' %--- force match semi-colon for last const variable declaration
+		    %--- else throws error
+		>
         ]};
 
 ConstantValue :
@@ -261,72 +264,77 @@ UnsignedIntegerConstant :
                 .sInteger
         ];
 
-%TypeDefinitions :
-%        % Accept one or more named type definitions.
-%        pIdentifier  .sIdentifier
-%        '='  @TypeBody  ';'
-%        {[
-%            | pIdentifier:
-%                .sIdentifier
-%                '='  @TypeBody  ';'
-%            | *:
-%                >
-%        ]};
-%
-%TypeBody :
-%        [
-%            | 'array':
-%                .sArray
-%                '['  @SimpleType  ']'
-%                'of'  @SimpleType
-%            | 'file':
-%                .sFile
-%                'of'  @SimpleType
-%            | *:
-%                @SimpleType
-%        ];
-%
-%SimpleType :
-%        % A simple type is a named type (possibly predefined)
-%        % or a subrange type specification
-%        [
-%            | pIdentifier:
-%                .sIdentifier
-%                [
-%                    | '..':
-%                        .sRange         %% this may be unnecessary
-%                        @OptionallySignedIntegerConstant
-%                    | *:
-%                ]
-%            | *:
-%                @OptionallySignedIntegerConstant
-%                '..'  .sRange
-%                @OptionallySignedIntegerConstant
-%        ];
-%
-%OptionallySignedIntegerConstant :
-%        [
-%            | '-':
-%                @UnsignedIntegerConstant
-%                .sNegate
-%            | '+':
-%                @UnsignedIntegerConstant
-%            | *:
-%                @UnsignedIntegerConstant
-%        ];
-%
-%VariableDeclarations :
-%        % Accept one or more variable declarations.
-%        pIdentifier  .sIdentifier
-%        ':'  @TypeBody  ';'
-%        {[
-%            | pIdentifier:
-%                .sIdentifier
-%                ':'  @TypeBody  ';'
-%            | *:
-%                >
-%        ]};
-%
+TypeDefinitions :
+        % Type can only accept one definition per call
+        pIdentifier  .sIdentifier
+        '='  @TypeBody  ';'
+	; % end of type definition
+	
+	%--- following loop choice block is removed
+       	%---{[ 
+       	%---    | pIdentifier:
+       	%---        .sIdentifier
+       	%---        '='  @TypeBody  ';'
+       	%---    | *:
+       	%---        >
+       	%---]};
+
+TypeBody :
+        [
+	%---remove '..' choice and add '[ : ]' for array range
+            |'[':   %  'array': 
+                .sArray
+                @SimpleType
+		']'
+            | 'file':
+                .sFile
+                'of'  @SimpleType
+            | *:
+                @SimpleType
+        ];
+
+SimpleType :
+        % A simple type is a named type (possibly predefined)
+        % or a subrange type specification
+        [
+            | pIdentifier:
+                .sIdentifier
+                [
+                    | ':': %---changed '..' to ':'
+                        .sRange         %% this may be unnecessary
+                        @OptionallySignedIntegerConstant
+                    | *:
+                ]
+            | *:
+	%--- removed no longer valid beg .. end range dec
+        	%---@OptionallySignedIntegerConstant
+        	%---    '..'  .sRange
+        	%---@OptionallySignedIntegerConstant
+        ];
+
+OptionallySignedIntegerConstant :
+        [
+            | '-':
+                @UnsignedIntegerConstant
+                .sNegate
+            | '+':
+                @UnsignedIntegerConstant
+            | *:
+                @UnsignedIntegerConstant
+        ];
+
+VariableDeclarations :
+        % Accept one or more variable declarations.
+        pIdentifier  .sIdentifier
+        ':'  @TypeBody  ';'
+        {[
+            | pIdentifier:
+                .sIdentifier
+                ':'  @TypeBody  ';'
+            | *:
+                >
+        ]};
+
 ProcedureHeading :
         % Accept zero or more procedure formal parameter declarations.
         [
