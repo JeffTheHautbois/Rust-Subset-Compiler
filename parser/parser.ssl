@@ -170,7 +170,7 @@ Output :
 		')'
 		.sParmEnd
 		'{'
-		@Block;
+		@Block '}';
 
 	Block :
 		% Strictly speaking, standard Pascal requires that declarations
@@ -183,7 +183,7 @@ Output :
 		% break is only used for loop stmts).
 		.sBegin
 		{[                   %%TODO: Re-order case block for expected occurance
-		| '}':
+		| *:
 		    >
 		| 'const':
 		    .sConst
@@ -221,7 +221,7 @@ Output :
 		    %module name
 		    .sIdentifier
 		    '{'
-		    @Block
+		    @Block '}'
 		]}
 		.sEnd;
 	ConstantDefinitions :
@@ -401,7 +401,7 @@ ProcedureHeading :
 	]
 	.sParmEnd
 	'{'
-	@Block;
+	@Block '}'; 
 
 %Statement : %Don't need
 %        [
@@ -487,7 +487,7 @@ IfStmt :
         .sExpnEnd
         %'then'  .sThen %commenting this out
         '{'
-        @Block
+        @Block '}'
         [
             | 'else': 
                     [
@@ -495,7 +495,7 @@ IfStmt :
                         @IfStmt
                     |'{':
                        .sElse
-                       @Block
+                       @Block '}'
                     ]
             | *:
         ];
@@ -507,7 +507,7 @@ WhileStmt :
         .sExpnEnd
         '{'
         %'do' Commenting this out, not necessary
-        @Block;
+        @Block '}';
 
 MatchStmt :
         .sCaseStmt
@@ -531,7 +531,7 @@ MatchAlternative :
 	[ 
 	    |'_':	%Added case for Qust's otherwise match
 		    .sCaseOtherwise 
-		    '=>' '{' @Block
+		    '=>' '{' @Block '}'
 	    |*:
 		{
 		    @OptionallySignedIntegerConstant
@@ -542,7 +542,7 @@ MatchAlternative :
 		    ]
 		}
 		.sLabelEnd
-		'=>' '{'  @Block	% changed PT's ':' to Qust '=>' 
+		'=>' '{' @Block '}'	% changed PT's ':' to Qust '=>' 
 	];				% and allowed for statements 
 					% and declarations.
 
