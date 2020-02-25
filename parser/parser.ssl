@@ -209,7 +209,7 @@ Output :
 		| pLoop:    
 		    %@LoopStmt        
 		| pMatch:
-		    %@MatchStmt
+		    @MatchStmt
 		| pWhile:
 		    %@WhileStmt
 		| pMod:         %This expects that we don't have nested programs
@@ -459,43 +459,41 @@ ProcedureHeading :
 %            | *:
 %        ];
 %
-%CaseStmt :
-%        .sCaseStmt
-%        @Expression
-%        .sExpnEnd
-%        'of'
-%        @CaseAlternative
-%        {[
-%            | ';':
-%                % since case alternatives cannot be null, allow
-%                % for the common situation of an extra semicolon
-%                % at the end of the list of case alternatives.
-%                [
-%                    | 'end':
-%                        >
-%                    | *:
-%                        @CaseAlternative
-%                ]
-%            | 'end':
-%                >
-%        ]}
-%        .sCaseEnd;
-%
-%CaseAlternative :
-%        % A case alternative is a statement labelled by
-%        % one or more optionally signed integer constants
-%
-%        {
-%            @OptionallySignedIntegerConstant
-%            [
-%                | ',':
-%                | *:
-%                    >
-%            ]
-%        }
-%        .sLabelEnd
-%        ':'  @Statement;
-%
+MatchStmt :
+        .sCaseStmt
+        @Expression
+        .sExpnEnd
+        '|'
+        @MatchAlternative
+        {[
+	    | '}':
+		>
+	    | *:
+		@MatchAlternative
+        ]}
+        .sCaseEnd;
+
+MatchAlternative :
+        % A case alternative is a statement labelled by
+        % one or more optionally signed integer constants
+	'|'
+	[ 
+	    |'_':
+		    .sCaseOtherwise 
+		    '=>' '{' @Block
+	    |*:
+		{
+		    @OptionallySignedIntegerConstant
+		    [
+			| '|':
+			| *:
+			    >
+		    ]
+		}
+		.sLabelEnd
+		'=>' '{'  @Block 
+	];
+
 %WhileStmt :
 %        .sWhileStmt
 %        @Expression
@@ -517,78 +515,78 @@ ProcedureHeading :
 %        @Expression
 %        .sExpnEnd;
 %
-%Expression :
-%        @SimpleExpression
-%        [
-%            | '=':
-%                @SimpleExpression  .sEq
-%            | '<>':
-%                @SimpleExpression  .sNE
-%            | '<':
-%                @SimpleExpression  .sLT
-%            | '<=':
-%                @SimpleExpression  .sLE
-%            | '>':
-%                @SimpleExpression  .sGT
-%            | '>=':
-%                @SimpleExpression  .sGE
-%            | *:
-%        ];
-%
-%SimpleExpression :
-%        [
-%            | '+':
-%                @Term
-%            | '-':
-%                @Term  .sNegate
-%            | *:
-%                @Term
-%        ]
-%        {[
-%            | '+':
-%                @Term  .sAdd
-%            | '-':
-%                @Term  .sSubtract
-%            | 'or':
-%                .sInfixOr  @Term  .sOr
-%            | *:
-%                >
-%        ]};
-%
-%Term :
-%        @Factor
-%        {[
-%            | '*':
-%                @Factor  .sMultiply
-%            | 'div':
-%                @Factor  .sDivide
-%            | 'mod':
-%                @Factor  .sModulus
-%            | 'and':
-%                .sInfixAnd  @Factor  .sAnd
-%            | *:
-%                >
-%        ]};
-%
-%Factor :
-%        [
-%            | pIdentifier:
-%                .sIdentifier
-%                @IdentifierExtension
-%            | pInteger:
-%                .sInteger
-%            | '(':
-%                @Expression  ')'
-%            | 'not':
-%                @Factor
-%                .sNot
-%            | pStringLiteral:
-%                .sStringLiteral
-%            | 'file':
-%                .sFile '(' @Expression ')'
-%                .sExpnEnd
-%        ];
-%
+Expression :
+        @SimpleExpression
+        [
+            | '=':
+                @SimpleExpression  .sEq
+            | '<>':
+                @SimpleExpression  .sNE
+            | '<':
+                @SimpleExpression  .sLT
+            | '<=':
+                @SimpleExpression  .sLE
+            | '>':
+                @SimpleExpression  .sGT
+            | '>=':
+                @SimpleExpression  .sGE
+            | *:
+        ];
+
+SimpleExpression :
+        [
+            | '+':
+                @Term
+            | '-':
+                @Term  .sNegate
+            | *:
+                @Term
+        ]
+        {[
+            | '+':
+                @Term  .sAdd
+            | '-':
+                @Term  .sSubtract
+            | 'or':
+                .sInfixOr  @Term  .sOr
+            | *:
+                >
+        ]};
+
+Term :
+        @Factor
+        {[
+            | '*':
+                @Factor  .sMultiply
+            | 'div':
+                @Factor  .sDivide
+            | 'mod':
+                @Factor  .sModulus
+            | 'and':
+                .sInfixAnd  @Factor  .sAnd
+            | *:
+                >
+        ]};
+
+Factor :
+        [
+            | pIdentifier:
+                .sIdentifier
+                @IdentifierExtension
+            | pInteger:
+                .sInteger
+            | '(':
+                @Expression  ')'
+            | 'not':
+                @Factor
+                .sNot
+            | pStringLiteral:
+                .sStringLiteral
+            | 'file':
+                .sFile '(' @Expression ')'
+                .sExpnEnd
+        ];
+
 %IdentifierExtension :
 %        % Handle subscripts and function actual parameter lists
 %        [
