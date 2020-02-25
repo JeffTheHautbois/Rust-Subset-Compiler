@@ -145,17 +145,17 @@
         TypeBody = 256;
         SimpleType = 282;
         OptionallySignedIntegerConstant = 303;
-        SimpleExpression = 760;
         Expression = 706;
         CallStmt = 547;
         MatchAlternative = 667;
+        SimpleExpression = 760;
         Term = 813;
         Factor = 857;
-        IdentifierExtension = 915;
+        IdentifierExtension = 911;
         }
 
         { S/SL Table Parameters } {
-        sslTblSize = 945;
+        sslTblSize = 941;
         minSslTableValue = -32767;
         maxSslTableValue = 32767;
 	}

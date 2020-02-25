@@ -1,6 +1,0 @@
-//this test tests short form assignments
-mod main (){
-	let mut i : int = 10;
-	i += 8;
-	i -= 5;
-}
