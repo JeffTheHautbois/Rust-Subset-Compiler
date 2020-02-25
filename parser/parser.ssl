@@ -215,7 +215,7 @@ Output :
 		| pMod:         %This expects that we don't have nested programs
 		    .sModule
 		    %module name
-		    pIdentifier  .sIdentifier
+		    .sIdentifier
 		    '{'
 		    @Block
 		]}
