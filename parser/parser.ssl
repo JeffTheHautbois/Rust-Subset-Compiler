@@ -196,7 +196,7 @@ Block :
            @TypeDefinitions
         | 'let':
             .sVar
-            %@VariableDeclarations
+            @VariableDeclarations
         | 'fn':
             .sProcedure
             % routine name
@@ -325,15 +325,71 @@ OptionallySignedIntegerConstant :
 
 VariableDeclarations :
         % Accept one or more variable declarations.
-        pIdentifier  .sIdentifier
-        ':'  @TypeBody  ';'
-        {[
-            | pIdentifier:
-                .sIdentifier
-                ':'  @TypeBody  ';'
-            | *:
-                >
-        ]};
+	[
+	  |pMut:	
+        	pIdentifier  .sIdentifier
+		':' @TypeBody
+		[
+		  |'=':
+			.sInitialValue
+			pInteger .sInteger
+			.sExpnEnd
+		  	{[
+			  |',':
+				pIdentifier
+				.sIdentifier
+				':' @TypeBody '='
+				.sInitialValue
+				pInteger .sInteger
+				.sExpnEnd
+			  |'*':
+				';'
+				>
+			]}
+		  |*:
+			{[
+		 	   |',':
+				pIdentifier
+				.sIdentifier
+				':' @TypeBody
+		   	   |*:
+				';'
+				>
+			]}
+		]	
+		.sMutable
+	  |*:
+        	pIdentifier  .sIdentifier
+		':' @TypeBody
+		[
+		  |'=':
+			.sInitialValue
+			pInteger .sInteger
+			.sExpnEnd
+		  	{[
+			  |',':
+				pIdentifier
+				.sIdentifier
+				':' @TypeBody '='
+				.sInitialValue
+				pInteger .sInteger
+				.sExpnEnd
+			  |'*':
+				';'
+				>
+			]}
+		  |*:
+			{[
+		 	 |',':
+				pIdentifier
+				.sIdentifier
+				':' @TypeBody
+		  	|*:
+				';'
+				>
+			]}
+		]
+	];
 
 ProcedureHeading :
         % Accept zero or more procedure formal parameter declarations.
