@@ -219,7 +219,7 @@ Output :
 		| pMod:         %This expects that we don't have nested programs
 		    .sModule	%Added this to handle Qust modules. No module rule
 		    %module name
-		    .sIdentifier
+		    pIdentifier.sIdentifier
 		    '{'
 		    @Block
 		]}
