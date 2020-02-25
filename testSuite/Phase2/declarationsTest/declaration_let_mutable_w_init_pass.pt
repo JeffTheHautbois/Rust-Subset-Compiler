@@ -1,0 +1,4 @@
+//mutable variable declaration with initial value
+mod main () {
+	let mut n : int = 64;
+}

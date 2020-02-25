@@ -131,6 +131,7 @@
 
         { S/SL Rule Table Addresses } {
         Program = 0;
+<<<<<<< HEAD
         Block = 39;
         ConstantDefinitions = 147;
         TypeDefinitions = 237;
@@ -156,6 +157,22 @@
 
         { S/SL Table Parameters } {
         sslTblSize = 843;
+=======
+        Block = 56;
+        ConstantDefinitions = 156;
+        TypeDefinitions = 246;
+        VariableDeclarations = 324;
+        ProcedureHeading = 416;
+        ConstantValue = 186;
+        UnsignedIntegerConstant = 226;
+        TypeBody = 257;
+        SimpleType = 283;
+        OptionallySignedIntegerConstant = 304;
+        }
+
+        { S/SL Table Parameters } {
+        sslTblSize = 462;
+>>>>>>> Phase2
         minSslTableValue = -32767;
         maxSslTableValue = 32767;
 	}
