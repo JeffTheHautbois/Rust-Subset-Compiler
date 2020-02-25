@@ -151,35 +151,36 @@ Output :
 	rules
 
 	Program :
-		pMod  
-		'main' %program/module name
+		pMod %changed to expect mod keywork instead of 'program' 
+		'main' %program/module name, changed to require it be called main
 		.sProgram
 		'(' 
-		{[
-			| pIdentifier :
-				.sIdentifier
-				[
-					| ',':
-					| *:
-						>
-				]
-			| *:
-				>
-		]
+		{
+			pIdentifier
+			.sIdentifier
+			[
+				| ',':
+				| *:
+					>
+			]
 		}
 		')'
 		.sParmEnd
 		'{'
-		@Block;
+		@Block '}';
 
 	Block :
 		% Strictly speaking, standard Pascal requires that declarations
 		% appear only in the order consts, types, vars, procedures.
 		% We allow arbitrary intermixing of these instead to preserve
 		% programmer sanity.
+		% As such block has been changed to be very different with a loop
+		% and case for any statement or declaration possible. A block is 
+		% finished when it arrives at the '}' token or 'break' (where
+		% break is only used for loop stmts).
 		.sBegin
 		{[                   %%TODO: Re-order case block for expected occurance
-		| '}':
+		| *:
 		    >
 		| 'const':
 		    .sConst
@@ -189,7 +190,7 @@ Output :
 		   @TypeDefinitions
 		| 'let':
 		    .sVar
-		    %@VariableDeclarations
+		    @VariableDeclarations
 		| 'fn':
 		    .sProcedure
 		    % routine name
@@ -203,7 +204,8 @@ Output :
 		    .sPublic
 		    @ProcedureHeading
 		| pIdentifier:
-		    %@AssignmentOrCallStmt
+		    @AssignmentOrCallStmt
+		    pSemicolon
 		| pIf:
 		    @IfStmt
 		| pLoop:    
@@ -213,11 +215,11 @@ Output :
 		| pWhile:
 		    @WhileStmt
 		| pMod:         %This expects that we don't have nested programs
-		    .sModule
+		    .sModule	%Added this to handle Qust modules. No module rule
 		    %module name
-		    pIdentifier  .sIdentifier
+		    pIdentifier.sIdentifier
 		    '{'
-		    @Block
+		    @Block '}'
 		]}
 		.sEnd;
 	ConstantDefinitions :
@@ -317,29 +319,61 @@ Output :
 			@UnsignedIntegerConstant
 		];
 
-	VariableDeclarations :
-		% Accept one or more variable declarations.
-		pIdentifier  .sIdentifier
-		':'  @TypeBody  ';'
-		{[
-		    | pIdentifier:
-			.sIdentifier
-			':'  @TypeBody  ';'
-		    | *:
-			>
-		]};
-
+VariableDeclarations :
+	% Accept one or more variable declarations.
+	[
+            % Accept mutable variables
+            | pMut:
+               pIdentifier  .sIdentifier
+                ':' @TypeBody
+                % Handle single and multiple declarations or initial values
+                {[
+                    | '=':
+                        .sInitialValue
+                        @Expression
+                        .sExpnEnd
+                        
+                    |',':
+                        pIdentifier
+                        .sIdentifier
+                        ':' @TypeBody
+                    |*:
+                        ';'
+                        >
+                ]}
+                .sMutable %--- emit .sMutable token at the end
+            %--- Non mutable variable declaration choice is added
+            | *:
+                pIdentifier  .sIdentifier
+                ':' @TypeBody
+                % Handle single and multiple declarations or initial values
+                {[
+                    | '=':
+                        .sInitialValue
+                        @Expression
+				        .sExpnEnd
+                    |',':
+                        pIdentifier
+                        .sIdentifier
+                        ':' @TypeBody
+                    |*:
+                        ';'
+                        >
+                ]}
+        ];
 ProcedureHeading :
 	% This is the routine handling section (PT procedure, or Qust functions) 
 	% Accept zero or more procedure formal parameter declarations.
 	'('
 	[
-		|')':
+		|')':	% This case added to check for empty param list
 		|*:
 			{
-				% formal parameter identifier
+				% Added a case to param checking loop to allow params to start
+				% with either 'mut' the param identifier name 
 				[
 					| 'mut':
+						% formal parameter identifier
 						pIdentifier  .sIdentifier
 						%type identifier
 						':'
@@ -351,7 +385,9 @@ ProcedureHeading :
 						':'
 							pIdentifier .sIdentifier
 					| *:
-						%Need an illegal toekn to throw here	
+						% Need this case so we don't default to matching 
+						% 'mut'. We don't have error tokens in this phase
+						% but if we did we'd throw and illegal toekn here	
 				]
 				%check if we have more params or not
 				[
@@ -364,7 +400,7 @@ ProcedureHeading :
 	]
 	.sParmEnd
 	'{'
-	@Block;
+	@Block '}'; 
 
 %Statement : %Don't need
 %        [
@@ -384,8 +420,23 @@ ProcedureHeading :
 %                .sNullStmt
 %        ];
 %
+
 AssignmentOrCallStmt :
         [
+	    | '+=':%--- add standard Operator
+		.sAssignmentStmt
+		.sIdentifier
+		.sIdentifier
+		@Expression
+		.sAdd
+		.sExpnEnd
+	    | '-=':%--- subtract standard Operator
+		.sAssignmentStmt
+		.sIdentifier
+		.sIdentifier
+		@Expression
+		.sSubtract
+		.sExpnEnd	 
             | '=': %Changed to Qust Standard Operator
                 .sAssignmentStmt
                 .sIdentifier    % identifier accepted in the Statement rule
@@ -450,7 +501,7 @@ IfStmt :
         .sExpnEnd
         %'then'  .sThen %commenting this out
         '{'
-        @Block
+        @Block '}'
         [
             | 'else': 
                     [
@@ -458,7 +509,7 @@ IfStmt :
                         @IfStmt
                     |'{':
                        .sElse
-                       @Block
+                       @Block '}'
                     ]
             | *:
         ];
@@ -470,16 +521,17 @@ WhileStmt :
         .sExpnEnd
         '{'
         %'do' Commenting this out, not necessary
-        @Block;
+        @Block '}';
 
 MatchStmt :
         .sCaseStmt
         @Expression
         .sExpnEnd
-        '|'
+        '{'	%Changed PT's 'of' to '{' for match
         @MatchAlternative
-        {[
-	    | '}':
+        {[		% Removed the case for ';' in PT because the end of 
+			% a statement or declaration is handled elsewhere
+	    | '}':	%Changed Pt's 'end' to '}'
 		>
 	    | *:
 		@MatchAlternative
@@ -491,9 +543,9 @@ MatchAlternative :
         % one or more optionally signed integer constants
 	'|'
 	[ 
-	    |'_':
+	    |'_':	%Added case for Qust's otherwise match
 		    .sCaseOtherwise 
-		    '=>' '{' @Block
+		    '=>' '{' @Block '}'
 	    |*:
 		{
 		    @OptionallySignedIntegerConstant
@@ -504,8 +556,10 @@ MatchAlternative :
 		    ]
 		}
 		.sLabelEnd
-		'=>' '{'  @Block 
-	];
+
+		'=>' '{' @Block '}'	% changed PT's ':' to Qust '=>' 
+	];				% and allowed for statements 
+					% and declarations.
 
 %RepeatStmt :
 %        .sRepeatStmt
@@ -571,7 +625,6 @@ SimpleExpression :
             | '-':
                 @Term  .sSubtract
             | '||': %Changed to Qust Or
-
                 .sInfixOr  @Term  .sOr
             | *:
                 >
@@ -587,7 +640,6 @@ Term :
             | '%': %Change to Qust mod
                 @Factor  .sModulus
             | '&&': %Change to Qust And
-
                 .sInfixAnd  @Factor  .sAnd
             | *:
                 >
@@ -603,7 +655,6 @@ Factor :
             | '(':
                 @Expression  ')'
             | '!': %Changed to Qust Not
-
                 @Factor
                 .sNot
             | pStringLiteral:
@@ -611,6 +662,7 @@ Factor :
             | 'file':
                 .sFile '(' @Expression ')'
                 .sExpnEnd
+	    | *:
         ];
 
 IdentifierExtension :
