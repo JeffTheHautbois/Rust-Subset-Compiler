@@ -1,0 +1,3 @@
+mod main(){
+	fn myFunction(mut input: int){}
+}
