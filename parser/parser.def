@@ -135,7 +135,7 @@
         ConstantDefinitions = 156;
         TypeDefinitions = 246;
         VariableDeclarations = 324;
-        ProcedureHeading = 500;
+        ProcedureHeading = 416;
         ConstantValue = 186;
         UnsignedIntegerConstant = 226;
         TypeBody = 257;
@@ -144,7 +144,7 @@
         }
 
         { S/SL Table Parameters } {
-        sslTblSize = 546;
+        sslTblSize = 462;
         minSslTableValue = -32767;
         maxSslTableValue = 32767;
 	}

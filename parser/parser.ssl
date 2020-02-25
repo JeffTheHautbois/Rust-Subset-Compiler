@@ -324,73 +324,46 @@ OptionallySignedIntegerConstant :
         ];
 
 VariableDeclarations :
-        % Accept one or more variable declarations.
+	% Accept one or more variable declarations.
 	[
-	  |pMut:	
-        	pIdentifier  .sIdentifier
-		':' @TypeBody
-		[
-		  |'=':
-			.sInitialValue
-			pInteger .sInteger
-			.sExpnEnd
-		  	{[
-			  |',':
-				pIdentifier
-				.sIdentifier
-				':' @TypeBody '='
-				.sInitialValue
-				pInteger .sInteger
-				.sExpnEnd
-			  |'*':
-				';'
-				>
-			]}
-		  |*:
-			{[
-		 	   |',':
-				pIdentifier
-				.sIdentifier
-				':' @TypeBody
-		   	   |*:
-				';'
-				>
-			]}
-		]	
-		.sMutable
-	  |*:
-        	pIdentifier  .sIdentifier
-		':' @TypeBody
-		[
-		  |'=':
-			.sInitialValue
-			pInteger .sInteger
-			.sExpnEnd
-		  	{[
-			  |',':
-				pIdentifier
-				.sIdentifier
-				':' @TypeBody '='
-				.sInitialValue
-				pInteger .sInteger
-				.sExpnEnd
-			  |'*':
-				';'
-				>
-			]}
-		  |*:
-			{[
-		 	 |',':
-				pIdentifier
-				.sIdentifier
-				':' @TypeBody
-		  	|*:
-				';'
-				>
-			]}
-		]
-	];
-
+            % Accept mutable variables
+            | pMut:
+               pIdentifier  .sIdentifier
+                ':' @TypeBody
+                % Handle single and multiple declarations or initial values
+                {[
+                    | '=':
+                        .sInitialValue
+                        pInteger .sInteger
+                        .sExpnEnd
+                    |',':
+                        pIdentifier
+                        .sIdentifier
+                        ':' @TypeBody
+                    |*:
+                        ';'
+                        >
+                ]}
+                .sMutable
+            % Accept immutable variables
+            | *:
+                pIdentifier  .sIdentifier
+                ':' @TypeBody
+                % Handle single and multiple declarations or initial values
+                {[
+                    | '=':
+                        .sInitialValue
+                        pInteger .sInteger
+                        .sExpnEnd
+                    |',':
+                        pIdentifier
+                        .sIdentifier
+                        ':' @TypeBody
+                    |*:
+                        ';'
+                        >
+                ]}
+        ];
 ProcedureHeading :
         % Accept zero or more procedure formal parameter declarations.
         [
