@@ -1,0 +1,21 @@
+Operator Syntax Changes
+
+Where: Parser.ssl, in ESTF, match statement and Assignment rules. Changes
+based on expected token synynoms for QUST language modified from PT standards.
+
+How: PT operators and operations that disagree with QUST standards are modified,
+while keeping the output tokens for the semantic phase consistent with PT expectations.
+This includes ':=' to '=', 'div' to '/' mod to '%', '=' to '==', '<>' to '!=',
+'and' to '&&', 'or' to '||' and 'not' to '!'. 
+This also includes adding QUST left brace ("{"), right brace ("}"), plus equals ("+="), minus equals ("–="),
+length operator '?', and changing PTs ':' to QUSTs '=>'.
+This change allows for new operators such as "!=","+=","-=".....etc that 
+exist in QUST but not PT to be parsed properly. Comments can be 
+found inside parse.ssl for all items removed and added
+
+Why: In order to maintain our non invasive PT to QUST transition the operators
+that required no extra functionality but just syntax change were simply swapped,
+and ones that required adjustment included changes in relevant rules. These
+changes allow our S/SL program to parse QUST instead of PT without changing 
+semantic phase expected inputs greatly. 
+
