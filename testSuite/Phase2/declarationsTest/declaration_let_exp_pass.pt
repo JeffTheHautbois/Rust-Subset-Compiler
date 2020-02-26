@@ -1,4 +1,0 @@
-mod main ()
-{
-	let n : int = 5+5;
-}

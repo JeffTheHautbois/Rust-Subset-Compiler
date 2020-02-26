@@ -1,0 +1,2 @@
+//mutable variable declaration
+mod main (output){let mut v;}

@@ -1,0 +1,2 @@
+//immutable variable declaration with type with initial value
+mod main (){let v :str = 5+5;}

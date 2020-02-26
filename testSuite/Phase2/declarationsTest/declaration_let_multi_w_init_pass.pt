@@ -1,3 +1,0 @@
-mod main (){
-        let v:int = 64, c:int = 65;
-}

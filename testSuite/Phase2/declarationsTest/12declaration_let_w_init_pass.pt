@@ -1,0 +1,2 @@
+//immutable variable declaration with initial value
+mod main (output){let v = 5;}

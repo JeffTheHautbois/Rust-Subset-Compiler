@@ -135,27 +135,27 @@
         ConstantDefinitions = 149;
         TypeDefinitions = 239;
         VariableDeclarations = 317;
-        ProcedureHeading = 405;
-        IfStmt = 549;
-        MatchStmt = 599;
-        WhileStmt = 588;
+        ProcedureHeading = 401;
+        IfStmt = 545;
+        MatchStmt = 595;
+        WhileStmt = 584;
         ConstantValue = 179;
         UnsignedIntegerConstant = 219;
         TypeBody = 250;
         SimpleType = 276;
         OptionallySignedIntegerConstant = 297;
-        Expression = 664;
-        AssignmentOrCallStmt = 465;
-        CallStmt = 505;
-        MatchAlternative = 625;
-        SimpleExpression = 718;
-        Term = 771;
-        Factor = 815;
-        IdentifierExtension = 873;
+        Expression = 660;
+        AssignmentOrCallStmt = 461;
+        CallStmt = 501;
+        MatchAlternative = 621;
+        SimpleExpression = 714;
+        Term = 767;
+        Factor = 811;
+        IdentifierExtension = 869;
         }
 
         { S/SL Table Parameters } {
-        sslTblSize = 903;
+        sslTblSize = 899;
         minSslTableValue = -32767;
         maxSslTableValue = 32767;
 	}

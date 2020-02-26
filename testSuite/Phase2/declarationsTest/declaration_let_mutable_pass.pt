@@ -1,3 +1,0 @@
-mod main (){
-	let mut v : int;
-}

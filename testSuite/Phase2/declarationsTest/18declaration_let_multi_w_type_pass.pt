@@ -1,0 +1,2 @@
+//multi variable declarations with type
+mod main (output){let  v, c : int;}

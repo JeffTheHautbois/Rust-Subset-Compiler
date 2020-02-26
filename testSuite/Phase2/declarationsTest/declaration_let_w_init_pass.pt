@@ -1,4 +1,0 @@
-//variable declaration with inital value
-mod main () {
-	let n : int = 64;
-}
