@@ -1,0 +1,27 @@
+This set of tests checks the loop statement along with the break if
+statement in parser.ssl. Names of the test fil explain what the test does,
+if it is expected to pass or fail. The tests are focused on QUST implementation.
+The tests are kept to a minimum to test only the statements, and the call
+to block specifying the begin and end of each block inside the if statement,
+while the begin and end braces of the loop and break statement are expected
+to be handled in the loop rule itself. The tests output should show
+two calls to block, for statements and declarations preceeding and following
+the break if statement. The break if statement on the other hand show have
+the proper output for the expression associated with the break condition. A 
+loop end output token is expected following the ending brace. 
+
+- These tests ensure nothing else was broken after the changes were added,
+important since a compiler must be reliable.
+- These tests are important since the parser belongs
+to QUST and no longer works with the PT if syntax, but rather
+it expects QUST syntax provided in the test files. Therefore loop should trigger
+our loop statement rule and break if should be handled regardless of the number of
+statements or declarations above or below it, which is confirmed by successful 
+calls of block which is already tested. 
+
+Cases Tested: 
+
+QUST: loop statement, loop break if statement, optional semicolon
+at the end of the statement brace. The file names identify the tests.
+
+* All changes are identified in comments made in parser.ssl
