@@ -180,8 +180,6 @@ Output :
 		% break is only used for loop stmts).
 		.sBegin
 		{[                   %%TODO: Re-order case block for expected occurance
-		| *:
-		    >
 		| 'const':
 		    .sConst
 		    @ConstantDefinitions
@@ -209,7 +207,7 @@ Output :
 		| pIf:
 		    @IfStmt
 		| pLoop:    
-		    %@LoopStmt        
+		    @LoopStmt        
 		| pMatch:
 		    @MatchStmt
 		| pWhile:
@@ -220,6 +218,8 @@ Output :
 		    pIdentifier.sIdentifier
 		    '{'
 		    @Block '}'
+		| *: 
+		    >
 		]}
 		.sEnd;
 	ConstantDefinitions :
@@ -402,7 +402,7 @@ ProcedureHeading :
 	'{'
 	@Block '}'; 
 
-%Statement : %Don't need
+%Statement : % No longer needed, functionality transferred to Block rule with appropirate QUST input changes
 %        [
 %            | pIdentifier:
 %                @AssignmentOrCallStmt
@@ -494,7 +494,7 @@ CallStmt :
 	.sParmEnd
 	;
 
-%BeginStmt : %Don't need
+%BeginStmt : %No longer needed, QUST program elements requiring Begin and End conditions are independently enforced in associated rules and block calls. 
 %        .sBegin
 %        {
 %            @Statement
@@ -510,29 +510,40 @@ IfStmt :
         .sIfStmt
         @Expression
         .sExpnEnd
-        %'then'  .sThen %commenting this out
-        '{'
+        %'then'  .sThen %Then is not used in QUST, removed
+        '{' %if statement braces with a block call to handle content
         @Block '}'
+		[
+			!';':
+				.sNullStmt %Optional semicolon as nullstmt output
+			|*:
+		]
+
         [
-            | 'else': 
+            | 'else': % ----Added nested else if condition as pointed to in A2 instructions
                     [
                     |'if':
+						.sElse
                         @IfStmt
                     |'{':
                        .sElse
-                       @Block '}'
+                       @Block '}' % ----Expect ending brace after Block loop exit.
                     ]
             | *:
         ];
-
 
 WhileStmt :
         .sWhileStmt
         @Expression
         .sExpnEnd
         '{'
-        %'do' Commenting this out, not necessary
-        @Block '}';
+        %'do' do is not used in QUST, removed
+        @Block '}' % ----Expect ending brace after Block loop exit.
+		[
+			!';':
+				.sNullStmt %Optional semicolon as nullstmt output
+			|*:
+		]; 
 
 MatchStmt :
         .sCaseStmt
@@ -567,11 +578,12 @@ MatchAlternative :
 		    ]
 		}
 		.sLabelEnd
+
 		'=>' '{' @Block '}'	% changed PT's ':' to Qust '=>' 
 	];				% and allowed for statements 
 					% and declarations.
 
-%RepeatStmt :
+%RepeatStmt : %PT Repeat statement removed to be replaced by QUST loop statement.
 %        .sRepeatStmt
 %        {
 %            @Statement
@@ -585,12 +597,33 @@ MatchAlternative :
 %        @Expression
 %        .sExpnEnd;
 %
+
+LoopStmt : % Changed from PT Repeat Stmt to QUST Loop Stmt
+% ----Block contains a loop, and when called it handles 0-inf statements and declarations
+% ----Loop only has to consider the 'break if' sequence, semicolon and begin-end braces
+		.sLoopStmt
+		'{'
+		@Block
+		'break' %Force a break if 
+		'if'
+		.sLoopBreakIf
+		@Expression
+		.sExpnEnd
+		';' %Semicolon is expected at the end of break if expression.
+		@Block '}' % ----Expect ending brace after Block loop exit.
+		[
+			!';':
+				.sNullStmt %Optional semicolon as nullstmt output
+			|*:
+		]
+		.sLoopEnd;
+		
 Expression :
         @SimpleExpression
         [
-            | '==': %Changed to Qust Operator
+            | '==': %Changed to Qust Eq Operator
                 @SimpleExpression  .sEq
-            | '!=': %Changed to Qust Operator
+            | '!=': %Changed to Qust Not Operator
 
                 @SimpleExpression  .sNE
             | '<':
