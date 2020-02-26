@@ -292,7 +292,7 @@ Output :
 		% or a subrange type specification
 		[
 		    | pIdentifier:
-			.sIdentifier
+				.sIdentifier
 			[
 			    | ':': %---changed '..' to ':'
 				.sRange         %% this may be unnecessary

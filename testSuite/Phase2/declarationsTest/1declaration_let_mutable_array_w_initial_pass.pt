@@ -1,0 +1,2 @@
+//mutable variable declaration (array) 
+ mod main (output){let mut v : [int : 10];}
