@@ -1,0 +1,20 @@
+typesTest Documentation
+
+type_declare_array_fail.pt:
+tests that old PT Pascal syntax for array declaration no longer works.
+
+type_declare_array_pass.pt:
+tests that new Qust array declaration works properly.
+
+type_declare_one_pass.pt:
+tests that new type declaration passes.
+
+type_declare_two_pass.pt:
+tests that two type declarations requires two 'type' keywords.
+
+type_declare_two_semi_colon_fail.pt:
+tests that old PT Pascal multiple type declaration no longer works.
+
+type_declare_two_comma_fail.pt:
+tests that new Qust multiple variable/constant declaration do NOT work for types.
+

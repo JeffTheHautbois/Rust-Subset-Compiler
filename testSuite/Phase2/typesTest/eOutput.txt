@@ -1,0 +1,86 @@
+The test file ./type_declare_array_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sVar
+   .sIdentifier
+    .sArray
+     .sIdentifier
+     .sRange
+       .sInteger
+   .sMutable
+  .sEnd
+ % .sNewLine
+
+PT Pascal v4.2 (c) 2019 Queen's University, (c) 1980 University of Toronto
+The test file ./type_declare_one_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sType
+   .sIdentifier
+     .sIdentifier
+  .sEnd
+ % .sNewLine
+
+PT Pascal v4.2 (c) 2019 Queen's University, (c) 1980 University of Toronto
+The test file ./type_declare_array_fail.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+  .sType
+   .sIdentifier
+     .sIdentifier
+  .sEnd
+
+PT Pascal v4.2 (c) 2019 Queen's University, (c) 1980 University of Toronto
+The test file ./type_declare_two_semi_colon_fail.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sType
+   .sIdentifier
+     .sIdentifier
+   .sAssignmentStmt
+   .sIdentifier
+       .sIdentifier
+   .sExpnEnd
+  .sEnd
+ % .sNewLine
+
+PT Pascal v4.2 (c) 2019 Queen's University, (c) 1980 University of Toronto
+The test file ./type_declare_two_comma_fail.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sType
+   .sIdentifier
+     .sIdentifier
+  .sEnd
+
+PT Pascal v4.2 (c) 2019 Queen's University, (c) 1980 University of Toronto
+The test file ./type_declare_two_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sType
+   .sIdentifier
+     .sIdentifier
+  .sType
+   .sIdentifier
+     .sIdentifier
+  .sEnd
+ % .sNewLine

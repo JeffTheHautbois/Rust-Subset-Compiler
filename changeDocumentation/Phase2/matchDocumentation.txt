@@ -1,0 +1,15 @@
+This document outlines the changes of Pt's case to Qust's match. These changes 
+all occured in parser.ssl. 
+
+The first change made was the S/SL match in the Block rule which changes the keywork 
+'case' to 'match'. Following this the match statement was altered in the CaseStmt
+rule. Pt's 'of' was changed to Qust's '{' and Pt's 'end' was changed to Qust's '}' 
+to denote the start and stop points of the match. Pt's case for a ';' end of line 
+delimiter was also removed as it isn't used in Qust and an equivalent does not exist. 
+
+Next, the MatchAlternate was changed to have alternate match statements started with
+the '|' token. An outer case was also added to check for the '_' token denoting the
+"otherwise" case for the Qust match. Pt's ':' was then changed to Qust's '=>' and 
+matches were made to be able to have any number of statements and declarations by 
+calling Block rule. Blocks in a Qust match are also contained inside of the '{' and }'
+tokens. 

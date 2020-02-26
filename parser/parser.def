@@ -133,6 +133,7 @@
         Program = 0;
         Block = 34;
 <<<<<<< HEAD
+<<<<<<< HEAD
         ConstantDefinitions = 191;
         TypeDefinitions = 281;
         VariableDeclarations = 359;
@@ -185,6 +186,33 @@
         { S/SL Table Parameters } {
         sslTblSize = 1044;
 >>>>>>> 1067a9e37be5721c5608d9e944a29d56742205b1
+=======
+        ConstantDefinitions = 146;
+        TypeDefinitions = 236;
+        VariableDeclarations = 314;
+        ProcedureHeading = 398;
+        AssignmentOrCallStmt = 460;
+        IfStmt = 591;
+        LoopStmt = 738;
+        MatchStmt = 669;
+        WhileStmt = 647;
+        ConstantValue = 176;
+        UnsignedIntegerConstant = 216;
+        TypeBody = 247;
+        SimpleType = 273;
+        OptionallySignedIntegerConstant = 294;
+        Expression = 772;
+        CallStmt = 532;
+        MatchAlternative = 695;
+        SimpleExpression = 826;
+        Term = 879;
+        Factor = 923;
+        IdentifierExtension = 977;
+        }
+
+        { S/SL Table Parameters } {
+        sslTblSize = 1007;
+>>>>>>> Phase2
         minSslTableValue = -32767;
         maxSslTableValue = 32767;
 	}

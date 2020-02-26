@@ -1,0 +1,4 @@
+The program rule was changed in parser.ssl to change the program key word
+from PT's 'program' to Qust's 'mod'. The program rule was also changed by
+altering the begining and end tokens of the program block from PT's ';'
+and '.' to Qust's '{' and '}'. 

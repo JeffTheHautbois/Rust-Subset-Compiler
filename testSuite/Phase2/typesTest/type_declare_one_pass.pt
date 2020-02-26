@@ -1,2 +1,2 @@
 //Valid declaration of a type
-mod main(){type t = int;}
+mod main(output){type t = int;}

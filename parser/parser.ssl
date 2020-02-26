@@ -441,14 +441,14 @@ ProcedureHeading :
 
 AssignmentOrCallStmt :
         [
-	    | '+=':%--- add standard Operator
+	    | '+=':%--- add short-form assignment
 		.sAssignmentStmt
 		.sIdentifier
 		.sIdentifier
 		@Expression
 		.sAdd
 		.sExpnEnd
-	    | '-=':%--- subtract standard Operator
+	    | '-=':%--- subtract short-form assignment
 		.sAssignmentStmt
 		.sIdentifier
 		.sIdentifier
@@ -466,7 +466,7 @@ AssignmentOrCallStmt :
                 .sSubscript
                 @Expression
                 .sExpnEnd
-                ']'  '=' %changedd to Qust Standard operator
+                ']'  '=' %changed to Qust Standard operator
                 @Expression
                 .sExpnEnd
             | *:
