@@ -1,2 +1,2 @@
 //invalid consecutive type declaration separated by commas
-mod main(){type t=int, u=str}
+mod main(output){type t=int, u=str;}

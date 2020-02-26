@@ -1,0 +1,15 @@
+statementTestDoc
+
+statement_expression_pass.pt:
+tests that assignment statement semantic tokens are unchanged from PT Pascal output
+
+statement_short_expression_pass.pt:
+tests that short-form assignment statement tokens are in the same format as
+regular assignment statment semantic tokens.
+
+statement_short_expression_multi_pass.pt:
+tests that short-form assignment statment follow by multiple operator
+outputs semantic token successfully.
+
+statement_routine_pass.pt:
+tests that call statment accepts multiple:  mutable 'mut' expressions/non mutable expresions

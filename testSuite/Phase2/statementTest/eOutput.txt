@@ -1,0 +1,156 @@
+The test file ./statement_short_expression_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+  .sVar
+   .sIdentifier
+     .sIdentifier
+   .sInitialValue
+       .sInteger
+   .sExpnEnd
+   .sMutable
+   % .sNewLine
+   .sAssignmentStmt
+   .sIdentifier
+   .sIdentifier
+       .sInteger
+   .sAdd
+   .sExpnEnd
+  % .sNewLine
+   .sAssignmentStmt
+   .sIdentifier
+   .sIdentifier
+       .sInteger
+   .sSubtract
+   .sExpnEnd
+  % .sNewLine
+  .sEnd
+ % .sNewLine
+
+PT Pascal v4.2 (c) 2019 Queen's University, (c) 1980 University of Toronto
+The test file ./statement_short_expression_multi_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+  .sVar
+   .sIdentifier
+     .sIdentifier
+   .sInitialValue
+       .sInteger
+   .sExpnEnd
+   .sMutable
+   % .sNewLine
+   .sAssignmentStmt
+   .sIdentifier
+   .sIdentifier
+       .sInteger
+       .sInteger
+       .sInteger
+      .sMultiply
+     .sAdd
+   .sAdd
+   .sExpnEnd
+  % .sNewLine
+  .sEnd
+ % .sNewLine
+
+PT Pascal v4.2 (c) 2019 Queen's University, (c) 1980 University of Toronto
+The test file ./statement_routine_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+  .sProcedure
+  .sIdentifier
+   .sIdentifier
+   .sIdentifier
+   .sIdentifier
+   .sIdentifier
+   .sParmEnd
+    .sBegin
+    .sEnd
+   % .sNewLine
+  .sVar
+   .sIdentifier
+     .sIdentifier
+   .sInitialValue
+       .sInteger
+   .sExpnEnd
+   % .sNewLine
+    .sCallStmt
+    .sIdentifier
+            .sInteger
+            .sInteger
+          .sAdd
+    .sExpnEnd
+    .sMutable
+        .sIdentifier
+    .sExpnEnd
+    .sParmEnd
+  % .sNewLine
+  .sEnd
+ % .sNewLine
+
+PT Pascal v4.2 (c) 2019 Queen's University, (c) 1980 University of Toronto
+The test file ./statement_expression_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+  .sVar
+   .sIdentifier
+     .sIdentifier
+   .sInitialValue
+       .sInteger
+   .sExpnEnd
+   .sMutable
+   % .sNewLine
+   .sAssignmentStmt
+   .sIdentifier
+       .sIdentifier
+       .sInteger
+     .sAdd
+   .sExpnEnd
+  % .sNewLine
+   .sAssignmentStmt
+   .sIdentifier
+       .sIdentifier
+       .sInteger
+     .sSubtract
+       .sInteger
+     .sSubtract
+   .sExpnEnd
+  % .sNewLine
+   .sAssignmentStmt
+   .sIdentifier
+       .sIdentifier
+       .sInteger
+      .sMultiply
+   .sExpnEnd
+  % .sNewLine
+   .sAssignmentStmt
+   .sIdentifier
+       .sIdentifier
+       .sInteger
+      .sDivide
+   .sExpnEnd
+  % .sNewLine
+   .sAssignmentStmt
+   .sIdentifier
+       .sIdentifier
+       .sInteger
+      .sModulus
+   .sExpnEnd
+  % .sNewLine
+  .sEnd
+ % .sNewLine

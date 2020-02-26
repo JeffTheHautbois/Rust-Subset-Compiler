@@ -138,25 +138,25 @@
         ProcedureHeading = 398;
         AssignmentOrCallStmt = 460;
         IfStmt = 591;
-        LoopStmt = 736;
-        MatchStmt = 667;
-        WhileStmt = 645;
+        LoopStmt = 738;
+        MatchStmt = 669;
+        WhileStmt = 647;
         ConstantValue = 176;
         UnsignedIntegerConstant = 216;
         TypeBody = 247;
         SimpleType = 273;
         OptionallySignedIntegerConstant = 294;
-        Expression = 770;
+        Expression = 772;
         CallStmt = 532;
-        MatchAlternative = 693;
-        SimpleExpression = 824;
-        Term = 877;
-        Factor = 921;
-        IdentifierExtension = 975;
+        MatchAlternative = 695;
+        SimpleExpression = 826;
+        Term = 879;
+        Factor = 923;
+        IdentifierExtension = 977;
         }
 
         { S/SL Table Parameters } {
-        sslTblSize = 1005;
+        sslTblSize = 1007;
         minSslTableValue = -32767;
         maxSslTableValue = 32767;
 	}
