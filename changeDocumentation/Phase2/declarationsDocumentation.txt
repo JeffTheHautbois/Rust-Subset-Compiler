@@ -1,3 +1,29 @@
+Declaration Change Documentation:
+
+Constants
+
+Where: parser.ssl ConstantDefinitions Rule block
+How: Replaced ';' loop choice for accepting multiple
+constant declaration with ',' Adds ';' check at default
+loop choice for end of Constant definitions.
+Why: PT Pascal allows multiple constant definition separated by
+';' where as Qust multiple constant definition is ',' separated.
+Qust also enforces ';' at the end of multiple constant definiton
+
+Types
+
+Where: parser.ssl TypesDefinitions, TypeBody, SimpleType Rule blocks
+How: Removed loop choice block in TypesDefinition and replaced with 
+single TypeBody declaration. Removed '..' choice block in TypeBody 
+and add '[' choice for array range definition. Replaced '..' choice 
+block with ':' in SimpleType for array range definition. 
+Removed '( .. )' block in SimpleType.
+Why: PT Pascal allows multiple type declaration separated by ';'.
+Qust types can only be declared one at the time. Array declaration
+in PT pascal has begin and end index, where as in Qust it is 
+declared by size.
+
+
 Changes: 
     - All changes were made inside of parser.ssl
         - ConstantDefinitions Rule
