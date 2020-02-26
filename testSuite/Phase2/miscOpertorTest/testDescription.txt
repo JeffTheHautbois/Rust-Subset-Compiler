@@ -1,0 +1,16 @@
+This set of tests checks the changes as described in "operatorDocumentation"
+in changeDocumentation/Phase2. Each operator change is tested by checking if
+the new operator behaves as expected and the old operator no longer provides
+it's original functionality.
+
+For example: newEqualsPass.pt produces what we expect if an assigment operation
+is registered and olfEqualsFails.pt produces what we expect if no assignment 
+operationis registered.
+
+This same logic applys across all the test cases. 
+
+Some cases have been omitted such as oldEqualityFail.pt because the old 
+equality operator is the new equals operator and therefore has already been 
+tested in this section. Others have been omitted such as the '=>' or the '+=' 
+operator as they have been tested in other sections and '{' has effectivly 
+been tested in every test program.  

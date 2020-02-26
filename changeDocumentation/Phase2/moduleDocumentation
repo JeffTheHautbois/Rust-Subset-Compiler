@@ -1,0 +1,6 @@
+The following changes were made in parser.ssl inside the block rule to introduce Qust's modules. 
+Something of this form did not exist in PT and as such nothing was altered or removed, just added. 
+The change was simple an added case in the Block rule to look for the key work 'mod'. Following 
+this a check for the module's name is made (pIdentifier) followed by a check for it's curley 
+brackets which surround another Block call. Throughout this the appropriate semantic token are 
+emitted as per Qust's specifications. 
