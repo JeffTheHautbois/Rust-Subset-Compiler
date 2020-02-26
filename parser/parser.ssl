@@ -227,7 +227,7 @@ Block :
 		    ':'
 		    @Expression
 		    .sSubstring
-		|+:
+		|'+':
 		    @Expression
 	   	    .sAdd
                     .sExpnEnd

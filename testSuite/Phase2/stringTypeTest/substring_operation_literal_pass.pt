@@ -1,4 +1,6 @@
-mod main (output){"Hi there" / 1 :2;}
+mod main (output){
+	"Hi there" / 1 :2;
+}
 
 
 
