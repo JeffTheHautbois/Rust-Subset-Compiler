@@ -682,7 +682,14 @@ Term :
             | '*':
                 @Factor  .sMultiply
             | '/': %Changed to Qust Div
-                @Factor  .sDivide
+                @Factor 
+		    [
+			|':':
+			    @Factor
+			    .sSubstring
+			|'*': 
+			    .sDivide
+		    ]
             | '%': %Change to Qust mod
                 @Factor  .sModulus
             | '&&': %Change to Qust And

@@ -1,5 +1,5 @@
 mod main (output){
-	s = "Hi there";
+	s = s / 2 : 5;
 }
 
 
