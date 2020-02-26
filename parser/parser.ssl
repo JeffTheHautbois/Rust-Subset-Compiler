@@ -514,7 +514,6 @@ IfStmt :
             | *:
         ];
 
-
 WhileStmt :
         .sWhileStmt
         @Expression
@@ -590,21 +589,7 @@ LoopStmt : % Changed from PT Repeat Stmt to QUST Loop Stmt
 		';'
 		@Block '}'
 		.sLoopEnd;
-%        {
-%            [
-%                | 'break':
-%						[
-%							|'if':
-%									.sLoopBreakIf
-%									@Expression
-%									.sExpnEnd
-%									';'
-%							|*: >
-%						]
-%           	|*:  
-%		]
-%        @Block };
-
+		
 Expression :
         @SimpleExpression
         [
