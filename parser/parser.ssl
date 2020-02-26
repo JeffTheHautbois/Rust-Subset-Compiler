@@ -458,7 +458,7 @@ CallStmt :
         .sCallStmt
         .sIdentifier    % procedure identifier accepted in the Statement rule
         % accept zero or more actual parameters
-       
+      	'(' 
 	[
 		|')':	% This case added to check for empty param list
 		|*:
@@ -490,6 +490,7 @@ CallStmt :
 					>
 			]
 		}
+		')'
 	]
 	.sParmEnd
 	;

@@ -1,6 +1,6 @@
 //simple routine call statement from main
 mod main (output){
-	fn myFunc(input1: str, input2 :int){}
-	let mut a : str = "a", b :int = 10;
-	myFunc(a,b);
+	fn myFunc(input1: int, input2 :int){}
+	let b : int = 2;
+	myFunc(mut (1+2), b);
 }
