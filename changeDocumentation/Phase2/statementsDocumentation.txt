@@ -45,8 +45,8 @@ While Statements
 Where: Parser.ssl, whileStmt rule which is called by Block after consuming 'while'
 token. 
 How: Implementing a call to block, which includes a surrounding begin and 
-end in the output token stream, makes our if statement implementation
-non invasive in the semantic phase and successfully constructs if statements
+end in the output token stream, makes our while statement implementation
+non invasive in the semantic phase and successfully constructs while statements
 housed in QUST specified statement braces. The while statement call from block
 outputs .WhileStmt, handles the expression and outputs it's end, then expects
  '{', then a call to block handles all declarations and statements
