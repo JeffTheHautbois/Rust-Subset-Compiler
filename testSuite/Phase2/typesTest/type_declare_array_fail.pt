@@ -1,4 +1,4 @@
 // invalid array declaration from pt pascal
-mod main () {
-	let mut i : [10..10];
+mod main (output) {
+	type vector = array [1..25] of real;
 }

@@ -1,0 +1,27 @@
+In parser.ssl the way that routines are handeled was changed in a number of place.
+
+First, the PT 'procedure' keyword was Qust's 'fn' in the block rule as per Qust's 
+language specifications. In the Block rule an alternate case was also added for the
+'pub' keyword followed by a requred match for 'fn'. This allows for Qust routines to 
+be specified as public.
+
+Both paths for private and public routines in the block rule lead to the 
+ProcedureHeading which has also seen a number of changes to implement Qust's routines.
+First the case to allow for no '(' in PT was removed as Qust requires a no param input
+to still have an opening and closing round bracket. The next change introduces a case
+to allow for the no param simuation inside the round brackets. 
+
+The next change made in the ProcedureHeading rule was the modification of the existing
+case inside a loop to allow for mutable params as per Qust's specification. This was 
+done using Qust's 'mut' keywork for mutable variables instead  of PT's 'var' keyword 
+for variables. 
+
+The next change made was moving the type specification code into the cases of both the
+'mut' case and pIdentifier case for the param reading loop in ProcedureHeading. This was
+required so that the tokens associated with type specification could be emitted before
+the sMutable token.
+
+The final change was replacing the ';' PT procedure end token with the Qust '{' token
+before calling Block (instead of statement) and then expecting a closing '}'. This is all
+as per Qust's specifications for routines as they are expected to have any number of 
+declarations and statements inside the curly brackets.   

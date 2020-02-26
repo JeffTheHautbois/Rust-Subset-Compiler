@@ -1,16 +1,38 @@
-Changes: 
-    - All changes were made inside of parser.ssl
-        - ConstantDefinitions Rule
-            - Changed code to handle ',' instead of ';' for a list of const declarations
-        - TypeDefinitions Rule 
-            - Modified code to only accept one declaration per call
-        - TypeBody and SimpleType Rules
-            - Changed array syntax ('..') to '[ : ]'
-        - VariableDeclarations
-            - Essentially rewrote the entire Rule   
-                - To handle mutable and immutable variable declarations
-                - Accepts multiple variable declarations (mutable or immutable) with or without type, expressions, initial values (appropriately)
-    
+Declaration Change Documentation:
+
+Constants
+
+Where: parser.ssl ConstantDefinitions Rule block
+How: Replaced ';' loop choice for accepting multiple
+constant declaration with ',' Adds ';' check at default
+loop choice for end of Constant definitions.
+Why: PT Pascal allows multiple constant definition separated by
+';' where as Qust multiple constant definition is ',' separated.
+Qust also enforces ';' at the end of multiple constant definiton
+
+Types
+
+Where: parser.ssl TypesDefinitions, TypeBody, SimpleType Rule blocks
+How: Removed loop choice block in TypesDefinition and replaced with 
+single TypeBody declaration. Removed '..' choice block in TypeBody 
+and add '[' choice for array range definition. Replaced '..' choice 
+block with ':' in SimpleType for array range definition. 
+Removed '( .. )' block in SimpleType.
+Why: PT Pascal allows multiple type declaration separated by ';'.
+Qust types can only be declared one at the time. Array declaration
+in PT pascal has begin and end index, where as in Qust it is 
+declared by size.
+
+Let
+
+Where: parser.ssl VariableDeclarations
+How: Modified the entire VariableDeclarations Rule to handle mutable and immutable variable declarations and accept
+multiple variable declarations (mutable or immutable) with or without type, expressions, initial values (appropriately). 
+This was done by looping each part of the declarations and having condition (if statement) to handle the different cases. 
+Why: These changes were necessary for the let variable declarations in Qust, as many characters have been added, removed or modified.
+Especially, the many different ways to declare mutable or immutable variables in Qust. Many test cases were developed to test
+this functionality. 
+
 Test files:
     declaration_const_multi_fail.pt
         - This test checks to make sure multiple declarations no longer work with semicolons

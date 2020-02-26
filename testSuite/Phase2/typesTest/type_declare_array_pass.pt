@@ -1,2 +1,2 @@
 //proper array type declaration
-mod main(){let mut a: [int:10];}
+mod main(output){let mut a: [int:10];}

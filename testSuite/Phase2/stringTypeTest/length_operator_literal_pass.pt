@@ -1,1 +1,1 @@
-mod main (){? "This is fine"}
+mod main (output){? "This is fine"}
