@@ -458,30 +458,41 @@ CallStmt :
         .sCallStmt
         .sIdentifier    % procedure identifier accepted in the Statement rule
         % accept zero or more actual parameters
-        [
-            | '(':
-                {
-                    @Expression
-                    .sExpnEnd
-                    % allow a field width specification to occur in calls
-                    % to the standard procedures write and writeln
-                    [
-                        | ':':
-                            .sFieldWidth
-                            @Expression
-                            .sExpnEnd
-                        | *:
-                    ]
-                    [
-                        | ',':
-                        | *:
-                            >
-                    ]
-                }
-                ')'
-            | *:        % no actual parameters
-        ]
-        .sParmEnd;
+       
+	[
+		|')':	% This case added to check for empty param list
+		|*:
+		{
+			% Added a case to param checking loop to allow params to start
+			% with either 'mut' the param identifier name 
+			[
+				| 'mut':
+					@Expression
+					.sExpnEnd
+                    			 % allow a field width specification to occur in calls
+                   			 % to the standard procedures write and writeln
+                    			[
+                        			| ':':
+                            			.sFieldWidth
+                            			@Expression
+                            			.sExpnEnd
+                        			| *:
+                   			]
+					.sMutable
+				| *:
+					@Expression
+					.sExpnEnd
+			]
+			%check if we have more params or not
+			[
+				| ',':
+				| *:
+					>
+			]
+		}
+	]
+	.sParmEnd
+	;
 
 %BeginStmt : %Don't need
 %        .sBegin
