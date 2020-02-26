@@ -180,8 +180,6 @@ Output :
 		% break is only used for loop stmts).
 		.sBegin
 		{[                   %%TODO: Re-order case block for expected occurance
-		| *: 
-		    >
 		| 'const':
 		    .sConst
 		    @ConstantDefinitions
@@ -209,7 +207,7 @@ Output :
 		| pIf:
 		    @IfStmt
 		| pLoop:    
-		    %@LoopStmt        
+		    @LoopStmt        
 		| pMatch:
 		    @MatchStmt
 		| pWhile:
@@ -220,6 +218,8 @@ Output :
 		    pIdentifier.sIdentifier
 		    '{'
 		    @Block '}'
+		| *: 
+		    >
 		]}
 		.sEnd;
 	ConstantDefinitions :
@@ -579,7 +579,7 @@ MatchAlternative :
 LoopStmt : % Changed from PT Repeat Stmt to QUST Loop Stmt
 % ----Block contains a loop, and when called it handles 0-inf statements and declarations
 % ----Loop only has to consider the 'break if' sequence, semicolon and begin-end braces
-		.sRepeatStmt
+		.sLoopStmt
 		'{'
 		@Block
 		'break'
@@ -588,7 +588,8 @@ LoopStmt : % Changed from PT Repeat Stmt to QUST Loop Stmt
 		@Expression
 		.sExpnEnd
 		';'
-		@Block '}';
+		@Block '}'
+		.sLoopEnd;
 %        {
 %            [
 %                | 'break':
