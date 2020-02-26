@@ -1,0 +1,394 @@
+The test file ./declaration_let_multi_mutable_w_type_initial_exp_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sVar
+   .sIdentifier
+   .sIdentifier
+     .sIdentifier
+   .sInitialValue
+       .sInteger
+       .sInteger
+     .sAdd
+   .sExpnEnd
+   .sMutable
+  .sEnd 
+
+The test file ./declaration_let_mutable_w_type_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sVar
+   .sIdentifier
+     .sIdentifier
+   .sMutable
+  .sEnd
+ % .sNewLine 
+
+The test file ./declaration_let_multi_mutable_w_init_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sVar
+   .sIdentifier
+   .sMutable
+   .sIdentifier
+   .sInitialValue
+       .sInteger
+   .sExpnEnd
+   .sMutable
+  .sEnd
+ % .sNewLine 
+
+The test file ./declaration_let_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sVar
+   .sIdentifier
+  .sEnd 
+
+The test file ./declaration_type_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sType
+   .sIdentifier
+     .sIdentifier
+  .sEnd
+ % .sNewLine 
+
+The test file ./declaration_let_w_type_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sVar
+   .sIdentifier
+     .sIdentifier
+  .sEnd 
+
+The test file ./declaration_let_multi_mutable_w_type_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sVar
+   .sIdentifier
+   .sMutable
+   .sIdentifier
+     .sIdentifier
+   .sMutable
+  .sEnd 
+
+The test file ./declaration_let_w_type_init_exp_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sVar
+   .sIdentifier
+     .sIdentifier
+   .sInitialValue
+       .sInteger
+       .sInteger
+     .sAdd
+   .sExpnEnd
+  .sEnd 
+
+The test file ./declaration_let_multi_w_inital_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sVar
+   .sIdentifier
+   .sIdentifier
+   .sInitialValue
+       .sInteger
+   .sExpnEnd
+  .sEnd 
+
+The test file ./declaration_let_multi_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sVar
+   .sIdentifier
+   .sIdentifier
+  .sEnd 
+
+The test file ./declaration_const_multi_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sConst
+   .sIdentifier
+    .sInteger
+   .sIdentifier
+    .sInteger
+  .sEnd
+ % .sNewLine 
+
+The test file ./declaration_let_multi_mutable_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sVar
+   .sIdentifier
+   .sMutable
+   .sIdentifier
+   .sMutable
+  .sEnd 
+
+The test file ./declaration_let_multi_mutable_w_type_initial_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sVar
+   .sIdentifier
+   .sMutable
+   .sIdentifier
+     .sIdentifier
+   .sInitialValue
+       .sInteger
+   .sExpnEnd
+   .sMutable
+  .sEnd
+ % .sNewLine 
+
+The test file ./declaration_const_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sConst
+   .sIdentifier
+    .sInteger
+  .sEnd
+ % .sNewLine 
+
+The test file ./declaration_let_w_init_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sVar
+   .sIdentifier
+   .sInitialValue
+       .sInteger
+   .sExpnEnd
+  .sEnd 
+
+The test file ./declaration_let_mutable_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sVar
+   .sIdentifier
+   .sMutable
+  .sEnd 
+
+The test file ./declaration_let_mutable_w_type_init_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sVar
+   .sIdentifier
+     .sIdentifier
+   .sInitialValue
+       .sInteger
+   .sExpnEnd
+   .sMutable
+  .sEnd 
+
+The test file ./declaration_let_multi_w_type_initial_exp_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sVar
+   .sIdentifier
+   .sIdentifier
+     .sIdentifier
+   .sInitialValue
+       .sInteger
+       .sInteger
+     .sAdd
+   .sExpnEnd
+  .sEnd 
+
+The test file ./declaration_const_multi_fail.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sConst
+   .sIdentifier
+    .sInteger
+   .sAssignmentStmt
+   .sIdentifier
+       .sInteger
+   .sExpnEnd
+  .sEnd
+ % .sNewLine 
+
+The test file ./declaration_let_array_w_intial_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sVar
+   .sIdentifier
+    .sArray
+     .sIdentifier
+     .sRange
+       .sInteger
+  .sEnd 
+
+The test file ./declaration_var_fail.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sEnd 
+
+The test file ./declaration_let_multi_w_type_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sVar
+   .sIdentifier
+   .sIdentifier
+     .sIdentifier
+  .sEnd 
+
+The test file ./declaration_let_mutable_w_init_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sVar
+   .sIdentifier
+   .sInitialValue
+       .sInteger
+   .sExpnEnd
+   .sMutable
+  .sEnd 
+
+The test file ./declaration_let_w_type_init_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sVar
+   .sIdentifier
+     .sIdentifier
+   .sInitialValue
+       .sInteger
+   .sExpnEnd
+  .sEnd 
+
+The test file ./declaration_let_mutable_w_type_init_exp_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sVar
+   .sIdentifier
+     .sIdentifier
+   .sInitialValue
+       .sInteger
+       .sInteger
+     .sAdd
+   .sExpnEnd
+   .sMutable
+  .sEnd 
+
+The test file ./declaration_let_mutable_array_w_initial_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sVar
+   .sIdentifier
+    .sArray
+     .sIdentifier
+     .sRange
+       .sInteger
+   .sMutable
+  .sEnd 
+
+The test file ./declaration_let_multi_w_type_initial_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sVar
+   .sIdentifier
+   .sIdentifier
+     .sIdentifier
+   .sInitialValue
+       .sInteger
+   .sExpnEnd
+  .sEnd 
+
+The test file ./declaration_let_multi_mutables_w_type_initial_exp_pass.pt yeilded:
+  % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sVar
+   .sIdentifier
+   .sMutable
+   .sIdentifier
+     .sIdentifier
+   .sInitialValue
+       .sInteger
+       .sInteger
+     .sAdd
+   .sExpnEnd
+   .sMutable
+  .sEnd
+ % .sNewLine 
+
