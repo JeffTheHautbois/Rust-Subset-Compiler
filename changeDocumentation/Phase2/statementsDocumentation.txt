@@ -59,8 +59,24 @@ Loop Statement
 
 Where: Parser.ssl, loopStmt rule which is called by Block after consuming 'loop'
 token. 
+How: Two calls to block specifying the begin and end of each block inside the loop statement,
+while the begin and end braces of the loop and break statement are expected
+to be handled in the loop rule itself. Calling block before
+and after the break if statment seperates the statements and declarations 
+inside the loop braces. The break if statement on the other hand when detected
+calls expression and expects a semicolon afterwards as specified in QUST guide.
+Why: Break if can appear at the start, end or middle of declarations and statements
+in the loop statement, so it is checked for after a call to block handling all 
+above and a call to block follows the check to handle all statements afterwards, any
+extra break ifs or would not be consumed and error recovery would be initiated, this 
+is also true for a loop without an end condition. 
 
 Optional Semicolons
+Where: Parser.ssl, other statements specified by Professor Cordy (if, loop, while, match)
+How: Choice at the end of the associated statement rules that checks for semicolon after the
+end brace, consumes it and outputs a null statement, otherwise it does not output anything. 
+Why: In QUST, it is optional to have a semicolon following other statement braces, and a 
+nullstmt output is reccomended for ignoring it. 
 
 Short-Form Assignment Statements '+=' and '-='
 
