@@ -61,3 +61,24 @@ Where: Parser.ssl, loopStmt rule which is called by Block after consuming 'loop'
 token. 
 
 Optional Semicolons
+
+Short-Form Assignment Statements '+=' and '-='
+
+Where: Parser.ssl, AssignmentOrCallstmt Rule
+How: Implemented two extra choices inside the pre-existing choice block so 
+'+=' and '-=' outputs the .sIdentifier token twice instead of once  before
+calling @Expression and outputing .sExpnEnd, maintaining the semantic
+output to be the same as regular assignment (e.g i += 10 => i = i + 10)
+Why: Qust supports short-form assignment while PT Pascal does not. This 
+implementation is non invasive, help minimize the changes needed in the 
+semantic analyzer phase.
+
+Call Statement
+Where: Parser.ssl, CallStmt Rule
+How: Modified rule to always check for '(' in the beginning and ')' at the end
+adds additional loop choice to check for option 'mut' keyword before each param
+expression. Remove choice with no '(' ')' in CallStmt Rule
+Why: Qust call statement must be followed by '()' even if the function called
+accepts no parameters, where as in PT Pascal the '()' is optional. Parameters 
+passed into the call statment in Qust can also be 'mut' hence the extra choice
+for checking mutable expressions.
