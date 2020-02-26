@@ -218,6 +218,20 @@ Output :
 		    pIdentifier.sIdentifier
 		    '{'
 		    @Block '}'
+		|pStringLiteral:
+            % Handle substring operator
+            .sStringLiteral
+            [
+                |'/':
+        			@Expression
+                    ':'
+                    @Expression
+                    .sSubstring
+            ]
+    	|'?':
+    	    % Handle length operator 
+    	    pStringLiteral .sStringLiteral
+    	    .sLength
 		| *: 
 		    >
 		]}
