@@ -1,0 +1,63 @@
+If Statements
+
+Where: Parser.ssl, IfStmt rule which is called by Block after consuming 'if'
+token. 
+How: Implementing a call to block, which includes a surrounding begin and 
+end in the output token stream, makes our if statement implementation
+non invasive in the semantic phase and successfully constructs if statements
+housed in QUST specified statement braces. The if statement call from block
+outputs .ifStmt, handles the if expression and outputs it's end, then expects '{', then a call to block handles all declarations and statements
+nested inside, and concludes with a '}' closing brace. 
+Why: This implementation is non invasive, and the test trace outputs show
+the the remaining begin and end outputs. 
+
+If-Else Statements
+Where: Parser.ssl, IfStmt rule which is called by Block after consuming 'if'
+token. 
+How: Implementing a call to block, which includes a surrounding begin and 
+end in the output token stream, makes our if statement implementation
+non invasive in the semantic phase and successfully constructs if statements
+housed in QUST specified statement braces. The if statement call from block
+outputs .ifStmt, handles the if expression and outputs it's end, then expects
+ '{', then a call to block handles all declarations and statements
+nested inside, and concludes with a '}' closing brace. This is then followed
+by a choice statement which detects the 'else' keyword followed by a '{' and 
+outputs .sElse and then handles the associated declaration and statements 
+by once againimplementing block. 
+Why: This implementation is non invasive, and the test trace outputs show
+the the remaining begin and end outputs. This implementation is also simple
+with minimized repition due to the implementation of the Block rule call.
+
+Else-If Statements
+
+Where: Parser.ssl, IfStmt rule which is called by Block after consuming 'if'
+token. 
+How: Please see If-Else Statement documentation above first. In the same
+choice rule detecting the else, an addition 'if' detection is added after 'else'
+which triggers a recursive ifStmt rule call that handles the else if QUST
+implementation as a nested if statement preceeded by an else. 
+Why: In this method, we will not have to implement else if in the semantic 
+phase since it will not be seen. This reduction in modification is an efficient
+method that satisifies the QUST language Else-If clause. 
+
+While Statements
+
+Where: Parser.ssl, whileStmt rule which is called by Block after consuming 'while'
+token. 
+How: Implementing a call to block, which includes a surrounding begin and 
+end in the output token stream, makes our if statement implementation
+non invasive in the semantic phase and successfully constructs if statements
+housed in QUST specified statement braces. The while statement call from block
+outputs .WhileStmt, handles the expression and outputs it's end, then expects
+ '{', then a call to block handles all declarations and statements
+nested inside, and concludes with a '}' closing brace.
+Why: Using a call to block handles the begin and end conditions while expression
+handles the while expression. Similar to if, the PT parser is modified in a 
+minor way to handle QUST braces and syntax. 
+
+Loop Statement
+
+Where: Parser.ssl, loopStmt rule which is called by Block after consuming 'loop'
+token. 
+
+Optional Semicolons
