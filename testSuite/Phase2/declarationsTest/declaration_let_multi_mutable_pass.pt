@@ -1,4 +1,2 @@
-//multi variable declaration
-mod main (){
-	let mut v:int, c:int;
-}
+//multi variable declarations
+mod main (output){let mut v, mut c;}

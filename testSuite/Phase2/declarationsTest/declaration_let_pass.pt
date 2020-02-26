@@ -1,4 +1,2 @@
-mod main ()
-{
-	let n : int;
-}
+//immutable variable declaration
+mod main (output){let v;}

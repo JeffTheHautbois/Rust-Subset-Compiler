@@ -1,0 +1,2 @@
+//multi variable declarations with mutable type and initial value
+mod main (output){let  v, mut c : int = 1 + 2;}

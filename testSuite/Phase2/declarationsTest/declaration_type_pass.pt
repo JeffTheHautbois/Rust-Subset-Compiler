@@ -1,0 +1,2 @@
+// Test for simple type declaration
+mod main (output) {type t = int;}

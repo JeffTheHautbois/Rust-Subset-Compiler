@@ -294,7 +294,7 @@ Output :
 		% or a subrange type specification
 		[
 		    | pIdentifier:
-			.sIdentifier
+				.sIdentifier
 			[
 			    | ':': %---changed '..' to ':'
 				.sRange         %% this may be unnecessary
@@ -321,46 +321,42 @@ Output :
 
 VariableDeclarations :
 	% Accept one or more variable declarations.
-	[
-            % Accept mutable variables
-            | pMut:
-               pIdentifier  .sIdentifier
-                ':' @TypeBody
-                % Handle single and multiple declarations or initial values
-                {[
-                    | '=':
-                        .sInitialValue
-                        @Expression
-                        .sExpnEnd
-                        
-                    |',':
-                        pIdentifier
-                        .sIdentifier
-                        ':' @TypeBody
-                    |*:
-                        ';'
-                        >
-                ]}
-                .sMutable %--- emit .sMutable token at the end
-            %--- Non mutable variable declaration choice is added
-            | *:
-                pIdentifier  .sIdentifier
-                ':' @TypeBody
-                % Handle single and multiple declarations or initial values
-                {[
-                    | '=':
-                        .sInitialValue
-                        @Expression
-				        .sExpnEnd
-                    |',':
-                        pIdentifier
-                        .sIdentifier
-                        ':' @TypeBody
-                    |*:
-                        ';'
-                        >
-                ]}
-        ];
+	{[
+        % Accept mutable variables
+        | pMut:
+            pIdentifier  .sIdentifier
+            {[
+                |':':
+					@TypeBody
+				|'=':
+					.sInitialValue
+                    @Expression
+                    .sExpnEnd
+				|',':
+					>
+				|*:
+					>
+            ]}
+			.sMutable
+		|';':
+			>
+        % Accept immutable variables
+        | *:
+			pIdentifier  .sIdentifier
+            {[
+                |':':
+					@TypeBody
+				|'=':
+					.sInitialValue
+                    @Expression
+                    .sExpnEnd
+				|',':
+					>
+				|*:
+					>
+            ]}
+    ]};
+
 ProcedureHeading :
 	% This is the routine handling section (PT procedure, or Qust functions) 
 	% Accept zero or more procedure formal parameter declarations.

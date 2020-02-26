@@ -1,0 +1,2 @@
+//multi variable declarations with type with intial value (expression)
+mod main (output){let mut v, mut c : str = 5+5;}

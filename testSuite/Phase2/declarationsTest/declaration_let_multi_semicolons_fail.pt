@@ -1,3 +1,0 @@
-mod main (){
-	let v : int; w : int;
-}

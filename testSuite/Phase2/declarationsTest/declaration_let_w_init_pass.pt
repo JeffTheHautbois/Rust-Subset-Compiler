@@ -1,4 +1,2 @@
-//variable declaration with inital value
-mod main () {
-	let n : int = 64;
-}
+//immutable variable declaration with initial value
+mod main (output){let v = 5;}
