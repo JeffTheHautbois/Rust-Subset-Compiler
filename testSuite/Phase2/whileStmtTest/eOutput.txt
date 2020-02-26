@@ -1,0 +1,37 @@
+The test file ./whileStatementPass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sWhileStmt
+       .sInteger
+       .sInteger
+    .sLT
+   .sExpnEnd
+   % .sNewLine
+    .sBegin
+    .sEnd
+   % .sNewLine
+  .sEnd
+ % .sNewLine 
+
+The test file ./WhileStatementSemicolonPass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sWhileStmt
+       .sInteger
+       .sInteger
+    .sLT
+   .sExpnEnd
+   % .sNewLine
+    .sBegin
+    .sEnd
+   % .sNewLine
+   .sNullStmt
+  .sEnd
+ % .sNewLine 
+

@@ -1,0 +1,58 @@
+The test file ./length_operator_literal_pass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sStringLiteral
+  .SLength
+  .sEnd
+ % .sNewLine 
+
+The test file ./substring_operation_literal_pass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+  .sStringLiteral
+      .sInteger
+      .sInteger
+  .sSubstring
+  .sEnd 
+
+The test file ./substring_operator_datatype_pass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sAssignmentStmt
+   .sIdentifier
+       .sIdentifier
+       .sInteger
+       .sInteger
+      .sSubstring
+   .sExpnEnd
+  % .sNewLine
+  .sEnd
+ % .sNewLine
+ % .sNewLine
+ % .sNewLine
+ % .sNewLine 
+
+The test file ./string_concat_pass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+  .sStringLiteral
+      .sStringLiteral
+      % .sNewLine
+      .sInteger
+     .sMultiply
+  .sAdd
+  .sExpnEnd
+  .sEnd
+ % .sNewLine 
+

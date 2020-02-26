@@ -133,7 +133,10 @@
         Program = 0;
         Block = 34;
 <<<<<<< HEAD
+=======
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> Phase2
         ConstantDefinitions = 191;
         TypeDefinitions = 281;
         VariableDeclarations = 359;
@@ -153,6 +156,14 @@
         MatchAlternative = 740;
         SimpleExpression = 871;
         Term = 924;
+<<<<<<< HEAD
+        Factor = 987;
+        IdentifierExtension = 1041;
+        }
+
+        { S/SL Table Parameters } {
+        sslTblSize = 1071;
+=======
         Factor = 968;
         IdentifierExtension = 1022;
         }
@@ -212,6 +223,7 @@
 
         { S/SL Table Parameters } {
         sslTblSize = 1007;
+>>>>>>> Phase2
 >>>>>>> Phase2
         minSslTableValue = -32767;
         maxSslTableValue = 32767;

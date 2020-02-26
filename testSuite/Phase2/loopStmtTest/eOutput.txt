@@ -1,0 +1,45 @@
+The test file ./loopStatementSemicolonPass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sLoopStmt
+   % .sNewLine
+    .sBegin
+    .sEnd
+   .sLoopBreakIf
+       .sInteger
+       .sInteger
+    .sEq
+   .sExpnEnd
+   % .sNewLine
+    .sBegin
+    .sEnd
+   .sNullStmt
+   .sLoopEnd
+  .sEnd
+ % .sNewLine 
+
+The test file ./loopStatementPass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sLoopStmt
+   % .sNewLine
+    .sBegin
+    .sEnd
+   .sLoopBreakIf
+       .sInteger
+       .sInteger
+    .sEq
+   .sExpnEnd
+   % .sNewLine
+    .sBegin
+    .sEnd
+   .sLoopEnd
+  .sEnd
+ % .sNewLine 
+

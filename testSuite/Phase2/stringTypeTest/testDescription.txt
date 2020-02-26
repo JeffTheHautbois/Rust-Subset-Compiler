@@ -1,0 +1,5 @@
+The expected tokens for the string length operation are sStringLiteral followed by the sLength token.
+
+For the substring operation we expect the sStringLiteral or a sIdentifier followed by the integers tokens associated with the operation and then finally a sSubstring token.
+
+String concatination expects a postfix stream of tokens starting with a pstring literal followed any number of sIdentifiers, sIntegers, or sStringLiterals and then the associated post fix operators. 
