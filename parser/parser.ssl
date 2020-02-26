@@ -502,10 +502,17 @@ IfStmt :
         %'then'  .sThen %Then is not used in QUST, removed
         '{' %if statement braces with a block call to handle content
         @Block '}'
+		[
+			!';':
+				.sNullStmt %Optional semicolon as nullstmt output
+			|*:
+		]
+
         [
             | 'else': % ----Added nested else if condition as pointed to in A2 instructions
                     [
                     |'if':
+						.sElse
                         @IfStmt
                     |'{':
                        .sElse
@@ -520,7 +527,12 @@ WhileStmt :
         .sExpnEnd
         '{'
         %'do' do is not used in QUST, removed
-        @Block '}'; % ----Expect ending brace after Block loop exit.
+        @Block '}' % ----Expect ending brace after Block loop exit.
+		[
+			!';':
+				.sNullStmt %Optional semicolon as nullstmt output
+			|*:
+		]; 
 
 MatchStmt :
         .sCaseStmt
@@ -588,6 +600,11 @@ LoopStmt : % Changed from PT Repeat Stmt to QUST Loop Stmt
 		.sExpnEnd
 		';' %Semicolon is expected at the end of break if expression.
 		@Block '}' % ----Expect ending brace after Block loop exit.
+		[
+			!';':
+				.sNullStmt %Optional semicolon as nullstmt output
+			|*:
+		]
 		.sLoopEnd;
 		
 Expression :
