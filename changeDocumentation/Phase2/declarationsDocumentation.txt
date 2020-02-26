@@ -1,0 +1,90 @@
+Changes: 
+    - All changes were made inside of parser.ssl
+        - ConstantDefinitions Rule
+            - Changed code to handle ',' instead of ';' for a list of const declarations
+        - TypeDefinitions Rule 
+            - Modified code to only accept one declaration per call
+        - TypeBody and SimpleType Rules
+            - Changed array syntax ('..') to '[ : ]'
+        - VariableDeclarations
+            - Essentially rewrote the entire Rule   
+                - To handle mutable and immutable variable declarations
+                - Accepts multiple variable declarations (mutable or immutable) with or without type, expressions, initial values (appropriately)
+    
+Test files:
+    declaration_const_multi_fail.pt
+        - This test checks to make sure multiple declarations no longer work with semicolons
+        Expected Output: FAIL (Error is caught)
+    declaration_const_multi_pass.pt
+        - This test checks to make sure multiple declarations are working with commas
+        Expected Output: PASS (Parses Successfully)
+    declaration_const_pass.pt
+        - This test checks if single const variable declaration works.
+        Expected Output: PASS (Parses Successfully)
+    declaration_let_array_w_intial_pass.pt
+        - This test checks the let immutable variable declaration with array
+        Expected Output: PASS (Parses Successfully)
+    declaration_let_multi_mutable_pass.pt
+        - This test checks the let mutable variable declaration with multiple declarations
+        Expected Output: PASS (Parses Successfully)
+    declaration_let_multi_mutable_w_init_pass.pt
+        - This test checks the let mutable variable declaration with multiple declarations
+        Expected Output: PASS (Parses Successfully)
+    declaration_let_multi_mutable_w_type_initial_exp_pass.pt
+        - This test checks the let mutable variable declaration with multiple declarations with type and initial value
+        Expected Output: PASS (Parses Successfully) 
+    declaration_let_multi_mutable_w_type_pass.pt
+        - This test checks the let mutable variable declaration with multiple declarations with type
+        Expected Output: PASS (Parses Successfully) 
+    declaration_let_multi_mutables_w_type_initial_exp_pass.pt
+        - This test checks the let mutable variable declaration with multiple declarations with type and initial value as an expression
+        Expected Output: PASS (Parses Successfully) 
+    declaration_let_multi_pass.pt
+        - This test checks to make sure multiple declarations of immutable variables work
+        Expected Output: PASS (Parses Successfully) 
+    declaration_let_multi_w_inital_pass
+        - This test checks to make sure multiple declarations of immutable variables work with initial values
+        Expected Output: PASS (Parses Successfully)
+    declaration_let_multi_w_type_initial_exp_pass.pt
+        - This test checks to make sure multiple declarations of immutable variables work with initial values as expressions
+        Expected Output: PASS (Parses Successfully)
+    declaration_let_multi_w_type_initial_pass.pt
+        - This test checks to make sure multiple declarations of immutable variables work with type and initial values
+        Expected Output: PASS (Parses Successfully)
+    declaration_let_mutable_array_w_initial_pass.pt
+        - This test checks the let mutable variable declaration with array 
+        Expected Output: PASS (Parses Successfully)
+    declaration_let_mutable_pass.pt
+        - This test checks a single let mutable variable declaration 
+        Expected Output: PASS (Parses Successfully)
+    declaration_let_mutable_w_init_pass.pt
+        - This test checks a single let mutable variable declaration with inital value
+        Expected Output: PASS (Parses Successfully)
+    declaration_let_mutable_w_type_init_exp_pass.pt
+        - This test checks a single let mutable variable declaration with inital value as expression
+        Expected Output: PASS (Parses Successfully)
+    declaration_let_mutable_w_type_init_pass.pt
+        - This test checks a single let mutable variable declaration with type and inital value
+        Expected Output: PASS (Parses Successfully)
+    declaration_let_pass.pt
+        - This test checks a single let immutable variable declaration
+        Expected Output: PASS (Parses Successfully)
+    declaration_let_w_init_pass.pt
+        - This test checks a single let immutable variable declaration with initial value
+        Expected Output: PASS (Parses Successfully)
+    declaration_let_w_type_init_exp_pass.pt
+        - This test checks a single let immutable variable declaration with type and initial value as expression
+        Expected Output: PASS (Parses Successfully)
+    declaration_let_w_type_init_pass.pt
+        - This test checks a single let immutable variable declaration with type and initial value
+        Expected Output: PASS (Parses Successfully)
+    declaration_let_w_type_pass.pt
+         - This test checks a single let immutable variable declaration with type
+        Expected Output: PASS (Parses Successfully)
+    declaration_type_pass.pt
+        - This test checks a single let immutable variable declaration with type
+        Expected Output: PASS (Parses Successfully)
+    declaration_var_fail.pt
+     - This test checks a single let immutable variable declaration using var, not longer works
+        Expected Output: FAIL (Error is caught)
+        
