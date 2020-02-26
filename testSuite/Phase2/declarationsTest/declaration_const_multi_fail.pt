@@ -1,4 +1,2 @@
-mod main (){
-const t=2;
-a=3;
-}
+// Test for multi-const declarations with semi-colons (FAIL)
+mod main (output){const t=2; a=3;}

@@ -1,1 +1,2 @@
-mod main(){const t = 2, v = 3;}
+// Test for multi-const declarations
+mod main(output){const t = 2, v = 3;}

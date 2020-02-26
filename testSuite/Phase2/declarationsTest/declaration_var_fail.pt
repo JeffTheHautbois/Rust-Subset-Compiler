@@ -1,3 +1,2 @@
-mod main (){
-	var  mut v : int;
-}
+// Test to make sure 'var' keyword is no longer supported
+mod main (){var  mut v : int;}
