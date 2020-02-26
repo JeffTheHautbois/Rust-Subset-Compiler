@@ -507,7 +507,7 @@ IfStmt :
         .sIfStmt
         @Expression
         .sExpnEnd
-        %'then'  .sThen %Then is not used in QUST, removed
+        .sThen %Then is not used in QUST, but keeping as done in Phase2 instructions
         '{' %if statement braces with a block call to handle content
         @Block '}'
 		[
