@@ -1,0 +1,10 @@
+Token Definitions
+
+Where: Parser.ssl input section
+How: Copied the output of Scan.ssl from previous phase, adding synynoms 
+for the recognized tokens.
+Why: In order for the flow of compilation to be logical and conclusive,
+the previous phase lexical analysis tokens represent the input to the 
+syntactic analysis section of the parser phase. Adding synynoms makes
+the S/SL program easier to read and provides clarity to the functionality
+of our rules. 
