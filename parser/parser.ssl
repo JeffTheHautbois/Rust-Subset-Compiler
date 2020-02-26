@@ -402,7 +402,7 @@ ProcedureHeading :
 	'{'
 	@Block '}'; 
 
-%Statement : %Don't need
+%Statement : % No longer needed, functionality transferred to Block rule with appropirate QUST input changes
 %        [
 %            | pIdentifier:
 %                @AssignmentOrCallStmt
@@ -483,7 +483,7 @@ CallStmt :
         ]
         .sParmEnd;
 
-%BeginStmt : %Don't need
+%BeginStmt : %No longer needed, QUST program elements requiring Begin and End conditions are independently enforced in associated rules and block calls. 
 %        .sBegin
 %        {
 %            @Statement
@@ -499,17 +499,17 @@ IfStmt :
         .sIfStmt
         @Expression
         .sExpnEnd
-        %'then'  .sThen %commenting this out
-        '{'
+        %'then'  .sThen %Then is not used in QUST, removed
+        '{' %if statement braces with a block call to handle content
         @Block '}'
         [
-            | 'else': 
+            | 'else': % ----Added nested else if condition as pointed to in A2 instructions
                     [
                     |'if':
                         @IfStmt
                     |'{':
                        .sElse
-                       @Block '}'
+                       @Block '}' % ----Expect ending brace after Block loop exit.
                     ]
             | *:
         ];
@@ -519,8 +519,8 @@ WhileStmt :
         @Expression
         .sExpnEnd
         '{'
-        %'do' Commenting this out, not necessary
-        @Block '}';
+        %'do' do is not used in QUST, removed
+        @Block '}'; % ----Expect ending brace after Block loop exit.
 
 MatchStmt :
         .sCaseStmt
@@ -560,7 +560,7 @@ MatchAlternative :
 	];				% and allowed for statements 
 					% and declarations.
 
-%RepeatStmt :
+%RepeatStmt : %PT Repeat statement removed to be replaced by QUST loop statement.
 %        .sRepeatStmt
 %        {
 %            @Statement
@@ -581,21 +581,21 @@ LoopStmt : % Changed from PT Repeat Stmt to QUST Loop Stmt
 		.sLoopStmt
 		'{'
 		@Block
-		'break'
+		'break' %Force a break if 
 		'if'
 		.sLoopBreakIf
 		@Expression
 		.sExpnEnd
-		';'
-		@Block '}'
+		';' %Semicolon is expected at the end of break if expression.
+		@Block '}' % ----Expect ending brace after Block loop exit.
 		.sLoopEnd;
 		
 Expression :
         @SimpleExpression
         [
-            | '==': %Changed to Qust Operator
+            | '==': %Changed to Qust Eq Operator
                 @SimpleExpression  .sEq
-            | '!=': %Changed to Qust Operator
+            | '!=': %Changed to Qust Not Operator
 
                 @SimpleExpression  .sNE
             | '<':
