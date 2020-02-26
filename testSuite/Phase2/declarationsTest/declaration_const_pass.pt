@@ -1,2 +1,2 @@
-// Test for simple const declaration
+// Test for single const declaration
 mod main (output) {const t = 2;}
