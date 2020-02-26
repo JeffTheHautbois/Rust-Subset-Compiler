@@ -1,16 +1,14 @@
-Changes: 
-    - All changes were made inside of parser.ssl
-        - ConstantDefinitions Rule
-            - Changed code to handle ',' instead of ';' for a list of const declarations
-        - TypeDefinitions Rule 
-            - Modified code to only accept one declaration per call
-        - TypeBody and SimpleType Rules
-            - Changed array syntax ('..') to '[ : ]'
-        - VariableDeclarations
-            - Essentially rewrote the entire Rule   
-                - To handle mutable and immutable variable declarations
-                - Accepts multiple variable declarations (mutable or immutable) with or without type, expressions, initial values (appropriately)
-    
+Where: All changes were made inside of parser.ssl
+(ConstantDefinitions,TypeDefinitions, TypeBody, SimpleType, VariableDeclarations)
+How: Changed ConstantDefinitions Rule to handle ',' instead of ';' for a list of const declarations 
+Modified TypeDefinitions to only accept one declaration per call
+Changed array syntax ('..') to '[ : ]' (in TypeBody Rule)
+Modified the entire VariableDeclarations Rule to handle mutable and immutable variable declarations and accept
+multiple variable declarations (mutable or immutable) with or without type, expressions, initial values (appropriately)
+Why: These changes were necessary for variable declarations in Qust, as many characters have been added, removed or modified.
+Especially, the many different ways to declare mutable or immutable variables in Qust. Many test cases were developed to test
+this functionality. 
+
 Test files:
     declaration_const_multi_fail.pt
         - This test checks to make sure multiple declarations no longer work with semicolons
