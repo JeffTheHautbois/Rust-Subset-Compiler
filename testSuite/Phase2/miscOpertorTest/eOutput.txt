@@ -1,0 +1,234 @@
+The test file ./newNotEqualPass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sIfStmt
+           .sIdentifier
+           .sInteger
+        .sNE
+   .sExpnEnd
+    .sBegin
+    .sEnd
+   % .sNewLine
+  .sEnd
+ % .sNewLine 
+
+The test file ./oldNotEqualsFail.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sIfStmt
+           .sIdentifier
+        .sLT
+   .sExpnEnd
+    .sBegin
+    .sEnd
+  .sEnd 
+
+The test file ./newOrPass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sIfStmt
+           .sIdentifier
+           .sInteger
+         .sInfixOr
+           .sIdentifier
+         .sOr
+        .sEq
+   .sExpnEnd
+    .sBegin
+    .sEnd
+  .sEnd 
+
+The test file ./oldEqulsFail.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+    .sCallStmt
+    .sIdentifier
+    .sExpnEnd
+    .sParmEnd
+  % .sNewLine
+  .sEnd
+ % .sNewLine 
+
+The test file ./oldModFail.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sAssignmentStmt
+   .sIdentifier
+       .sInteger
+   .sExpnEnd
+  .sEnd 
+
+The test file ./newEqualityPass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sIfStmt
+           .sIdentifier
+           .sInteger
+        .sEq
+   .sExpnEnd
+    .sBegin
+    .sEnd
+   % .sNewLine
+  .sEnd
+ % .sNewLine 
+
+The test file ./newDivPass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sAssignmentStmt
+   .sIdentifier
+       .sInteger
+       .sInteger
+      .sDivide
+   .sExpnEnd
+  % .sNewLine
+  .sEnd
+ % .sNewLine 
+
+The test file ./newModPass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sAssignmentStmt
+   .sIdentifier
+       .sInteger
+       .sInteger
+      .sModulus
+   .sExpnEnd
+  % .sNewLine
+  .sEnd 
+
+The test file ./oldDivFail.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sAssignmentStmt
+   .sIdentifier
+       .sInteger
+   .sExpnEnd
+  .sEnd 
+
+The test file ./newNotPass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sIfStmt
+           .sIdentifier
+           .sInteger
+         .sInfixOr
+            .sIdentifier
+           .sNot
+         .sOr
+        .sEq
+   .sExpnEnd
+    .sBegin
+    .sEnd
+  .sEnd 
+
+The test file ./oldOrFail.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sIfStmt
+           .sIdentifier
+           .sInteger
+        .sEq
+   .sExpnEnd
+    .sBegin
+    .sEnd
+  .sEnd 
+
+The test file ./newEqualsPass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sAssignmentStmt
+   .sIdentifier
+       .sInteger
+   .sExpnEnd
+  % .sNewLine
+  .sEnd
+ % .sNewLine 
+
+The test file ./oldNotFail.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sIfStmt
+           .sIdentifier
+           .sInteger
+         .sInfixOr
+           .sIdentifier
+         .sOr
+        .sEq
+   .sExpnEnd
+    .sBegin
+    .sEnd
+  .sEnd 
+
+The test file ./oldAndFail.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sIfStmt
+           .sIdentifier
+           .sInteger
+        .sEq
+   .sExpnEnd
+    .sBegin
+    .sEnd
+  .sEnd 
+
+The test file ./newAndPass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sIfStmt
+           .sIdentifier
+           .sInteger
+          .sInfixAnd
+           .sIdentifier
+          .sAnd
+        .sEq
+   .sExpnEnd
+    .sBegin
+    .sEnd
+  .sEnd 
+

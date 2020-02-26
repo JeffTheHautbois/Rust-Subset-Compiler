@@ -1,0 +1,3 @@
+mod main(output){
+	if(x == 5 or x == 2){}
+}

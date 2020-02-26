@@ -1,0 +1,7 @@
+The block rule was changed in parser.ssl to allow for a mix of statements and declarations,
+which is a functional requirment of Qust. Before PT only allowed declarations at the start 
+of a block, followed by statements. This change was performed by moving all the cases from the 
+statement rule into the Block rule at the same case level. The statement rule was then removed.
+The sBegin token is also now emited at the beginning of a block and the sEnd token is emited at 
+the end of bock as per the functional requirments of Qust and our desire to minimize the changes
+needed at the semantic phase.   

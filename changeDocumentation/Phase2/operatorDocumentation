@@ -11,7 +11,7 @@ This also includes adding QUST left brace ("{"), right brace ("}"), plus equals 
 length operator '?', and changing PTs ':' to QUSTs '=>'.
 This change allows for new operators such as "!=","+=","-=".....etc that 
 exist in QUST but not PT to be parsed properly. Comments can be 
-found inside parse.ssl for all items removed and added
+found inside parser.ssl for all items removed and added
 
 Why: In order to maintain our non invasive PT to QUST transition the operators
 that required no extra functionality but just syntax change were simply swapped,
