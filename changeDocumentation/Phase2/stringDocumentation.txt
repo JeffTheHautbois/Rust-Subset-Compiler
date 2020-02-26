@@ -1,0 +1,13 @@
+Strings Documentation
+
+Where: parser.ssl Block rule, Term rule
+How: adds block choice for pStringLiteral '"' which calls 
+@Expression. adds choice in Term rule '/' divide choice to check
+for ':'. If ':' matches then the '/' operator no longer emits
+.sDivide, instead the choice looks for another @Factor
+and output .sSubstring instead.
+adds block choice '?' in Block rule expecting pStringLiteral
+and emit .sStringLiteral and .sLength tokens.
+Why: Qust supports string concatenation using '+', and string
+repetition using '*', speical '/' substring syntax, and '?' 
+for string length
