@@ -1,0 +1,15 @@
+The test file ./newModulePass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+  .sModule
+  .sIdentifier
+  % .sNewLine
+   .sBegin
+   .sEnd
+  % .sNewLine
+  .sEnd
+ % .sNewLine 
+

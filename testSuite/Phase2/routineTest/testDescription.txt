@@ -1,0 +1,9 @@
+The following tests for routine expect that a routine should output
+an sProcedure token followed by an sIdentifier so the routine name
+and following this an identifier for each paran, it's type and a mut
+token if applicable. These routines can also be public in which case
+sPublic is emited before the sParamEnd token. These tesks produce all
+this functionality as expected.
+
+There is also a test to check that the old "procedure" keywork does not work
+for the new Qust routines, which use the 'fn' keywork instead.

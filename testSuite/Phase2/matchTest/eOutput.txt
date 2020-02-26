@@ -1,0 +1,71 @@
+The test file ./oldSingleCaseFail.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+    .sCallStmt
+    .sIdentifier
+    .sExpnEnd
+    .sParmEnd
+  % .sNewLine
+  .sEnd 
+
+The test file ./newSingleMatchPass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sCaseStmt
+       .sIdentifier
+   .sExpnEnd
+   % .sNewLine
+      .sInteger
+    .sLabelEnd
+    % .sNewLine
+    % .sNewLine
+     .sBegin
+     .sEnd
+    % .sNewLine
+   % .sNewLine
+   .sCaseEnd
+  .sEnd
+ % .sNewLine 
+
+The test file ./newCompleteMatchPass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sCaseStmt
+       .sIdentifier
+   .sExpnEnd
+   % .sNewLine
+      .sInteger
+      .sInteger
+    .sLabelEnd
+    % .sNewLine
+    % .sNewLine
+     .sBegin
+     .sEnd
+    % .sNewLine
+      .sInteger
+    .sLabelEnd
+    % .sNewLine
+    % .sNewLine
+     .sBegin
+     .sEnd
+    % .sNewLine
+    .sCaseOtherwise
+    % .sNewLine
+    % .sNewLine
+     .sBegin
+     .sEnd
+    % .sNewLine
+   % .sNewLine
+   .sCaseEnd
+  .sEnd
+ % .sNewLine 
+

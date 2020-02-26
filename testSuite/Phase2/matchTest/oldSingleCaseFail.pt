@@ -1,0 +1,7 @@
+mod main(output){
+	case i {
+		| 42 => {
+			//Declaration or Statement
+		} 
+	}
+}

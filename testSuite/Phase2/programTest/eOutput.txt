@@ -1,0 +1,30 @@
+The test file ./nestedProgramsFail.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+  .sModule
+  .sIdentifier
+   .sBegin
+   .sEnd
+  .sEnd 
+
+The test file ./newProgramWithParamPass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sEnd
+ % .sNewLine 
+
+The test file ./newProgramWithMultiParamsPass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sIdentifier
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sEnd
+ % .sNewLine 
+

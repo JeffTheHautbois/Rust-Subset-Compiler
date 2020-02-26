@@ -1,0 +1,5 @@
+This set of tests is concerned with the funcationality of Qust programs.
+Only one referance to the main program is allowed (no nesting of programs)
+in a given file. The expected output of a program declaration starts with
+sProgram followed by sIdentifier tokens for all output params passed to
+the program. Finally all tokens associated with a block follow.

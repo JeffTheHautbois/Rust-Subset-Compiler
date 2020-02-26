@@ -1,4 +1,4 @@
-mod main(){
+mod main(output){
 	match i {
 	    | 42 | 43 => {
 		    //Declarations and statements

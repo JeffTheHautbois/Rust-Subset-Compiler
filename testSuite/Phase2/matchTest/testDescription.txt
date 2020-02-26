@@ -1,0 +1,10 @@
+The test cases found in this directroy show the new workings of the case structure for Qust. 
+
+Expected output of the pass tests start with an sCaseStmt token followed by tokens for some 
+expression. For each case in the match stmt we then expect a set of 1 or more integers, 
+followed by an sLabelEnd and then all toekns associated with a Block. After all standard cases 
+in the match stmt have finished we may have an 'otherwise' match which emits sCaseOtherwise 
+followed by Block tokens. This is all produced by the pass tests as expected.
+
+Fail test uses the "case" keywork from PT which has been removed. As expected the failure case
+does not emit an sCaseStmt token.

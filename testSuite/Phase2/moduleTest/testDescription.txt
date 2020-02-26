@@ -1,0 +1,6 @@
+The tests in the local directory are made for modules which are new to Qust.
+Nothing of this type existed in PT so no removed functionality failure case
+test was written. In the parser the module is very sinple and there is only 
+one logical path so only one test is needed. As exected this test yeilds an
+sModule token followed by the an sIdentifier for the module name and then all
+token for the following Block.

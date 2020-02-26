@@ -1,0 +1,94 @@
+The test file ./routineWithMutParamPass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+  .sProcedure
+  .sIdentifier
+   .sIdentifier
+   .sIdentifier
+   .sMutable
+   .sParmEnd
+    .sBegin
+    .sEnd
+   % .sNewLine
+  .sEnd
+ % .sNewLine 
+
+The test file ./privateRoutinePass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+  .sProcedure
+  .sIdentifier
+   .sParmEnd
+    .sBegin
+    .sEnd
+   % .sNewLine
+  .sEnd
+ % .sNewLine 
+
+The test file ./publicRoutinePass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+  .sProcedure
+  .sIdentifier
+  .sPublic
+   .sParmEnd
+    .sBegin
+    .sEnd
+   % .sNewLine
+  .sEnd
+ % .sNewLine 
+
+The test file ./multiParamRoutinePass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+  .sProcedure
+  .sIdentifier
+   .sIdentifier
+   .sIdentifier
+   .sIdentifier
+   .sIdentifier
+   .sIdentifier
+   .sIdentifier
+   .sParmEnd
+    .sBegin
+    .sEnd
+   % .sNewLine
+  .sEnd
+ % .sNewLine 
+
+The test file ./singleParamRoutinePass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+  .sProcedure
+  .sIdentifier
+   .sIdentifier
+   .sIdentifier
+   .sParmEnd
+    .sBegin
+    .sEnd
+   % .sNewLine
+  .sEnd
+ % .sNewLine 
+
+The test file ./oldRoutineFail.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sBegin
+  .sEnd 
+
