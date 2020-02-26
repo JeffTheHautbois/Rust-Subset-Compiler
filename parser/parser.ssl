@@ -180,7 +180,7 @@ Output :
 		% break is only used for loop stmts).
 		.sBegin
 		{[                   %%TODO: Re-order case block for expected occurance
-		| *:
+		| *: 
 		    >
 		| 'const':
 		    .sConst
@@ -576,21 +576,34 @@ MatchAlternative :
 %        .sExpnEnd;
 %
 
-%LoopStmt : % Changed from PT Repeat Stmt to QUST Loop Stmt
-%        .sRepeatStmt
-%		'{'
+LoopStmt : % Changed from PT Repeat Stmt to QUST Loop Stmt
+% ----Block contains a loop, and when called it handles 0-inf statements and declarations
+% ----Loop only has to consider the 'break if' sequence, semicolon and begin-end braces
+		.sRepeatStmt
+		'{'
+		@Block
+		'break'
+		'if'
+		.sLoopBreakIf
+		@Expression
+		.sExpnEnd
+		';'
+		@Block '}';
 %        {
-%            @Block
 %            [
-%                | ';':
-%                | 'until':
-%                    .sRepeatEnd
-%                    >
-%            ]
-%        }
-%        @Expression
-%        .sExpnEnd;
-%
+%                | 'break':
+%						[
+%							|'if':
+%									.sLoopBreakIf
+%									@Expression
+%									.sExpnEnd
+%									';'
+%							|*: >
+%						]
+%           	|*:  
+%		]
+%        @Block };
+
 Expression :
         @SimpleExpression
         [
