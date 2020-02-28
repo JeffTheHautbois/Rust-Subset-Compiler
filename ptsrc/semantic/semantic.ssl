@@ -34,10 +34,15 @@ Input :
         sBegin
         sEnd
         sNegate
-        sArray
+        sModule		%Added Qust Module input 
+	sPublic		%Added Qust Public input
+	sMutable	%Added Qust Mutable input
+	sInitialValue	%Added Qust variable input token
+	sArray
         sFile
         sRange
         sCaseStmt
+	sCaseOtherwise	%Added Qust alternate case token
         sCaseEnd
         sLabelEnd
         sExpnEnd
@@ -50,9 +55,11 @@ Input :
         sThen
         sElse
         sWhileStmt
-        sRepeatStmt
-        sRepeatEnd
-        sEq
+	%Removed PT tokens RepeatStmt and RepeatEnd
+	sLoopStmt	%Added Qust loop token
+	sLoopBreakIf	%Added Qust loop breakIf token
+	sLoopEnd        %Added Qust loop end token
+	sEq
         sNE
         sLT
         sLE
@@ -66,6 +73,8 @@ Input :
         sInfixOr
         sOr
         sInfixAnd
+	sSubstring	%Added Qust substring token
+	sLength		%Added Qust length token
         sAnd
         sNot
         sNewLine
@@ -226,9 +235,9 @@ type PredeclaredId :
 
         % Predeclared type names
         firstPredeclaredType = firstPredeclaredId
-        pidInt = firstPredeclaredType	%changed from pidInteger -> pidInt
-        pidStr				%changed from pidChar -> pidStr
-        pidBoolean				%changed from pidBoolean -> pidBool
+        pidInteger = firstPredeclaredType	
+        pidChar				
+        pidBoolean				
         pidText
         lastPredeclaredType = pidText
 
@@ -237,8 +246,8 @@ type PredeclaredId :
         pidFalse
         pidReset
         pidRewrite
-        pidPrint	%change from pidWrite -> pidPrint
-        pidPrintln	%change from pidWriteln -> pidPrintln
+        pidWrite	
+        pidWriteln	
         pidRead
         pidReadln
         pidChr
@@ -255,9 +264,9 @@ type PredeclaredId :
         lastSpecialId = pidOutput;
 
 type StdType :
-        stdInt		% Integer -> Int
-        stdStr		% Char -> Str	
-        stdBool		% Boolean -> Bool
+        stdInteger	
+        stdChar			
+        stdBoolean		
         stdText;
 
 
@@ -830,7 +839,7 @@ ConstantValue :         % An identifier token has just been accepted
         [
             | sInteger:
                 oValuePushInteger
-                oSymbolStkLinkToStandardType(stdInteger)
+                %oSymbolStkLinkToStandardType(stdInteger) %%This line commented out because stdInteger was throwing and error
                 [
                     | sNegate:
                         oValueNegate
@@ -878,7 +887,7 @@ ConstantValue :         % An identifier token has just been accepted
                         #eNullString
                         @SymbolStkPushDefaultCharConstant
                     | one:
-                        oSymbolStkLinkToStandardType(stdChar)
+                        %oSymbolStkLinkToStandardType(stdChar)  %%This line commented out because stdChar was throwing and error
                         oSymbolStkEnterStringValue
                     | *:
                         % Emit a branch around the string since
@@ -895,7 +904,7 @@ ConstantValue :         % An identifier token has just been accepted
                         oFixPopForwardBranch
                         oTypeStkPush(tpPackedArray)     % means literal string
                         oTypeStkEnterBounds
-                        oTypeStkLinkToStandardComponentType(stdChar)
+                        %oTypeStkLinkToStandardComponentType(stdChar) %%This line commented out because stdInteger was throwing and error 
                         oTypeTblEnter
                         oSymbolStkEnterTypeReference
                         oTypeStkPop
@@ -1408,6 +1417,23 @@ Statement :
     	oSymbolTblPushScope
 	@Block
 	oSymbolTblPopScope;
+       % [
+       %     | sAssignmentStmt:
+       %         @AssignmentStmt
+       %     | sCallStmt:
+       %         @CallStmt
+       %     | sBegin:
+       %         @BeginStmt
+       %     | sIfStmt:
+       %         @IfStmt
+       %     | sWhileStmt:
+       %         @WhileStmt
+       %     | sCaseStmt:
+       %         @CaseStmt
+       %     %| sRepeatStmt: %%This line commented out because sRepeatStmt was throwing and error
+       %         @RepeatStmt
+       %     | sNullStmt:
+       % ];
 
 AssignmentStmt :
         sIdentifier  oSymbolStkPushIdentifier
@@ -1620,27 +1646,16 @@ WhileStmt :
         oFixPopTargetAddress
         oFixPopForwardBranch;
 
-%RepeatStmt :
-%        .tRepeatBegin
-%        oFixPushTargetAddress           % top-of-loop branch target
+RepeatStmt :
+        .tRepeatBegin
+        oFixPushTargetAddress           % top-of-loop branch target
 %        {[
-%            | sRepeatEnd:
+%            | sRepeatEnd: %%This line commented out because sRepeatEnd no longer exists 
 %                >
 %            | *:
 %                @Statement
 %        ]}
-%        .tRepeatControl
-%        @BooleanControlExpression
-%        .tRepeatTest
-%        oFixPopTargetAddress;
-
-LoopStmt :
-
-        .tWhileBegin
-        .tWhilePreBreak
-        oFixPushTargetAddress   % top-of-loop branch target
-        @Block
-        .tWhileBreakIf
+        .tRepeatControl
         @BooleanControlExpression
         .tNot
         .tWhileTest
@@ -1822,7 +1837,7 @@ Operand :
                         oFixPopTargetAddress
                         oTypeStkPush(tpPackedArray)
                         oTypeStkEnterBounds
-                        oTypeStkLinkToStandardComponentType(stdChar)
+                        %oTypeStkLinkToStandardComponentType(stdChar) %This line commented out because stdChar was throwing an error 
                 ]
                 oValuePop
                 oValuePop
@@ -3066,7 +3081,7 @@ SymbolStkPushDefaultCharConstant :
 
 SymbolStkPushDefaultIntegerType :
         oSymbolStkPush(syType)
-        oSymbolStkLinkToStandardType(stdInteger);
+        oSymbolStkLinkToStandardType(stdInteger); 
 
 SymbolStkPushDefaultIntegerVariable :
         oSymbolStkPush(syVariable)
