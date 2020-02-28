@@ -784,8 +784,24 @@ Block :
             | sType:
                 @TypeDefinitions
             | sVar:
-                @VariableDeclarations
-            | *:
+                @VariableDeclarations 
+           %--- copied from Statement rule:
+	    | sAssignmentStmt:
+                @AssignmentStmt
+            | sCallStmt:
+                @CallStmt
+           %--- | sBegin:
+           %---     @BeginStmt
+            | sIfStmt:
+                @IfStmt
+            | sWhileStmt:
+                @WhileStmt
+            | sCaseStmt:
+                @CaseStmt
+           %--- | sRepeatStmt:
+           %---     @RepeatStmt
+            | sNullStmt:
+	    | *:
                 >
         ]}
         sBegin
@@ -1389,23 +1405,9 @@ ProcedurePrologue :
         oCountPop;
 
 Statement :
-        [
-            | sAssignmentStmt:
-                @AssignmentStmt
-            | sCallStmt:
-                @CallStmt
-            | sBegin:
-                @BeginStmt
-            | sIfStmt:
-                @IfStmt
-            | sWhileStmt:
-                @WhileStmt
-            | sCaseStmt:
-                @CaseStmt
-            | sRepeatStmt:
-                @RepeatStmt
-            | sNullStmt:
-        ];
+    	oSymbolTblPushScope
+	@Block
+	oSymbolTblPopScope;
 
 AssignmentStmt :
         sIdentifier  oSymbolStkPushIdentifier
