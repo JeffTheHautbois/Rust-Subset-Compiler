@@ -1632,24 +1632,24 @@ WhileStmt :
 %        .tRepeatTest
 %        oFixPopTargetAddress;
 
-LoopStmt :
-
-        .tWhileBegin
-        .tWhilePreBreak
-        oFixPushTargetAddress   % top-of-loop branch target
-        @Block
-        .tWhileBreakIf
-        @BooleanControlExpression
-        .tNot
-        .tWhileTest
-        oFixPushForwardBranch
-        oEmitNullAddress        % exit branch
-        oFixSwap                % top-of-loop target back on top
-        %@Statement
-        @Block
-        .tWhileEnd
-        oFixPopTargetAddress
-        oFixPopForwardBranch;
+%LoopStmt :
+%
+%        .tWhileBegin
+%        .tWhilePreBreak
+%        oFixPushTargetAddress   % top-of-loop branch target
+%        @Block
+%        .tWhileBreakIf
+%        @BooleanControlExpression
+%        .tNot
+%        .tWhileTest
+%        oFixPushForwardBranch
+%        oEmitNullAddress        % exit branch
+%        oFixSwap                % top-of-loop target back on top
+%        %@Statement
+%        @Block
+%        .tWhileEnd
+%        oFixPopTargetAddress
+%        oFixPopForwardBranch;
 
 CaseStmt :
         .tCaseBegin
