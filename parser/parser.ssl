@@ -343,8 +343,10 @@ OptionallySignedIntegerConstant :
 
 VariableDeclarations :
 	% Accept one or more variable declarations.
-	{[
-        % Accept mutable variables
+	{[ 
+	|';':
+		>
+	% Accept mutable variables
         | pMut:
             pIdentifier  .sIdentifier
             {[
@@ -360,8 +362,6 @@ VariableDeclarations :
 					>
             ]}
 			.sMutable
-		|';':
-			>
         % Accept immutable variables
         | *:
 			pIdentifier  .sIdentifier
