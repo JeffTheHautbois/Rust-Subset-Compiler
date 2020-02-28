@@ -141,7 +141,16 @@ Output :
         tLiteralChar
         tLiteralBoolean
         tLiteralString
+        tFetchString
         tStringDescriptor
+        tAssignString
+        tSubscriptString
+        tConcatenate
+        tRepeatString
+        tSubstring
+        tLength
+        tStringEqual
+        tStoreParmString
         tSkipString
         tIfThen
         tIfMerge
@@ -150,6 +159,9 @@ Output :
         tCaseEnd
         tWhileTest
         tWhileEnd
+        tWhilePreBreak
+        tWhileBreakIf
+        tCaseOtherwise
         tRepeatTest
         tSkipProc
         tCallEnd
