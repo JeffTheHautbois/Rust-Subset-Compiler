@@ -1424,7 +1424,7 @@ Statement :
             | sCaseStmt:
                 @CaseStmt
             %| sRepeatStmt: %%This line commented out because sRepeatStmt was throwing and error
-                @RepeatStmt
+                %@RepeatStmt
             | sNullStmt:
         ];
 
@@ -1612,7 +1612,7 @@ IfStmt :
         sThen  .tIfThen
         oFixPushForwardBranch
         oEmitNullAddress                % false branch
-        @Statement
+        @Block
         [
             | sElse:
                 .tIfMerge
@@ -1639,9 +1639,9 @@ WhileStmt :
         oFixPopTargetAddress
         oFixPopForwardBranch;
 
-RepeatStmt :
-        .tRepeatBegin
-        oFixPushTargetAddress           % top-of-loop branch target
+%RepeatStmt :
+%        .tRepeatBegin
+%        oFixPushTargetAddress           % top-of-loop branch target
 %        {[
 %            | sRepeatEnd: %%This line commented out because sRepeatEnd no longer exists 
 %                >
@@ -1671,7 +1671,6 @@ RepeatStmt :
 %        .tWhileEnd
 %        oFixPopTargetAddress
 %        oFixPopForwardBranch;
-
 
 CaseStmt :
         .tCaseBegin
