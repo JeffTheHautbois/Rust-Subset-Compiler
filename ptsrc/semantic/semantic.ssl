@@ -784,7 +784,9 @@ ProgramParameter :
 Block :
         % The parser has flagged phase errors, but has emitted out-of-phase
         % definitions with the intent of providing better error repair.
-
+	
+        sBegin
+	oSymbolTblPushScope
         {[
             | sProcedure:
                 @ProcedureDefinition
@@ -813,8 +815,8 @@ Block :
 	    | *:
                 >
         ]}
-        sBegin
-        @BeginStmt;
+	sEnd
+	oSymbolTblPopScope;
 
 ConstantDefinitions :           % Process named constant definitions
         {[
@@ -1619,7 +1621,7 @@ IfStmt :
         sThen  .tIfThen
         oFixPushForwardBranch
         oEmitNullAddress                % false branch
-        @Statement
+        @Block %--- changed from @Statement to @Block
         [
             | sElse:
                 .tIfMerge
@@ -1641,7 +1643,7 @@ WhileStmt :
         oFixPushForwardBranch
         oEmitNullAddress                % exit branch
         oFixSwap                % top-of-loop target back on top
-        @Statement
+        @Block %--- changed from @Statement to @Block
         .tWhileEnd
         oFixPopTargetAddress
         oFixPopForwardBranch;
@@ -1749,7 +1751,7 @@ CaseAlternative :
                 ]
                 oValuePop
         ]}
-        @Statement
+        @Block %---changed fromt @Statement to @Block
         .tCaseMerge
         oFixPushForwardBranch
         oEmitNullAddress                % merge branch at end of statement
