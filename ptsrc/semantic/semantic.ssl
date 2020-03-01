@@ -796,7 +796,9 @@ ProgramParameter :
 Block :
         % The parser has flagged phase errors, but has emitted out-of-phase
         % definitions with the intent of providing better error repair.
-
+	
+        sBegin
+	oSymbolTblPushScope
         {[
             | sProcedure:
                 @ProcedureDefinition
@@ -805,12 +807,28 @@ Block :
             | sType:
                 @TypeDefinitions
             | sVar:
-                @VariableDeclarations
-            | *:
+                @VariableDeclarations 
+           %--- copied from Statement rule:
+	    | sAssignmentStmt:
+                @AssignmentStmt
+            | sCallStmt:
+                @CallStmt
+           %--- | sBegin:
+           %---     @BeginStmt
+            | sIfStmt:
+                @IfStmt
+            | sWhileStmt:
+                @WhileStmt
+            | sCaseStmt:
+                @CaseStmt
+           %--- | sRepeatStmt:
+           %---     @RepeatStmt
+            | sNullStmt:
+	    | *:
                 >
         ]}
-        sBegin
-        @BeginStmt;
+	sEnd
+	oSymbolTblPopScope;
 
 ConstantDefinitions :           % Process named constant definitions
         {[
@@ -1410,23 +1428,26 @@ ProcedurePrologue :
         oCountPop;
 
 Statement :
-        [
-            | sAssignmentStmt:
-                @AssignmentStmt
-            | sCallStmt:
-                @CallStmt
-            | sBegin:
-                @BeginStmt
-            | sIfStmt:
-                @IfStmt
-            | sWhileStmt:
-                @WhileStmt
-            | sCaseStmt:
-                @CaseStmt
-            %| sRepeatStmt: %%This line commented out because sRepeatStmt was throwing and error
-                %@RepeatStmt
-            | sNullStmt:
-        ];
+    	oSymbolTblPushScope
+	@Block
+	oSymbolTblPopScope;
+       % [
+       %     | sAssignmentStmt:
+       %         @AssignmentStmt
+       %     | sCallStmt:
+       %         @CallStmt
+       %     | sBegin:
+       %         @BeginStmt
+       %     | sIfStmt:
+       %         @IfStmt
+       %     | sWhileStmt:
+       %         @WhileStmt
+       %     | sCaseStmt:
+       %         @CaseStmt
+       %     %| sRepeatStmt: %%This line commented out because sRepeatStmt was throwing and error
+       %         @RepeatStmt
+       %     | sNullStmt:
+       % ];
 
 AssignmentStmt :
         sIdentifier  oSymbolStkPushIdentifier
@@ -1612,7 +1633,7 @@ IfStmt :
         sThen  .tIfThen
         oFixPushForwardBranch
         oEmitNullAddress                % false branch
-        @Block
+        @Block %--- changed from @Statement to @Block
         [
             | sElse:
                 .tIfMerge
@@ -1634,7 +1655,7 @@ WhileStmt :
         oFixPushForwardBranch
         oEmitNullAddress                % exit branch
         oFixSwap                % top-of-loop target back on top
-        @Statement
+        @Block %--- changed from @Statement to @Block
         .tWhileEnd
         oFixPopTargetAddress
         oFixPopForwardBranch;
@@ -1753,7 +1774,7 @@ CaseAlternative :
                 ]
                 oValuePop
         ]}
-        @Statement
+        @Block %---changed fromt @Statement to @Block
         .tCaseMerge
         oFixPushForwardBranch
         oEmitNullAddress                % merge branch at end of statement

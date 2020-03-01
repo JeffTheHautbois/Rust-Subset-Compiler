@@ -1,0 +1,4 @@
+//declaring const and variables in blocks 
+mod main(output){
+	let i : int;
+}
