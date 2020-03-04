@@ -150,6 +150,15 @@ Output :
         tLiteralChar
         tLiteralBoolean
         tLiteralString
+        tFetchString
+        tAssignString
+        tStoreParmString
+        tSubscriptString
+        tConcatenate
+        tRepeatString
+        tSubstring
+        tLength
+        tStringEqual
         tStringDescriptor
         tSkipString
         tIfThen
@@ -157,8 +166,11 @@ Output :
         tCaseSelect
         tCaseMerge
         tCaseEnd
+        tCaseOtherwise
         tWhileTest
         tWhileEnd
+        tWhilePreBreak
+        tWhileBreakIf
         tRepeatTest
         tSkipProc
         tCallEnd
@@ -1648,27 +1660,38 @@ WhileStmt :
         oFixPopTargetAddress
         oFixPopForwardBranch;
 
-RepeatStmt :
-        .tRepeatBegin
-        oFixPushTargetAddress           % top-of-loop branch target
+%RepeatStmt :
+%        .tRepeatBegin
+%        oFixPushTargetAddress           % top-of-loop branch target
 %        {[
 %            | sRepeatEnd: %%This line commented out because sRepeatEnd no longer exists 
 %                >
 %            | *:
 %                @Statement
 %        ]}
-        .tRepeatControl
-        @BooleanControlExpression
-        .tNot
-        .tWhileTest
-        oFixPushForwardBranch
-        oEmitNullAddress        % exit branch
-        oFixSwap                % top-of-loop target back on top
-        %@Statement
-        @Block
-        .tWhileEnd
-        oFixPopTargetAddress
-        oFixPopForwardBranch;
+%        .tRepeatControl
+%        @BooleanControlExpression
+%        .tRepeatTest
+%        oFixPopTargetAddress;
+
+%LoopStmt :
+%
+%        .tWhileBegin
+%        .tWhilePreBreak
+%        oFixPushTargetAddress   % top-of-loop branch target
+%        @Block
+%        .tWhileBreakIf
+%        @BooleanControlExpression
+%        .tNot
+%        .tWhileTest
+%        oFixPushForwardBranch
+%        oEmitNullAddress        % exit branch
+%        oFixSwap                % top-of-loop target back on top
+%        %@Statement
+%        @Block
+%        .tWhileEnd
+%        oFixPopTargetAddress
+%        oFixPopForwardBranch;
 
 CaseStmt :
         .tCaseBegin
