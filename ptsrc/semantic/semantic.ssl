@@ -828,7 +828,6 @@ Block :
                 >
         ]}
 	sEnd;
-%---	oSymbolTblPopScope;
 
 ConstantDefinitions :           % Process named constant definitions
         {[
@@ -1633,15 +1632,17 @@ IfStmt :
         sThen  .tIfThen
         oFixPushForwardBranch
         oEmitNullAddress                % false branch
+	oSymbolTblPushScope %--- enter new scope
         @Block %--- changed from @Statement to @Block
-        [
+       	oSymbolTblPopScope %--- exit new scope 
+	[
             | sElse:
                 .tIfMerge
                 oFixPushForwardBranch
                 oEmitNullAddress                % true branch
                 oFixSwap                % false branch back on top
                 oFixPopForwardBranch
-                @Statement
+                @Block %--- change from @Statement to @Block
             | *:
         ]
         .tIfEnd
@@ -1655,7 +1656,9 @@ WhileStmt :
         oFixPushForwardBranch
         oEmitNullAddress                % exit branch
         oFixSwap                % top-of-loop target back on top
-        @Block %--- changed from @Statement to @Block
+       	oSymbolTblPushScope %--- enter new scope
+	 @Block %--- changed from @Statement to @Block
+	oSymbolTblPopScope %--- exit new scope
         .tWhileEnd
         oFixPopTargetAddress
         oFixPopForwardBranch;
@@ -1774,8 +1777,10 @@ CaseAlternative :
                 ]
                 oValuePop
         ]}
+	oSymbolTblPushScope %enter new scope
         @Block %---changed fromt @Statement to @Block
         .tCaseMerge
+	oSymbolTblPopScope %exit new scope
         oFixPushForwardBranch
         oEmitNullAddress                % merge branch at end of statement
         oFixSwap                        % keep case select branch on top
