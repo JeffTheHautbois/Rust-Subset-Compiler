@@ -1605,7 +1605,6 @@ VarActual :
                 % Flush the expression
                 @Expression
         ];
-
 IfStmt :
         .tIfBegin
         @BooleanControlExpression
@@ -1620,11 +1619,36 @@ IfStmt :
                 oEmitNullAddress                % true branch
                 oFixSwap                % false branch back on top
                 oFixPopForwardBranch
-                @Statement
+                @Block
             | *:
         ]
         .tIfEnd
         oFixPopForwardBranch;
+
+%IfStmt : %Handling Else-If, commenting out for now until I can confirm else if is handled properly
+%        .tIfBegin
+%        @BooleanControlExpression
+%        sThen  .tIfThen
+%        oFixPushForwardBranch
+%        oEmitNullAddress                % false branch
+%        @Block
+%        [
+%            | sElse:
+%                [ |sIfStmt:
+%                    .tIfMerge
+%                    @IfStmt
+%
+%                 |*:.tIfMerge
+%                    oFixPushForwardBranch
+%                    oEmitNullAddress                % true branch
+%                    oFixSwap                % false branch back on top
+%                    oFixPopForwardBranch
+%                    @Block
+%                ] 
+%            | *:
+%        ]
+%        .tIfEnd
+%        oFixPopForwardBranch;
 
 WhileStmt :
         .tWhileBegin
