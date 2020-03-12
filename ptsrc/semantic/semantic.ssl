@@ -809,7 +809,7 @@ Block :
             | sVar:
                 @VariableDeclarations 
            %--- copied from Statement rule:
-	    | sAssignmentStmt:
+	        | sAssignmentStmt:
                 @AssignmentStmt
             | sCallStmt:
                 @CallStmt
@@ -1697,32 +1697,70 @@ WhileStmt :
 %        oFixPopForwardBranch;
 
 CaseStmt :
-        .tCaseBegin
-        @CaseSelectorExpression
-        oCasePushDisplay                % handle nested case statements
-        oCountPush (zero)       % count case alternative statements
-        .tCaseSelect
-        oFixPushForwardBranch
-        oEmitNullAddress                % address of case branch table
-        {[
-            | sCaseEnd:
-                >
-            | *:
-                @CaseAlternative
-        ]}
-        .tCaseEnd
-        oFixPopForwardBranch
-        oEmitCaseBranchTable
-        % emit merge branches for case alternatives
-        {[ oCountChoose         % number of case alternatives
-            | zero:
-                >
-            | *:
-                oFixPopForwardBranch
-                oCountDecrement
-        ]}
-        oCasePopDisplay
-        oCountPop;
+    %% original code
+    %.tCaseBegin
+    %@CaseSelectorExpression
+    %oCasePushDisplay                % handle nested case statements
+    %oCountPush (zero)       % count case alternative statements
+    %.tCaseSelect
+    %oFixPushForwardBranch
+    %oEmitNullAddress                % address of case branch table
+    %{[
+    %    | sCaseEnd:
+    %        >
+    %    | *:
+    %        @CaseAlternative
+    %]}
+    %.tCaseEnd
+    %oFixPopForwardBranch
+    %oEmitCaseBranchTable
+    %% emit merge branches for case alternatives
+    %{[ oCountChoose         % number of case alternatives
+    %    | zero:
+    %        >
+    %    | *:
+    %        oFixPopForwardBranch
+    %        oCountDecrement
+    %]}
+    %oCasePopDisplay
+    %oCountPop;
+
+    .tCaseBegin
+    @CaseSelectorExpression
+    oCasePushDisplay            % handle nested case statements
+    oCountPush(zero)           % count case alternative statements
+    .tCaseSelect
+    oFixPushForwardBranch
+    oEmitNullAddress                % address of case branch table
+    {[
+	|sCaseOtherwise:
+	    .tCaseOtherwise
+	    oSymbolTblPushScope % enter new scope
+            @Block %---changed fromt @Statement to @Block
+            .tCaseMerge
+            oSymbolTblPopScope % exit new scope
+            oFixPushForwardBranch
+            oEmitNullAddress                % merge branch at end of statement
+            oFixSwap                        % keep case select branch on top
+            oCountIncrement      			    
+        | sCaseEnd:
+            >
+        | *:
+            @CaseAlternative
+    ]}
+    .tCaseEnd
+    oFixPopForwardBranch
+    oEmitCaseBranchTable
+    % emit merge branches for case alternatives
+    {[ oCountChoose         % number of case alternatives
+        | zero:
+            >
+        | *:
+            oFixPopForwardBranch
+            oCountDecrement
+    ]}
+    oCasePopDisplay
+    oCountPop;
 
 CaseAlternative :
         % A case alternative is a series of integer
