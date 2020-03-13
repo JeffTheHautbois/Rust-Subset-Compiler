@@ -307,10 +307,17 @@ mechanism SymbolTable :
         % the scope being exited, except for formal parameters
         % which must be retained for type checking.
 
-    oSymbolTblLookupExternal >> Boolean;
+    oSymbolTblLookupExternal >> Boolean
         % Return true if any external names (program parameters)
         % have not yet been declared.
 
+    oSymbolTblStripScope 
+	%-- Added for treating end of Qust's module scopes
+	%-- Strips everything from the modules scope that is not public 
+
+    oSymbolTblMergeScope; 
+	%-- Added for treating end of Qust's module scopes
+	%-- Merges the current scope with the surrounding scope
 
 % Symbol Stack types and mechanism
 
@@ -323,7 +330,9 @@ type SymbolKind :
         syFunction
         syExternal
         syExpression
-        syUndefined;
+        syUndefined
+	syModule		%Added syModule for Qust modules
+	syPublicProcedure;	%Added syPublicProcedure
 
 type StdRoutine :
         rtReset = 1
@@ -802,7 +811,9 @@ Block :
         {[
             | sProcedure:
                 @ProcedureDefinition
-            | sConst:
+            | sModule:
+		@ModuleDefinition
+	    | sConst:
                 @ConstantDefinitions
             | sType:
                 @TypeDefinitions
@@ -1296,9 +1307,13 @@ ProcedureDefinition :
         .tSkipProc              % branch around procedure definition
         oFixPushForwardBranch
         oEmitNullAddress
-
-        oSymbolStkSetKind(syProcedure)
-        oSymbolStkEnterCodeAddress
+	[
+	    | sPublic:
+		oSymbolStkSetKind(syPublicProcedure)
+	    | *:
+		oSymbolStkSetKind(syProcedure)
+        ]
+	oSymbolStkEnterCodeAddress
         oTypeStkPush(tpNull)
         oTypeStkSetRecursionFlag(yes)
         oTypeTblEnter
@@ -1426,6 +1441,49 @@ ProcedurePrologue :
         oTypeStkEnterParameterCount     % In procedure's type entry
         oCountPop;
 
+ModuleDefinition:
+	%-- Module Definition is a copy of ProcedureDefinition other than the changes listed in the comments below
+        sIdentifier  oSymbolStkPushLocalIdentifier      % module name
+        [ oSymbolStkChooseKind
+            | syUndefined:
+            | syExternal:
+                % Program parameters must be declared as file variables
+                #eExternalDeclare
+            | *:
+                #eMultiplyDefined
+                % New definition obscures old one.
+        ]
+        % Procedure bodies only execute when the routine is called
+        % so we need to branch around the procedure's code
+        
+	%-- Removed .tSkipProc
+	% oFixPushForwardBranch
+        % oEmitNullAddress
+
+        oSymbolStkSetKind(syModule) %--Changed symbol tbl kind from syProcedure to syModule
+        oSymbolStkEnterCodeAddress
+        oTypeStkPush(tpNull)
+        oTypeStkSetRecursionFlag(yes)
+        oTypeTblEnter
+        oSymbolStkEnterTypeReference
+        oSymbolTblEnter
+        oSymbolTblPushScope     % module scope
+
+        %-- Removed @ProcedureHeading
+        @Block
+
+        oSymbolTblUpdate
+        oSymbolStkPop
+        oTypeStkSetRecursionFlag(no)
+        oTypeTblUpdate
+        oTypeStkPop
+	oSymbolTblStripScope %--Removed oSymbolTblPopScope and replaced with  
+	oSymbolTblMergeScope; %--oSymbolTble and oSymbolTblMergeScope
+
+	%--Removed .tProcedureEnd
+        % oFixPopForwardBranch   % fix branch around procedure above
+
+
 Statement :
     	oSymbolTblPushScope
 	@Block
@@ -1502,7 +1560,7 @@ CallStmt :
             | *:
         ]
         [ oSymbolStkChooseKind
-            | syProcedure:
+            | syProcedure, syPublicProcedure:		%%Aded syPublicProcedure for handling public procedures
                 [ oSymbolStkChooseStandardRoutine
                     | rtReset:
                         .tTrapBegin
