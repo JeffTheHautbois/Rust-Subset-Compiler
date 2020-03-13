@@ -1,0 +1,5 @@
+//declaring two arrays both index starting at 1 by default
+mod main (output) {
+	let x : [int : 10];
+//	let mut  y : [bool : 20];
+}
