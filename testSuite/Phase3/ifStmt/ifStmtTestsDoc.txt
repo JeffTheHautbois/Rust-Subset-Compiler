@@ -1,0 +1,21 @@
+This set of tests checks the if statement and expression rule implementation
+in parser.ssl. Names of the test files explain what the test does,
+if it is expected to pass or fail. The tests are focused on QUST implementation.
+The tests are kept to a minimum to test only the statements, and the call
+to block specifying the begin and end of each block inside the if statement,
+while the begin and end braces of the if statement are expected to be handled
+in the IfStmt rule itself.    
+- These tests ensure nothing else was broken after the changes were added,
+important since a compiler must be reliable.
+- These tests are important since the parser belongs
+to QUST and no longer works with the PT if syntax, but rather
+it expects QUST syntax provided in the test files.
+
+Cases Tested: 
+
+QUST: If statement, If else statement, QUST unique if else if statement, optional semicolon
+at the end of the statement brace. The file names identify the tests.
+
+PT 'Then' No Longer Used Kept in output and Tested to simplify semantic implementaion.
+
+* All changes are identified in comments made in parser.ssl

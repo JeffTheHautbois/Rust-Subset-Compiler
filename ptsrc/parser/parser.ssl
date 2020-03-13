@@ -533,7 +533,7 @@ IfStmt :
         '{' %if statement braces with a block call to handle content
         @Block '}'
 		[
-			!';':
+			|';':
 				.sNullStmt %Optional semicolon as nullstmt output
 			|*:
 		]
@@ -543,10 +543,18 @@ IfStmt :
                     [
                     |'if':
 						.sElse
+						.sBegin
                         @IfStmt
-                    |'{':
+						.sEnd
+                    |*:
                        .sElse
+					   '{'
                        @Block '}' % ----Expect ending brace after Block loop exit.
+						[
+							|';':
+								.sNullStmt %Optional semicolon as nullstmt output
+							|*:
+						]
                     ]
             | *:
         ];
