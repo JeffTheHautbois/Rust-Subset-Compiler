@@ -796,7 +796,9 @@ ProgramParameter :
 Block :
         % The parser has flagged phase errors, but has emitted out-of-phase
         % definitions with the intent of providing better error repair.
-
+	
+        sBegin
+%---	oSymbolTblPushScope
         {[
             | sProcedure:
                 @ProcedureDefinition
@@ -805,12 +807,27 @@ Block :
             | sType:
                 @TypeDefinitions
             | sVar:
-                @VariableDeclarations
-            | *:
+                @VariableDeclarations 
+           %--- copied from Statement rule:
+	        | sAssignmentStmt:
+                @AssignmentStmt
+            | sCallStmt:
+                @CallStmt
+           %--- | sBegin:
+           %---     @BeginStmt
+            | sIfStmt:
+                @IfStmt
+            | sWhileStmt:
+                @WhileStmt
+            | sCaseStmt:
+                @CaseStmt
+           %--- | sRepeatStmt:
+           %---     @RepeatStmt
+            | sNullStmt:
+	    | *:
                 >
         ]}
-        sBegin
-        @BeginStmt;
+	sEnd;
 
 ConstantDefinitions :           % Process named constant definitions
         {[
@@ -944,8 +961,8 @@ TypeBody :
         [
             | sArray:
                 oTypeStkPush(tpArray)
-                @IndexType
                 @ComponentType
+                @IndexType
             | sFile:
                 oTypeStkPush(tpFile)
                 @ComponentType
@@ -981,7 +998,7 @@ TypeTblEnterIfNew:
 
 IndexType :
         % Accept and fill in index bounds of array type stack entry
-        @SimpleType     % pushes symbol and two value bounds
+        @SimpleType     % pushes symbol
         oSymbolStkPop
         % Enter and check the bounds of the array type
         oTypeStkEnterBounds
@@ -997,8 +1014,8 @@ IndexType :
 
 ComponentType :
         % Accept and fill in an  array or file component type
-        @SimpleType     % pushes symbol and two value bounds
-        [ oSymbolStkChooseKind
+        @SimpleType     % pushes symbol 
+	[ oSymbolStkChooseKind
             | syType:
                 oTypeStkPushSymbol
                 [ oTypeStkChooseKind
@@ -1037,33 +1054,33 @@ SimpleType :
         [
             | sIdentifier:
                 oSymbolStkPushIdentifier
-                [ 
-                    | sRange:   % subrange specification
-                        [ oSymbolStkChooseKind
-                            | syConstant:       
-                                oTypeStkPushSymbol
-                                [ oTypeStkChooseKind
-                                    | tpInteger:        
-                                        oValuePushSymbol
-                                    | *:
-                                        #eIntegerConstReqd
-                                        oValuePush(one)
-                                ]
-                                [
-                                    | sNegate:
-                                        oValueNegate
-                                    | *:
-                                ]
-                                oTypeStkPop
-                            | syUndefined:
-                                #eUndefinedIdentifier
-                                oValuePush(one)
-                            | *:
-                                #eIntegerConstReqd
-                                oValuePush(one)
-                        ]
-                        @SubrangeUpperBound        % pushes value on value stack
-                    | *:        
+%                [  --- sRange is moved to the same choice level as sIdentifier 
+%                    | sRange:   % subrange specification
+%                        [ oSymbolStkChooseKind
+%                            | syConstant:       
+%                                oTypeStkPushSymbol
+%                                [ oTypeStkChooseKind
+%                                    | tpInteger:        
+%                                        oValuePushSymbol
+%                                    | *:
+%                                        #eIntegerConstReqd
+%                                        oValuePush(one)
+%                                ]
+%                                [
+%                                    | sNegate:
+%                                        oValueNegate
+%                                    | *:
+%                                ]
+%                                oTypeStkPop
+%                            | syUndefined:
+%                                #eUndefinedIdentifier
+%                                oValuePush(one)
+%                            | *:
+%                                #eIntegerConstReqd
+%                                oValuePush(one)
+%                        ]
+%                        @SubrangeUpperBound        % pushes value on value stack
+%                    | *:        
                         % type identifier
                         [ oSymbolStkChooseKind
                             | syType:
@@ -1081,7 +1098,11 @@ SimpleType :
         			oValuePush(one)
         			oValuePush(one)
                         ]
-                ]
+ %               ]
+	    | sRange: %--- adds handling for sRange when IndexType gets called
+		oValuePush(one) %--- pushes 1 as lower bound always
+		oSymbolStkPush(syConstant)
+		@SubrangeUpperBound
             | sInteger:         % lower bound of subrange specification
                 oValuePushInteger
                 oSymbolStkPush(syConstant)
@@ -1160,14 +1181,29 @@ VariableDeclarations :
                         #eMultiplyDefined
                         % The new definition will obscure the old one
                 ]
-
+		[
+		|sInitialValue: %--- handles declaration without type
+			@SymbolStkPushDefaultIntegerType
+			oTypeStkPushSymbol
+			oSymbolStkPop %---pop symbol stk (top of sym stk is syUndefined)
+			@EnterVariableAttributes
+			@Assignment
+			oTypeStkPop
+			oSymbolStkPop					
+		|*:
                 % Accepts a type specification and pushes its type to the Type Stack.
                 % Creates type table entries for the type and any new subtypes as necessary.
                 @TypeBody
         	@EnterVariableAttributes
+		[
+		|sInitialValue:
+			@Assignment
+		|*:
+		]
 
                 oTypeStkPop
         	oSymbolStkPop
+		]
             | *:
                 >
         ]};
@@ -1410,23 +1446,26 @@ ProcedurePrologue :
         oCountPop;
 
 Statement :
-        [
-            | sAssignmentStmt:
-                @AssignmentStmt
-            | sCallStmt:
-                @CallStmt
-            | sBegin:
-                @BeginStmt
-            | sIfStmt:
-                @IfStmt
-            | sWhileStmt:
-                @WhileStmt
-            | sCaseStmt:
-                @CaseStmt
-            %| sRepeatStmt: %%This line commented out because sRepeatStmt was throwing and error
-                %@RepeatStmt
-            | sNullStmt:
-        ];
+    	oSymbolTblPushScope
+	@Block
+	oSymbolTblPopScope;
+       % [
+       %     | sAssignmentStmt:
+       %         @AssignmentStmt
+       %     | sCallStmt:
+       %         @CallStmt
+       %     | sBegin:
+       %         @BeginStmt
+       %     | sIfStmt:
+       %         @IfStmt
+       %     | sWhileStmt:
+       %         @WhileStmt
+       %     | sCaseStmt:
+       %         @CaseStmt
+       %     %| sRepeatStmt: %%This line commented out because sRepeatStmt was throwing and error
+       %         @RepeatStmt
+       %     | sNullStmt:
+       % ];
 
 AssignmentStmt :
         sIdentifier  oSymbolStkPushIdentifier
@@ -1611,15 +1650,17 @@ IfStmt :
         sThen  .tIfThen
         oFixPushForwardBranch
         oEmitNullAddress                % false branch
-        @Block
-        [
+	oSymbolTblPushScope %--- enter new scope
+        @Block %--- changed from @Statement to @Block
+       	oSymbolTblPopScope %--- exit new scope 
+	[
             | sElse:
                 .tIfMerge
                 oFixPushForwardBranch
                 oEmitNullAddress                % true branch
                 oFixSwap                % false branch back on top
                 oFixPopForwardBranch
-                @Block
+                @Block %--- change from @Statement to @Block
             | *:
         ]
         .tIfEnd
@@ -1658,7 +1699,9 @@ WhileStmt :
         oFixPushForwardBranch
         oEmitNullAddress                % exit branch
         oFixSwap                % top-of-loop target back on top
-        @Statement
+       	oSymbolTblPushScope %--- enter new scope
+	 @Block %--- changed from @Statement to @Block
+	oSymbolTblPopScope %--- exit new scope
         .tWhileEnd
         oFixPopTargetAddress
         oFixPopForwardBranch;
@@ -1697,32 +1740,42 @@ WhileStmt :
 %        oFixPopForwardBranch;
 
 CaseStmt :
-        .tCaseBegin
-        @CaseSelectorExpression
-        oCasePushDisplay                % handle nested case statements
-        oCountPush (zero)       % count case alternative statements
-        .tCaseSelect
-        oFixPushForwardBranch
-        oEmitNullAddress                % address of case branch table
-        {[
-            | sCaseEnd:
-                >
-            | *:
-                @CaseAlternative
-        ]}
-        .tCaseEnd
-        oFixPopForwardBranch
-        oEmitCaseBranchTable
-        % emit merge branches for case alternatives
-        {[ oCountChoose         % number of case alternatives
-            | zero:
-                >
-            | *:
-                oFixPopForwardBranch
-                oCountDecrement
-        ]}
-        oCasePopDisplay
-        oCountPop;
+    .tCaseBegin
+    @CaseSelectorExpression
+    oCasePushDisplay            % handle nested case statements
+    oCountPush(zero)           % count case alternative statements
+    .tCaseSelect
+    oFixPushForwardBranch
+    oEmitNullAddress                % address of case branch table
+    {[
+	|sCaseOtherwise:
+	    .tCaseOtherwise
+	    oSymbolTblPushScope % enter new scope
+            @Block %---changed fromt @Statement to @Block
+            .tCaseMerge
+            oSymbolTblPopScope % exit new scope
+            oFixPushForwardBranch
+            oEmitNullAddress                % merge branch at end of statement
+            oFixSwap                        % keep case select branch on top
+            oCountIncrement      			    
+        | sCaseEnd:
+            >
+        | *:
+            @CaseAlternative
+    ]}
+    .tCaseEnd
+    oFixPopForwardBranch
+    oEmitCaseBranchTable
+    % emit merge branches for case alternatives
+    {[ oCountChoose         % number of case alternatives
+        | zero:
+            >
+        | *:
+            oFixPopForwardBranch
+            oCountDecrement
+    ]}
+    oCasePopDisplay
+    oCountPop;
 
 CaseAlternative :
         % A case alternative is a series of integer
@@ -1777,8 +1830,10 @@ CaseAlternative :
                 ]
                 oValuePop
         ]}
-        @Statement
+	oSymbolTblPushScope %enter new scope
+        @Block %---changed fromt @Statement to @Block
         .tCaseMerge
+	oSymbolTblPopScope %exit new scope
         oFixPushForwardBranch
         oEmitNullAddress                % merge branch at end of statement
         oFixSwap                        % keep case select branch on top

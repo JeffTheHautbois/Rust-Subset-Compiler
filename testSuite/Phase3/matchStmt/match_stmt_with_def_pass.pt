@@ -1,0 +1,14 @@
+mod main(output){
+	let i : int ;
+	match i {
+		| 42 | 43 => {
+			//Declaration or Statement
+		}
+		| 43 => {
+			//Declaration or Statement
+		}
+ 		| _ => {
+                        //Declarations and statements
+                } 
+	}
+}

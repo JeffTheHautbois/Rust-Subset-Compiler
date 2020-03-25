@@ -1,0 +1,4 @@
+//initial value without specifying type
+mod main(output) {
+	let a = 10;
+}

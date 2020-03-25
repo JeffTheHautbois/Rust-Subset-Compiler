@@ -32,9 +32,12 @@ while
 %   in semantic.ssl.  
 
 % Predeclared type names
-int	% changed from integer -> int
-str	% changed from char -> str
-bool	% changed from boolean -> bool
+%changed from integer -> int
+int
+%changed from char -> str
+str
+%changed from boolean -> bool
+bool
 text
 
 % Predeclared constants
@@ -44,8 +47,10 @@ false
 % Predeclared procedures and functions
 reset
 rewrite
-print	% changed from write -> print
-println	% changed from writelin -> println
+% changed from write -> print
+print
+% changed from writelin -> println
+println
 read
 readln
 chr
