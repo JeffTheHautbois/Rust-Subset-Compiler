@@ -972,8 +972,8 @@ TypeBody :
         [
             | sArray:
                 oTypeStkPush(tpArray)
-                @IndexType
                 @ComponentType
+                @IndexType
             | sFile:
                 oTypeStkPush(tpFile)
                 @ComponentType
@@ -1009,7 +1009,7 @@ TypeTblEnterIfNew:
 
 IndexType :
         % Accept and fill in index bounds of array type stack entry
-        @SimpleType     % pushes symbol and two value bounds
+        @SimpleType     % pushes symbol
         oSymbolStkPop
         % Enter and check the bounds of the array type
         oTypeStkEnterBounds
@@ -1025,8 +1025,8 @@ IndexType :
 
 ComponentType :
         % Accept and fill in an  array or file component type
-        @SimpleType     % pushes symbol and two value bounds
-        [ oSymbolStkChooseKind
+        @SimpleType     % pushes symbol 
+	[ oSymbolStkChooseKind
             | syType:
                 oTypeStkPushSymbol
                 [ oTypeStkChooseKind
@@ -1065,7 +1065,7 @@ SimpleType :
         [
             | sIdentifier:
                 oSymbolStkPushIdentifier
-%                [ 
+%                [  --- sRange is moved to the same choice level as sIdentifier 
 %                    | sRange:   % subrange specification
 %                        [ oSymbolStkChooseKind
 %                            | syConstant:       
@@ -1110,6 +1110,10 @@ SimpleType :
         			oValuePush(one)
                         ]
  %               ]
+	    | sRange: %--- adds handling for sRange when IndexType gets called
+		oValuePush(one) %--- pushes 1 as lower bound always
+		oSymbolStkPush(syConstant)
+		@SubrangeUpperBound
             | sInteger:         % lower bound of subrange specification
                 oValuePushInteger
                 oSymbolStkPush(syConstant)
@@ -1188,14 +1192,29 @@ VariableDeclarations :
                         #eMultiplyDefined
                         % The new definition will obscure the old one
                 ]
-
+		[
+		|sInitialValue: %--- handles declaration without type
+			@SymbolStkPushDefaultIntegerType
+			oTypeStkPushSymbol
+			oSymbolStkPop %---pop symbol stk (top of sym stk is syUndefined)
+			@EnterVariableAttributes
+			@Assignment
+			oTypeStkPop
+			oSymbolStkPop					
+		|*:
                 % Accepts a type specification and pushes its type to the Type Stack.
                 % Creates type table entries for the type and any new subtypes as necessary.
                 @TypeBody
         	@EnterVariableAttributes
+		[
+		|sInitialValue:
+			@Assignment
+		|*:
+		]
 
                 oTypeStkPop
         	oSymbolStkPop
+		]
             | *:
                 >
         ]};

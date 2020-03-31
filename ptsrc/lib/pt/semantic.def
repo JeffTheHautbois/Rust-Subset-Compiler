@@ -378,6 +378,7 @@
         Program = 0;
         ProgramParameter = 41;
         Block = 101;
+<<<<<<< HEAD
         AllocateVar = 744;
         ProcedureDefinition = 822;
         ModuleDefinition = 1057;
@@ -451,5 +452,79 @@
 
         { S/SL Table Parameters }
         sslTblSize = 3980;
+=======
+        AllocateVar = 776;
+        ProcedureDefinition = 854;
+        ConstantDefinitions = 171;
+        TypeDefinitions = 330;
+        VariableDeclarations = 673;
+        AssignmentStmt = 1084;
+        CallStmt = 1163;
+        IfStmt = 1402;
+        WhileStmt = 1435;
+        CaseStmt = 1454;
+        ConstantValue = 185;
+        SymbolStkPushDefaultIntegerConstant = 3872;
+        SymbolStkPushDefaultCharConstant = 3884;
+        TypeBody = 368;
+        ComponentType = 453;
+        IndexType = 434;
+        SimpleType = 506;
+        ValuePushValuePlusOne = 3863;
+        TypeTblEnterIfNew = 424;
+        SymbolStkPushDefaultIntegerType = 3896;
+        ValuePushTypeBounds = 593;
+        SubrangeUpperBound = 611;
+        EnterVariableAttributes = 730;
+        Assignment = 1091;
+        ProcedureHeading = 907;
+        ProcedureParameterType = 953;
+        ProcedurePrologue = 1011;
+        CountPushCopy = 3868;
+        Statement = 1079;
+        Variable = 2171;
+        Expression = 1606;
+        CompareAndSwapTypes = 1945;
+        BeginStmt = 1149;
+        OpenProcedure = 2571;
+        AssignProcedure = 2602;
+        WriteProcedure = 2719;
+        WritelnProcedure = 3257;
+        ReadProcedure = 3315;
+        ReadlnProcedure = 3677;
+        ActualParameters = 1296;
+        FlushActuals = 3936;
+        VarActual = 1364;
+        BooleanControlExpression = 3848;
+        CaseSelectorExpression = 3831;
+        CaseAlternative = 1500;
+        Operand = 1634;
+        UnaryOperator = 1768;
+        BinaryOperator = 1800;
+        FlushExpn = 3915;
+        ConstantOperand = 2282;
+        VariableOperand = 2321;
+        FunctionOperand = 2348;
+        SymbolStkPushDefaultIntegerVariable = 3903;
+        FileOperand = 2546;
+        CompareOperandAndResultTypes = 2045;
+        CompareEqualityOperandTypes = 2106;
+        CompareRelationalOperandTypes = 2056;
+        VariableExtension = 2213;
+        StandardFunctionActual = 2451;
+        FileVariable = 3735;
+        WriteText = 3049;
+        WriteBinary = 3173;
+        WriteStandardExpnList = 2982;
+        TextFileVariable = 3776;
+        ReadTextParameterList = 3445;
+        ReadBinaryParameterList = 3511;
+        ReadText = 3577;
+        ReadBinary = 3606;
+        }
+
+        { S/SL Table Parameters }
+        sslTblSize = 3955;
+>>>>>>> Phase3
         minSslTableValue = -32767;
         maxSslTableValue = 32767;
