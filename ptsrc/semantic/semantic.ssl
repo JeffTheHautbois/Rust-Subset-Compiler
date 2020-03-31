@@ -110,21 +110,21 @@ Output :
         tVarParm
         tFetchAddress
         tFetchInteger
-        tFetchChar
+        tFetchString
         tFetchBoolean
         tAssignBegin
         tAssignAddress
         tAssignInteger
-        tAssignChar
+        tAssignString
         tAssignBoolean
         tStoreParmAddress
         tStoreParmInteger
-        tStoreParmChar
+        tStoreParmString %--- changed from tStoreParmChar
         tStoreParmBoolean
         tSubscriptBegin
         tSubscriptAddress
         tSubscriptInteger
-        tSubscriptChar
+        tSubscriptString %---changed from tSubscriptChar
         tSubscriptBoolean
         tArrayDescriptor
         tFileDescriptor
@@ -147,13 +147,12 @@ Output :
         tLiteralAddress
         firstCompoundTcode = tLiteralAddress
         tLiteralInteger
-        tLiteralChar
+       	tLiteralString %--- changed from tLiteralChar
         tLiteralBoolean
-        tLiteralString
-        tFetchString
-        tAssignString
-        tStoreParmString
-        tSubscriptString
+       % tFetchString
+       % tAssignString
+       % tStoreParmString
+       % tSubscriptString
         tConcatenate
         tRepeatString
         tSubstring
@@ -208,7 +207,7 @@ Error :
         eTypeIdentifierReqd
         eIntegerExpnReqd
         eBooleanExpnReqd
-        eCharExpnReqd
+        eStringExpnReqd
         eArrayVarReqd
         eVariableReqd
         eDuplicateLabel
@@ -232,7 +231,8 @@ type Integer :
 
         % These two sizes are machine dependent
         byteSize = 1
-        wordSize = 4;
+        wordSize = 4
+	stringSize = 1024; %--- Addes for Qust string size
 
 type Boolean :
         no
@@ -248,7 +248,7 @@ type PredeclaredId :
         % Predeclared type names
         firstPredeclaredType = firstPredeclaredId
         pidInteger = firstPredeclaredType	
-        pidChar				
+        pidString %---changed from pidChar				
         pidBoolean				
         pidText
         lastPredeclaredType = pidText
@@ -277,7 +277,7 @@ type PredeclaredId :
 
 type StdType :
         stdInteger	
-        stdChar			
+	stdString  %--- changed from stdChar
         stdBoolean		
         stdText;
 
@@ -444,7 +444,7 @@ mechanism TypeTable :
 
 type TypeKind :
         tpInteger
-        tpChar
+        tpString %--- changed from tpChar
         tpBoolean
         tpSubrange
         tpArray
@@ -544,10 +544,10 @@ type TrapKind :
         trWriteln = 6
         trWriteString = 7
         trWriteInteger = 8
-        trWriteChar = 9
-        trReadInteger = 10
-        trReadChar = 11
-        trAssign = 12;
+        %trWriteChar = 9 removed
+        trReadInteger = 9
+        trReadString = 10
+        trAssign = 11;
 
 mechanism Emit :
     % Emit writes to the output "t-code" stream (the code area),
@@ -898,9 +898,9 @@ ConstantValue :         % An identifier token has just been accepted
                 [ oValueChoose
                     | zero:
                         #eNullString
-                        @SymbolStkPushDefaultCharConstant
+                        @SymbolStkPushDefaultStringConstant
                     | one:
-                        %oSymbolStkLinkToStandardType(stdChar)  %%This line commented out because stdChar was throwing and error
+                        oSymbolStkLinkToStandardType(stdString)
                         oSymbolStkEnterStringValue
                     | *:
                         % Emit a branch around the string since
@@ -917,7 +917,7 @@ ConstantValue :         % An identifier token has just been accepted
                         oFixPopForwardBranch
                         oTypeStkPush(tpPackedArray)     % means literal string
                         oTypeStkEnterBounds
-                        %oTypeStkLinkToStandardComponentType(stdChar) %%This line commented out because stdInteger was throwing and error 
+                        oTypeStkLinkToStandardComponentType(stdString)  
                         oTypeTblEnter
                         oSymbolStkEnterTypeReference
                         oTypeStkPop
@@ -1260,7 +1260,7 @@ AllocateVar :
                         oAllocateAlignOnWord
                         oSymbolStkEnterDataAddress
                         oAllocateVariable
-                    | tpChar, tpBoolean:
+                    | tpString, tpBoolean:
                         oSymbolStkEnterDataAddress
                         oAllocateVariable
                     | tpArray:
@@ -1430,8 +1430,8 @@ ProcedurePrologue :
                         [ oTypeStkChooseKind
                             | tpInteger, tpSubrange:
                                 .tStoreParmInteger
-                            | tpChar:
-                                .tStoreParmChar
+                            | tpString:
+                                .tStoreParmString
                             | tpBoolean:
                                 .tStoreParmBoolean
                         ]
@@ -1496,8 +1496,8 @@ Assignment :
         [ oTypeStkChooseKind
             | tpInteger, tpSubrange, tpFile:
                 .tAssignInteger
-            | tpChar:
-                .tAssignChar
+            | tpString:
+                .tAssignString
             | tpBoolean:
                 .tAssignBoolean
             | *:                % Error already flagged by compare & swap
@@ -1861,11 +1861,11 @@ Operand :
                     | zero:
                         #eNullString
                         oSymbolStkPush(syExpression)
-                        oTypeStkPush(tpChar)
+                        oTypeStkPush(tpString)
                     | one:
                         oSymbolStkPush(syExpression)
-                        oTypeStkPush(tpChar)
-                        .tLiteralChar
+                        oTypeStkPush(tpString)
+                        .tLiteralString
                         oEmitString
                     | *:
                         oSymbolStkPush(syExpression)
@@ -1886,7 +1886,7 @@ Operand :
                         oFixPopTargetAddress
                         oTypeStkPush(tpPackedArray)
                         oTypeStkEnterBounds
-                        %oTypeStkLinkToStandardComponentType(stdChar) %This line commented out because stdChar was throwing an error 
+                        oTypeStkLinkToStandardComponentType(stdString)
                 ]
                 oValuePop
                 oValuePop
@@ -1989,10 +1989,10 @@ CompareAndSwapTypes :
                     | *:
                         #eTypeMismatch
                 ]
-            | tpChar:
+            | tpString:
                 oTypeStkSwap
                 [ oTypeStkChooseKind
-                    | tpChar:
+                    | tpString:
                     | *:
                         #eTypeMismatch
                 ]
@@ -2053,10 +2053,10 @@ CompareRelationalOperandTypes :
                     | *:
                         #eOperandOperatorTypeMismatch
                 ]
-            | tpChar:
+            | tpString:
                 oTypeStkPop
                 [ oTypeStkChooseKind
-                    | tpChar:
+                    | tpString:
                     | *:
                         #eOperandOperatorTypeMismatch
                 ]
@@ -2084,10 +2084,10 @@ CompareEqualityOperandTypes :
                     | *:
                         #eOperandOperatorTypeMismatch
                 ]
-            | tpChar:
+            | tpString:
                 oTypeStkPop
                 [ oTypeStkChooseKind
-                    | tpChar:
+                    | tpString:
                     | *:
                         #eOperandOperatorTypeMismatch
                 ]
@@ -2166,8 +2166,8 @@ VariableExtension :
                 [ oTypeStkChooseKind
                     | tpInteger, tpSubrange:
                         .tSubscriptInteger
-                    | tpChar:
-                        .tSubscriptChar
+                    | tpString:
+                        .tSubscriptString
                     | tpBoolean:
                         .tSubscriptBoolean
                 ]
@@ -2183,8 +2183,8 @@ ConstantOperand :
             | tpInteger, tpSubrange:
                 .tLiteralInteger
                 oEmitValue
-            | tpChar:
-                .tLiteralChar
+            | tpString:
+                .tLiteralString
                 oEmitValue
             | tpBoolean:
                 .tLiteralBoolean
@@ -2203,8 +2203,8 @@ VariableOperand :
         [ oTypeStkChooseKind
             | tpInteger, tpSubrange, tpFile:
                 .tFetchInteger          % replace address with value
-            | tpChar:
-                .tFetchChar
+            | tpString:
+                .tFetchString
             | tpBoolean:
                 .tFetchBoolean
             % The caller is responsible for detecting illegal situations
@@ -2239,15 +2239,15 @@ FunctionOperand :
                 oSymbolStkPop   % Chr symbol
                 oTypeStkPop
                 oSymbolStkPush(syExpression)
-                oTypeStkPush(tpChar)
+                oTypeStkPush(tpString)
             | rtOrd:
                 [
                     | sParmBegin:
                         @Expression
                         [ oTypeStkChooseKind
-                            | tpChar:
+                            | tpString:
                             | *:
-                                #eCharExpnReqd
+                                #eStringExpnReqd
                         ]
                         sParmEnd
                         oSymbolStkPop   % Parameter expression
@@ -2383,7 +2383,7 @@ AssignProcedure :
                                 oValuePush(one)
                                 oEmitValue
                                 oValuePop
-                                .tSubscriptChar
+                                .tSubscriptString
                                 .tVarParm
                             | *:
                         ]
@@ -2391,7 +2391,7 @@ AssignProcedure :
                             | tpArray, tpPackedArray:   % must be a char array or literal string        
                                 oTypeStkPushComponent
                                 [ oTypeStkChooseKind
-                                    | tpChar:
+                                    | tpString:
                                     | *:
                                         #eFileNameReqd
                                 ]
@@ -2454,7 +2454,7 @@ WriteProcedure :
                                 oTypeStkPushComponent
                                 oValuePushSymbol        % file descriptor
                                 [ oTypeStkChooseKind
-                                    | tpChar:
+                                    | tpString:
                                         {
                                             .tTrapBegin
                                             .tLiteralAddress
@@ -2474,7 +2474,7 @@ WriteProcedure :
                                                     oValuePush(one)
                                                     oEmitValue
                                                     oValuePop
-                                                    .tSubscriptChar
+                                                    .tSubscriptString
                                                     .tVarParm
                                                 | *:
                                             ]
@@ -2565,7 +2565,7 @@ WriteProcedure :
                                 oValuePush(one)
                                 oEmitValue
                                 oValuePop
-                                .tSubscriptChar
+                                .tSubscriptString
                                 .tVarParm
                             | *:
                         ]
@@ -2607,7 +2607,7 @@ WriteStandardExpnList :
                         oValuePush(one)
                         oEmitValue
                         oValuePop
-                        .tSubscriptChar
+                        .tSubscriptString
                         .tVarParm
                     | *:
                 ]
@@ -2641,7 +2641,7 @@ WriteText :
                 [ oTypeStkChooseKind    % of expression being written
                     | tpInteger, tpSubrange:
                         oValuePush(ten)
-                    | tpChar:
+                    | tpString:
                         oValuePush(one)
                     | tpPackedArray:    % a literal string
                         oValuePushTypeStkUpperBound
@@ -2654,16 +2654,16 @@ WriteText :
                 .tParmEnd
         ]
         [ oTypeStkChooseKind
-            | tpChar:
+            | tpString:
                 .tTrap
-                oEmitTrapKind(trWriteChar)
+                oEmitTrapKind(trWriteString)
             | tpInteger, tpSubrange:
                 .tTrap
                 oEmitTrapKind(trWriteInteger)
             | tpArray, tpPackedArray:   % must be a char array or literal string
                 oTypeStkPushComponent
                 [ oTypeStkChooseKind
-                    | tpChar:
+                    | tpString:
                     | *:
                         #eWriteExpn
                 ]
@@ -2801,7 +2801,7 @@ ReadProcedure :
                                 oValuePushSymbol        % file descriptor
                                 oTypeStkPushComponent
                                 [ oTypeStkChooseKind
-                                    | tpChar:
+                                    | tpString:
                                         @ReadTextParameterList
                                     | *:
                                         @ReadBinaryParameterList
@@ -2936,9 +2936,9 @@ ReadBinaryParameterList :
 
 ReadText :
         [ oTypeStkChooseKind
-            | tpChar:
+            | tpString:
                 .tTrap
-                oEmitTrapKind(trReadChar)
+                oEmitTrapKind(trReadString)
             | tpInteger, tpSubrange:
                 .tTrap
                 oEmitTrapKind(trReadInteger)
@@ -3053,7 +3053,7 @@ TextFileVariable :
         	    | syVariable, syVarParameter:
         		oTypeStkPushComponent
         		[ oTypeStkChooseKind
-        		    | tpChar:
+        		    | tpString:
         			[
         			    | sExpnEnd:
         			    | *:
@@ -3121,12 +3121,12 @@ SymbolStkPushDefaultIntegerConstant :
         oValuePop
         oSymbolStkLinkToStandardType(stdInteger);
 
-SymbolStkPushDefaultCharConstant :
+SymbolStkPushDefaultStringConstant :
         oSymbolStkPush(syConstant)
         oValuePush(zero)
         oSymbolStkEnterValue
         oValuePop
-        oSymbolStkLinkToStandardType(stdChar);
+        oSymbolStkLinkToStandardType(stdString);
 
 SymbolStkPushDefaultIntegerType :
         oSymbolStkPush(syType)
