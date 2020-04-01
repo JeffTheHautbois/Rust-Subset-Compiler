@@ -2014,7 +2014,20 @@ BinaryOperator :
                 .tDivide
                 oTypeStkPush(tpInteger)
                 @CompareOperandAndResultTypes
-            | sModulus:
+	    | sSubstring:	%-- Added substring operator handeling for Qust
+		.tSubstring
+		oTypeStkPush(tpInteger)		%Set required type for the two integers 
+		@CompareOperandAndResultTypes
+		oTypeStkPop	%Remove the required integer type as it's no longer needed
+		[ oTypeStkChooseKind		
+		    | tpString:		%Make sure we're performing the substring operation on operand of type string
+		    	%Do nothing because the result type is also a tpString
+		    | *:
+			#eTypeMismatch	 
+		]
+            	oSymbolStkPop	%pop the resulting symbol stack element from the @CompareOperandAndResultTypes call
+		oSymbolStkSetKind(syExpression)
+	    | sModulus:
                 .tModulus
                 oTypeStkPush(tpInteger)
                 @CompareOperandAndResultTypes
