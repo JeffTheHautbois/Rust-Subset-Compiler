@@ -2039,14 +2039,29 @@ BinaryOperator :
 			.tLE
                 ]
 		@CompareRelationalOperandTypes	%Sets up the type and symbol stack so that the rest of the code can be compiler without cascading errors 
-            | sMultiply:
-                .tMultiply
-                oTypeStkPush(tpInteger)
-                @CompareOperandAndResultTypes
-            | sDivide:
-                .tDivide
-                oTypeStkPush(tpInteger)
-                @CompareOperandAndResultTypes
+            | sMultiply:	%-- Changes made to sDivide case to allow for Qust's repeat string operator
+		oTypeStkSwap	% If a repeat string operation is performed string will be the second element on type stack so we swap to check it
+		[ oTypeStkChooseKind
+		    | tpString:
+			.tRepeatString
+			oTypeStkSwap	%Return stack to original order
+		    	[ oTypeStkChooseKind
+			    | tpInteger:
+				oTypeStkPop	%Pop the integer repeat operand from type stk and leave tpString as remaining type  
+				oSymbolStkPop	%Pop the integer repeat operand from symbol stk
+				oSymbolStkSetKind(syExpression)	%Set the resulting symbol kind		
+			    | *:
+				#eTypeMismatch
+			]
+		    | *:	
+			.tMultiply
+			oTypeStkPush(tpInteger)
+			@CompareOperandAndResultTypes
+		]
+            | sDivide:		 
+		.tDivide
+		oTypeStkPush(tpInteger)
+		@CompareOperandAndResultTypes
 	    | sSubstring:	%-- Added substring operator handeling for Qust
 		.tSubstring
 		oTypeStkPush(tpInteger)		%Set required type for the two integers 
