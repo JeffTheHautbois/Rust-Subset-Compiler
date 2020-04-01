@@ -639,12 +639,12 @@ LoopStmt : % Changed from PT Repeat Stmt to QUST Loop Stmt
 		.sExpnEnd
 		';' %Semicolon is expected at the end of break if expression.
 		@Block '}' % ----Expect ending brace after Block loop exit.
+		.sLoopEnd
 		[
 			!';':
 				.sNullStmt %Optional semicolon as nullstmt output
 			|*:
-		]
-		.sLoopEnd;
+		];
 		
 Expression :
         @SimpleExpression
