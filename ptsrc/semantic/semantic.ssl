@@ -1962,9 +1962,16 @@ BinaryOperator :
         % but that would probably be less efficient on average.
         [
             | sAdd:
-                .tAdd
-                oTypeStkPush(tpInteger) % result type
-                @CompareOperandAndResultTypes
+		[oTypeStkChooseKind	%--Aded handeling of Qust string concatenation using the '+' operator
+			|tpString :
+				.tConcatenate
+				otypeStkPush(tpString) %Set result type to make sure both operands match tpString
+				@CompareOperandAndResultTypes
+			| *:
+				.tAdd
+				oTypeStkPush(tpInteger) % result type
+				@CompareOperandAndResultTypes
+		]
             | sSubtract:
                 .tSubtract
                 oTypeStkPush(tpInteger)
