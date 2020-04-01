@@ -1,0 +1,4 @@
+The tests provided in this directory simply tests a null program with different params being passed. 
+Input and output were passed into the main program and the assosiated integers for these can be seen printed
+by the test with no errors. 
+

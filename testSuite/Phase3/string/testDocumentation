@@ -1,0 +1,35 @@
+A number of different tests have been written to test the implementation of strings as 
+described in steps 10 and 11 of the Phase 3 project handout.
+
+To start, basic string assignment is tested and shows the correct order of postfix
+t-tokens is being output when a string is assigned to a variable of type string.
+Moreover, as expected no type mismatch or other errors occur duing assignment of a 
+string. This functionality is observed in new_basic_string_assignmnet_pass.pt
+
+Following this, the const string assignment was tested which produced the same t
+token stream as the above assignment as expected.
+
+Next, the binary length operator was tested in new_string_length_pass.pt where the 
+postfix t-tokens specified above for a sStringLiteral input were output, followed by
+a tLength operator as expected. The length operator was also tested on an integer type
+operand where an error was thrown as expected.
+
+String concatenation was tested in new_concat_string_pass.pt where it was observed to 
+output the two correct postfix t-token steams for the associated operand strings, followed
+by a tConcatenate token, as expected. The string concat operator was also tested with 
+an interer type operand which resulted in an error as expected. Finally the operator '+'
+was also tested with two integer operands to be sure the addition still functioned properly.
+
+The repeat operator '*' was tested and produced the t-tokens associated with input string 
+followed by the integer operand t-token, and then a tRepeatString token, as expected.
+The operator was also tested with two integers to be sure that multiplication still functioned
+as expected.
+
+The equality and not-equality expressions were also tested which produced tStringEqual and
+tStringEqual followed by tNot respectivly. These operations were also tested between string
+and integer pairs of operands where they failed as expected. Furthermore integer-integer
+operand pairs were tested which still function as expected.
+
+The set of operators '<', '>', '<=', '>=' were all tested with string operands and all tests
+with one or two string operands failed as expeced. Only integer-integer operand pairs passed
+as expected. 
