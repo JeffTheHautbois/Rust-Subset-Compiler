@@ -152,11 +152,11 @@
         SimpleExpression = 871;
         Term = 924;
         Factor = 987;
-        IdentifierExtension = 1041;
+        IdentifierExtension = 1051;
         }
 
         { S/SL Table Parameters } {
-        sslTblSize = 1071;
+        sslTblSize = 1081;
         minSslTableValue = -32767;
         maxSslTableValue = 32767;
 	}

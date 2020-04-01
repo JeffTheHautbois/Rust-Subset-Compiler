@@ -710,7 +710,11 @@ Factor :
             | '!': %Changed to Qust Not
                 @Factor
                 .sNot
-            | pStringLiteral:
+            | '?':		%-- Added handeling of Qust string length operator
+		pStringLiteral
+		.sStringLiteral
+		.sLength
+	    | pStringLiteral:
                 .sStringLiteral
             | 'file':
                 .sFile '(' @Expression ')'

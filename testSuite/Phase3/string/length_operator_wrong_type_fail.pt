@@ -1,0 +1,4 @@
+mod main(output){
+	let stringLength : int;
+	stringLength = ?5;	//This shouldn't work b/c length operator is only for strings 
+}

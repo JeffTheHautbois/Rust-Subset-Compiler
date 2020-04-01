@@ -1941,7 +1941,16 @@ UnaryOperator :
                 oTypeStkPush(tpBoolean) % result type
                 @CompareAndSwapTypes
                 oTypeStkPop
-            | *:
+	   | sLength:	%-- Added handeling of sLength unary operator
+		[oTypeStkChooseKind
+			|tpString :	%make sure this length operation is being performed on a string type
+				.tLength
+				oTypeStkPop	%remove string type
+				oTypeStkPush(tpInteger)	%result type is an int
+        		| *:
+                        	#eTypeMismatch	%length operator is not being performed on a string
+		]
+	| *:
                 >>
         ]
         % If an operator is present the result is an expression
