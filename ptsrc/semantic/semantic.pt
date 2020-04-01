@@ -376,12 +376,13 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
         syConstant = 0;
         syType = 1;
         syVariable = 2;
-        syVarParameter = 3;
-        syProcedure = 4;
-        syFunction = 5;
-        syExternal = 6;
-        syExpression = 7;
-        syUndefined = 8;
+        syMutableVariable = 3;
+        syVarParameter = 4;
+        syProcedure = 5;
+        syFunction = 6;
+        syExternal = 7;
+        syExpression = 8;
+        syUndefined = 9;
         { Type 18 }
         rtReset = 1;
         rtRewrite = 2;

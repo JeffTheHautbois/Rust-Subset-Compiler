@@ -318,6 +318,7 @@ type SymbolKind :
         syConstant
         syType
         syVariable
+        syMutableVariable
         syVarParameter
         syProcedure
         syFunction
@@ -1194,17 +1195,31 @@ VariableDeclarations :
                 % Accepts a type specification and pushes its type to the Type Stack.
                 % Creates type table entries for the type and any new subtypes as necessary.
                 @TypeBody
-        	@EnterVariableAttributes
-		[
-		|sInitialValue:
-			@Assignment
-		|*:
-		]
+        	    @EnterVariableAttributes 
+		    [
+		        |sInitialValue:
+			    @Assignment
+		        |*:
+		    ]
 
-                oTypeStkPop
-        	oSymbolStkPop
-		]
-            | *:
+            [
+            |sMutable:
+                oSymbolStkSetKind(syMutableVariable) %Mutable type symbStk
+                oSymbolTblUpdate
+                [
+                    oSymbolStkChooseKind
+                    |syMutableVariable:
+                    |*:
+                        #eTypeMismatch
+                ]
+            |*:
+            ]
+
+            oTypeStkPop
+            oSymbolStkPop
+		
+        ]
+        | *:
                 >
         ]};
 
@@ -1390,7 +1405,7 @@ ProcedureParameterType :
         oSymbolStkPop           	        % parameter type symbol
 
         [ oSymbolStkChooseKind
-            | syVariable:
+            | syVariable, syMutableVariable:
                 [ oTypeStkChooseKind
                     | tpArray, tpFile:
                         #eNonScalarValParm
@@ -1469,6 +1484,12 @@ Statement :
 
 AssignmentStmt :
         sIdentifier  oSymbolStkPushIdentifier
+        [
+            oSymbolStkChooseKind
+            |syMutableVariable:
+            |*:
+                #eTypeMismatch
+        ]
         @Assignment
         oSymbolStkPop;
 
@@ -1595,11 +1616,20 @@ ActualParameters :
                 % formal parameter must be a variable
                 % or a variable parameter
                 [ oSymbolStkChooseKind
-                    | syVariable:
-                        % value parameter, actual should be an expression
-                        @Expression
-                        @CompareAndSwapTypes
+                    | syVariable, syMutableVariable:
+                        [|sMutable: % CHANGE - check for sMutable. If found then raise an error
+                            #eParameterTypeMismatch
+                         |*:
+                            % value parameter, actual should be an expression
+                            @Expression
+                            @CompareAndSwapTypes
+                        ]
+
                     | syVarParameter:
+                        [|sMutable: % CHANGE - check for sMutable. If not found then raise an error 
+                         |*:
+                            #eParameterTypeMismatch
+                        ]
                         @VarActual
                 ]
                 oSymbolStkPop  oTypeStkPop      % actual
@@ -1623,6 +1653,12 @@ VarActual :
         [
             | sIdentifier:
                 oSymbolStkPushIdentifier
+                [
+                    oSymbolStkChooseKind
+                    |syMutableVariable:
+                    |*:
+                        #eParameterTypeMismatch
+                ]
                 @Variable
                 .tVarParm
                 [ oTypeStkCompareNames
@@ -1870,7 +1906,7 @@ Operand :
                 [ oSymbolStkChooseKind
                     | syConstant:
                         @ConstantOperand
-                    | syVariable, syVarParameter:
+                    | syVariable, syVarParameter, syMutableVariable:
                         @Variable
                         @VariableOperand
                     | syFunction:
@@ -2148,7 +2184,7 @@ Variable :
         % and a Symbol Stack entry has been pushed for it.
 
         [ oSymbolStkChooseKind
-            | syVariable:
+            | syVariable, syMutableVariable:
                 .tLiteralAddress
                 oValuePushSymbol
                 oEmitValue
@@ -2317,7 +2353,7 @@ StandardFunctionActual :
                         @FlushActuals
                 ]
                 [ oSymbolStkChooseKind
-                    | syVariable, syVarParameter:
+                    | syVariable, syVarParameter, syMutableVariable:
                         oTypeStkPushSymbol
                         [ oTypeStkChooseKind
                             | tpFile:
@@ -2484,7 +2520,7 @@ WriteProcedure :
                                 >>
                         ]
                         [ oSymbolStkChooseKind
-                            | syVariable, syVarParameter:
+                            | syVariable, syVarParameter, syMutableVariable:
                                 oTypeStkPushComponent
                                 oValuePushSymbol        % file descriptor
                                 [ oTypeStkChooseKind
@@ -2580,7 +2616,7 @@ WriteProcedure :
                         [ oSymbolStkChooseKind
                             | syConstant:
                                 @ConstantOperand
-                            | syVariable, syVarParameter:
+                            | syVariable, syVarParameter, syMutableVariable:
                                 @Variable
                                 @VariableOperand
                             | syFunction:
@@ -2831,7 +2867,7 @@ ReadProcedure :
                                 >>
                         ]
                         [ oSymbolStkChooseKind
-                            | syVariable, syVarParameter:
+                            | syVariable, syVarParameter, syMutableVariable:
                                 oValuePushSymbol        % file descriptor
                                 oTypeStkPushComponent
                                 [ oTypeStkChooseKind
@@ -3062,7 +3098,7 @@ FileVariable :
         [ oTypeStkChooseKind
             | tpFile:
         	[ oSymbolStkChooseKind
-        	    | syVariable, syVarParameter:
+        	    | syVariable, syVarParameter, syMutableVariable:
         		[
         		    | sExpnEnd:
         		    | *:
@@ -3084,7 +3120,7 @@ TextFileVariable :
         [ oTypeStkChooseKind
             | tpFile:
         	[ oSymbolStkChooseKind
-        	    | syVariable, syVarParameter:
+        	    | syVariable, syVarParameter, syMutableVariable:
         		oTypeStkPushComponent
         		[ oTypeStkChooseKind
         		    | tpChar:
