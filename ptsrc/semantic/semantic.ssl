@@ -1989,23 +1989,56 @@ BinaryOperator :
                 oTypeStkPush(tpBoolean)
                 @CompareOperandAndResultTypes
             | sEq:
-                .tEQ
-                @CompareEqualityOperandTypes
-            | sNE:
-                .tNE
-                @CompareEqualityOperandTypes
-            | sGT:
-                .tGT
-                @CompareRelationalOperandTypes
-            | sGE:
-                .tGE
-                @CompareRelationalOperandTypes
-            | sLT:
-                .tLT
-                @CompareRelationalOperandTypes
+                [ oTypeStkChooseKind	%-- Added specific sEq handeling of Qust string operands
+		    |tpString :
+			.tStringEqual
+			@CompareEqualityOperandTypes
+                    | *:
+			.tEQ
+			@CompareEqualityOperandTypes
+           	]
+	     | sNE:
+                [ oTypeStkChooseKind	%-- Added specific sNE handeling of Qust string operands
+		    |tpString :
+			.tStringEqual
+			.tNot
+			@CompareEqualityOperandTypes
+		    | *:
+			.tNE
+			@CompareEqualityOperandTypes
+            	]
+	    | sGT:
+		[ oTypeStkChooseKind	%-- Added disallowance of sGT operation on Qust string type
+		    |tpString :
+			#eInvalidExpn
+		    | *:
+			.tGT
+		]
+		@CompareRelationalOperandTypes	%Sets up the type and symbol stack so that the rest of the code can be compiler without cascading errors 
+	    | sGE:
+		[ oTypeStkChooseKind	%-- Disallow sGE operation on Qust string type
+		    |tpString :
+			#eInvalidExpn
+		    | *:
+			.tGE
+                ]
+		@CompareRelationalOperandTypes	%Sets up the type and symbol stack so that the rest of the code can be compiler without cascading errors 
+	    | sLT:
+		[ oTypeStkChooseKind	%-- Disallow sLT operation on Qust string type
+		    |tpString :
+			#eInvalidExpn
+		    | *:
+			.tLT
+                ]
+		@CompareRelationalOperandTypes	%Sets up the type and symbol stack so that the rest of the code can be compiler without cascading errors 
             | sLE:
-                .tLE
-                @CompareRelationalOperandTypes
+		[ oTypeStkChooseKind	%-- Disallow sLE operation on Qust string type
+		    |tpString :
+			#eInvalidExpn
+		    | *:
+			.tLE
+                ]
+		@CompareRelationalOperandTypes	%Sets up the type and symbol stack so that the rest of the code can be compiler without cascading errors 
             | sMultiply:
                 .tMultiply
                 oTypeStkPush(tpInteger)
