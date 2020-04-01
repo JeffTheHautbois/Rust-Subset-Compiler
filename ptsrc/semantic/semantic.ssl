@@ -894,12 +894,24 @@ ConstantValue :         % An identifier token has just been accepted
                 oValuePop
             | sStringLiteral:
 		%-- Added the following to implement new string 
+		oSymbolStkSetKind(syVariable)	%Set symbol kind to variable
 		oTypeStkPush(tpString)
-		%@TypeTblEnterIfNew
-		@EnterVariableAttributes %allocating storage for string
 		oSymbolStkLinkToStandardType(stdString)
-		@Assignment
-		oSymbolStkSetKind(syConstant)
+		oTypeStkPushSymbol		%Push the linked std type to type stk
+		@EnterVariableAttributes 	%allocating storage for string
+		.tAssignBegin
+                .tLiteralAddress
+                oValuePushSymbol	%Push address of the variable
+                oEmitValue		%Emit the address
+                oValuePop
+		.tLiteralString		
+		oValuePushStringLength
+		oEmitValue		%String length
+		oEmitString
+		oValuePop
+		.tAssignString
+		oSymbolStkSetKind(syConstant) %Set symbol kind to const so it isn't assigned to in Qust
+		oTypeStkPop oTypeStkPop
 		%-- End of new implementation for string const 
 
 		% Below is the old PT implementation of const sStringLiteral                
