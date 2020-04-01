@@ -852,7 +852,7 @@ ConstantValue :         % An identifier token has just been accepted
         [
             | sInteger:
                 oValuePushInteger
-                %oSymbolStkLinkToStandardType(stdInteger) %%This line commented out because stdInteger was throwing and error
+                oSymbolStkLinkToStandardType(stdInteger) %%This line commented out because stdInteger was throwing and error
                 [
                     | sNegate:
                         oValueNegate
@@ -893,37 +893,47 @@ ConstantValue :         % An identifier token has just been accepted
                 oSymbolStkEnterValue
                 oValuePop
             | sStringLiteral:
-                oValuePush(one) % implicit lower bound of string index type
-                oValuePushStringLength
-                [ oValueChoose
-                    | zero:
-                        #eNullString
-                        @SymbolStkPushDefaultStringConstant
-                    | one:
-                        oSymbolStkLinkToStandardType(stdString)
-                        oSymbolStkEnterStringValue
-                    | *:
-                        % Emit a branch around the string since
-                        % it is stored in the code area
-                        .tSkipString
-                        oFixPushForwardBranch
-                        oEmitNullAddress
-                        .tLiteralString
-                        oEmitValue      % string length
-                        % The string "address" is the location (offset)
-                        % of the first character of the string
-                        oSymbolStkEnterCodeAddress
-                        oEmitString
-                        oFixPopForwardBranch
-                        oTypeStkPush(tpPackedArray)     % means literal string
-                        oTypeStkEnterBounds
-                        oTypeStkLinkToStandardComponentType(stdString)  
-                        oTypeTblEnter
-                        oSymbolStkEnterTypeReference
-                        oTypeStkPop
-                ]
-                oValuePop       % Upper bound
-                oValuePop       % Lower bound
+		%-- Added the following to implement new string 
+		oTypeStkPush(tpString)
+		%@TypeTblEnterIfNew
+		@EnterVariableAttributes %allocating storage for string
+		oSymbolStkLinkToStandardType(stdString)
+		@Assignment
+		oSymbolStkSetKind(syConstant)
+		%-- End of new implementation for string const 
+
+		% Below is the old PT implementation of const sStringLiteral                
+%		oValuePush(one) % implicit lower bound of string index type
+%                oValuePushStringLength
+%                [ oValueChoose
+%                    | zero:
+%                        #eNullString
+%                        @SymbolStkPushDefaultStringConstant
+%                    | one:
+%                        oSymbolStkLinkToStandardType(stdString)
+%                        oSymbolStkEnterStringValue
+%                    | *:
+%                        % Emit a branch around the string since
+%                        % it is stored in the code area
+%                        .tSkipString
+%                        oFixPushForwardBranch
+%                        oEmitNullAddress
+%                        .tLiteralString
+%                        oEmitValue      % string length
+%                        % The string "address" is the location (offset)
+%                        % of the first character of the string
+%                        oSymbolStkEnterCodeAddress
+%                        oEmitString
+%                        oFixPopForwardBranch
+%                        oTypeStkPush(tpPackedArray)     % means literal string
+%                        oTypeStkEnterBounds
+%                        oTypeStkLinkToStandardComponentType(stdString)  
+%                        oTypeTblEnter
+%                        oSymbolStkEnterTypeReference
+%                        oTypeStkPop
+%                ]
+%                oValuePop       % Upper bound
+%                oValuePop       % Lower bound
         ]
         oSymbolTblEnter
         oSymbolStkPop;          % name being defined
@@ -1256,11 +1266,11 @@ AllocateVar :
                 oAllocateVarParameter
             | *:
                 [ oTypeStkChooseKind
-                    | tpInteger, tpSubrange:
+                    | tpInteger, tpSubrange, tpString:	%--Added tpString here to be sure string is word alligned
                         oAllocateAlignOnWord
                         oSymbolStkEnterDataAddress
                         oAllocateVariable
-                    | tpString, tpBoolean:
+                    | tpBoolean:			%-- Removed tpChar
                         oSymbolStkEnterDataAddress
                         oAllocateVariable
                     | tpArray:
