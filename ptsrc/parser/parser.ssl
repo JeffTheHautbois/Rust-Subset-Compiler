@@ -352,6 +352,8 @@ VariableDeclarations :
             {[
                 |':':
 					@TypeBody
+					.sMutable
+
 				|'=':
 					.sInitialValue
                     @Expression
@@ -361,7 +363,6 @@ VariableDeclarations :
 				|*:
 					>
             ]}
-			.sMutable
         % Accept immutable variables
         | *:
 			pIdentifier  .sIdentifier
@@ -393,10 +394,10 @@ ProcedureHeading :
 					| 'mut':
 						% formal parameter identifier
 						pIdentifier  .sIdentifier
+						.sVar
 						%type identifier
 						':'
 							pIdentifier .sIdentifier
-						.sMutable
 					| pIdentifier:
 						.sIdentifier
 						%type identifier
@@ -485,6 +486,7 @@ CallStmt :
 			% with either 'mut' the param identifier name 
 			[
 				| 'mut':
+					.sMutable
 					@Expression
 					.sExpnEnd
                     			 % allow a field width specification to occur in calls
@@ -496,7 +498,6 @@ CallStmt :
                             			.sExpnEnd
                         			| *:
                    			]
-					.sMutable
 				| *:
 					@Expression
 					.sExpnEnd

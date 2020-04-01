@@ -1788,12 +1788,8 @@ CaseStmt :
 	    .tCaseOtherwise
 	    oSymbolTblPushScope % enter new scope
             @Block %---changed fromt @Statement to @Block
-            .tCaseMerge
             oSymbolTblPopScope % exit new scope
-            oFixPushForwardBranch
-            oEmitNullAddress                % merge branch at end of statement
-            oFixSwap                        % keep case select branch on top
-            oCountIncrement      			    
+	    .tCaseMerge                 			  
         | sCaseEnd:
             >
         | *:

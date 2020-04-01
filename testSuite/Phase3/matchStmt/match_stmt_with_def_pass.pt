@@ -4,11 +4,12 @@ mod main(output){
 		| 42 | 43 => {
 			//Declaration or Statement
 		}
-		| 43 => {
+		| 44 => {
 			//Declaration or Statement
 		}
- 		| _ => {
-                        //Declarations and statements
-                } 
+		| _ => {
+                       let x : int;
+			 //Declarations and statements
+                }
 	}
 }
