@@ -1,0 +1,10 @@
+#Changes were made in semantic.ssl in SimpleType and TypeBody
+Why: Qust array type by defaults has lower range index of 1.
+And it disallow any user defined range starting greater than 1
+How: Modifies sRange in SimpleType to always push one as lowerbound.
+
+
+#Changes were made in semantic.ssl in VariableDeclaration
+Why: Qust supports declaration without type but with initial value
+How: Adds additional choice block to handle sInitialValue token
+without specifiying type, and force typeStk to default Integer
