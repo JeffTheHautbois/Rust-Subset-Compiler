@@ -1,3 +1,5 @@
+##--- Strings ---##
+
 #Changes in semantic.ssl Operands, AssignProcedure, ConstantValue rules:
 Why: Removal of tpPackedArrays as it is no longer the proper presentation for Strings
 How: remove tpPackedArrays boundary checking and pushes tpString

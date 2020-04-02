@@ -1,0 +1,31 @@
+What:
+This set of tests checks the mutable/immutable setting and
+type checking for a variable passed into a condition, as
+instructed in the assignment handout. The parser output
+from the procedure and variable declaration rules is handled
+in the semantic phase and the output is analyzed.
+Names of the test files explain what the test does,
+if it is expected to pass or fail.
+
+Where:
+In the testSuite directory, the output of various rules such
+as VariableDecalration, VarActual, AssignmentStmt and procedureHeading
+are checked.
+
+Why:
+In Qust, not all variables can be assigned, value parameter variables
+cannot be assigned. Testing the Mutable declaration and error output
+ensures that condition is covered. 
+
+How:
+The best method to test mutable declarations and restrictions 
+is defining a mutable and non mutable variable, and passing them
+into a function that expects a mutable variable. A type mismatch
+is expected for the immutable variable passing. 
+
+Cases Tested: 
+
+QUST: If statement, If else statement, QUST unique if else if statement, optional semicolon
+at the end of the statement brace. The file names identify the tests.
+
+* All changes are identified in comments made in parser.ssl

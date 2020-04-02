@@ -1,0 +1,5 @@
+mod main (output) {
+	if 100 == 1 {
+	} else {
+	};
+}

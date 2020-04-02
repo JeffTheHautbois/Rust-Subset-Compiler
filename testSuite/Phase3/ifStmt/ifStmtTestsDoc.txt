@@ -1,0 +1,29 @@
+What and Where:
+
+This set of tests in testSuite checks the if statement and expression rule implementation
+in semantic.ssl. Names of the test files explain what the test does,
+if it is expected to pass or fail. The tests are focused on QUST implementation.
+The tests are kept to a minimum to test only the statements, and the call
+to block specifying the begin and end of each block inside the if statement,
+while the begin and end braces of the if statement are expected to be handled
+in the IfStmt rule itself.    
+
+Why:
+
+- These tests ensure nothing else was broken after the changes were added,
+important since a compiler must be reliable.
+- These tests are important since the semantic phase must
+handle QUST code, so without changing the semantic phase we must
+ensure the parser output is handled properly. 
+
+How:
+
+Multiple variations of ifStatements are tested and the trace output is verified
+to trigger the expected functionality for QUST. 
+
+Cases Tested: 
+
+QUST: If statement, If else statement, QUST unique if else if statement, optional semicolon
+at the end of the statement brace. The file names identify the tests.
+
+* All changes are identified in comments made in parser.ssl

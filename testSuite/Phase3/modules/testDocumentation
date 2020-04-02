@@ -1,0 +1,2 @@
+The test in this directory is for a simply emply module and does not
+throw errors and produces the token stream. 

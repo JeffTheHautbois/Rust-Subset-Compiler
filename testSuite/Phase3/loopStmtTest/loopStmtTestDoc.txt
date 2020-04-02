@@ -1,0 +1,36 @@
+What and Where:
+
+This set of tests checks the loop statement along with the break if
+statement in semantic.ssl. Names of the tests explain what the test does,
+if it is expected to pass or fail. The tests are focused on QUST implementation.
+The tests are kept to a minimum to test only the statements, and the call
+to block specifying the begin and end of each block inside the loop statement. 
+
+The tests output should show
+two calls to block, for statements and declarations preceeding and following
+the break if statement. The break if statement on the other hand show have
+the proper output for the expression associated with the break condition. A t
+token specifying the end of the loop stmt is expected at the end.
+
+Why:
+- These tests ensure nothing else was broken after the changes were added,
+important since a compiler must be reliable.
+- loop should trigger:
+our loop statement rule and break if should be handled regardless of the number of
+statements or declarations above or below it, which is confirmed by successful 
+calls of block which is already tested. 
+- The proper t code functionality output tokens should be produced, and expressions
+should be handled for each statement properly.
+
+How:
+- The existing while loop rule in the semantic phase is repurposed, and the 
+parser output tokens are absorbed. This is done in LoopStmt. The test files 
+involve loop statments with break if in different locations and Nullstmts. 
+The While breakif, end and test t tokens are used and are expected in the output. 
+
+Cases Tested: 
+
+QUST: loop statement, loopstatment with multiple statements, loop break if statement, optional semicolon
+at the end of the statement brace. The file names identify the tests.
+
+* All changes are identified in comments made in semantic.ssl

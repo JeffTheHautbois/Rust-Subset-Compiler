@@ -1,0 +1,39 @@
+##--- Modules ---##
+
+##Changes in semantic.ssl
+To start a new rule was implemented for ModuleDefenition. This rule is a copy of
+ProcedureDefenition other than the changes described in the following section. The
+first difference is we remove tSkipProc oFixPushforwardBranch and oEmitNullAddress
+as this is no longer needed in the module. Next, the symbol type was set to the new 
+syModule instead of syProcedure to be used as the enclosing module's symbol. After
+this the call to ProcedureHeading was commented out because we don't need to handle
+params in a module. Next oSymbolTblPopScope was replaced with a new semantic
+mechanisms called oSymbolTblStripScope and oSymbolTblMergeScope. This allows
+everything that is public from within the modules scope to now exist within the scope 
+that encloses the module. Finally we remove tProcedureEnd and oFixPopForwardBranch 
+b/c these are not needed in a module.
+
+##Changes in semantic.pt
+Next the implementation of oSymbolTblStripScope and oSymbolTblMergeScope were added
+to semantic.pt. The oSymbolTblStripScope is mostly a copy of oSymbolTblPop scope
+sets the identSymbolTableRef for each identifier to the one at the lower lexical
+level by setting it to symbolTableIdentLink. This causes the symbols to be invisible
+in the module's scope. The only change made was in the if stmt which disallows this
+action if the symbolTbleType is syPublicProcedure b/c obviously we don't want to hide
+those symbols.
+
+Finally, we implement oSymbolTblMergeScope which simply decriments the lexical level.
+
+##-- Procedures --##
+
+##Changes in semantic.ssl
+To allow for public procedures a case was added in ProcedureDefenition to check for
+a sPublic token following the procedure sIdentifier token. If sPublic is detected
+symbolStk kind is set to syPublicProcedure and otherwise is set ro syProcedure. This
+allows for identification of public procedures. Next all instances requiring
+syProcedure on the symbol stack were changed to also allow syPublicProcedure. This
+change was only needed in CallStmt rule.
+
+##Changes in semantic.pt
+Finally, all assertions of syProcedure are changed to allow for syPublicProcedure, for 
+the same reason as above.

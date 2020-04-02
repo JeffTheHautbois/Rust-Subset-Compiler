@@ -1,0 +1,69 @@
+The test file ./match_stmt_without_def_pass.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   .tCaseBegin
+       .tLiteralAddress
+       oEmitValue
+       % value emitted 4
+       .tFetchInteger
+   .tCaseSelect
+   oEmitNullAddress
+   % value emitted -32767
+    .tCaseMerge
+    oEmitNullAddress
+    % value emitted -32767
+    .tCaseMerge
+    oEmitNullAddress
+    % value emitted -32767
+   .tCaseEnd
+   oEmitCaseBranchTable
+   % value emitted 42
+   % value emitted 43
+   % value emitted 15
+   % value emitted 19
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
+The test file ./match_stmt_with_def_pass.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   .tCaseBegin
+       .tLiteralAddress
+       oEmitValue
+       % value emitted 4
+       .tFetchInteger
+   .tCaseSelect
+   oEmitNullAddress
+   % value emitted -32767
+    .tCaseMerge
+    oEmitNullAddress
+    % value emitted -32767
+    .tCaseMerge
+    oEmitNullAddress
+    % value emitted -32767
+   .tCaseOtherwise
+   .tCaseMerge
+   .tCaseEnd
+   oEmitCaseBranchTable
+   % value emitted 42
+   % value emitted 44
+   % value emitted 15
+   % value emitted 15
+   % value emitted 19
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
