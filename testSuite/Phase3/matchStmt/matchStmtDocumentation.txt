@@ -1,10 +1,2 @@
-This document outlines the changes of the PT case statement to handle the Qust match statements with
-optional default alternative. These changes all occured in semantic.ssl.
-
-Changes were made by reusing the CaseStmt S/Sl rule. Adding a condition to handle the sCaseOtherwise before
-sCaseEnd.The .tCaseOtherwise is emitted and oSymbolTblPushScope operation was used to enter a new scope.
-Also, the body of the default alternative is handled by the Block S/SL rule and the the oSymbolTblPopScope operation was used to exit new scope. Lastly, emitting the .tCaseMerge. 
-
-Thus, the match statment can handle both cases; when there is a default alternative and when there isn't.
-
-
+The tests in this directory is for a match statments that have a default alternative and don't have a default alternative.
+And these test do not throw errors or produces the token stream.
