@@ -1,45 +1,122 @@
 The test file ./loopStatementSemicolonPass.pt yeilded:
-  .sProgram
- .sIdentifier
- .sParmEnd
- % .sNewLine
-  .sBegin
-   .sLoopStmt
-   % .sNewLine
-    .sBegin
-    .sEnd
-   .sLoopBreakIf
-       .sInteger
-       .sInteger
-    .sEq
-   .sExpnEnd
-   % .sNewLine
-    .sBegin
-    .sEnd
-   .sNullStmt
-   .sLoopEnd
-  .sEnd
- % .sNewLine 
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   .tWhileBegin
+   .tWhilePreBreak
+   .tWhileBreakIf
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 100
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 100
+      .tEQ
+   .tNot
+   .tWhileTest
+   oEmitNullAddress
+   % value emitted -32767
+   .tWhileEnd
+   % value emitted 11
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
 
 The test file ./loopStatementPass.pt yeilded:
-  .sProgram
- .sIdentifier
- .sParmEnd
- % .sNewLine
-  .sBegin
-   .sLoopStmt
-   % .sNewLine
-    .sBegin
-    .sEnd
-   .sLoopBreakIf
-       .sInteger
-       .sInteger
-    .sEq
-   .sExpnEnd
-   % .sNewLine
-    .sBegin
-    .sEnd
-   .sLoopEnd
-  .sEnd
- % .sNewLine 
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   .tWhileBegin
+   .tWhilePreBreak
+   .tWhileBreakIf
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 100
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 100
+      .tEQ
+   .tNot
+   .tWhileTest
+   oEmitNullAddress
+   % value emitted -32767
+   .tWhileEnd
+   % value emitted 11
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
+The test file ./loopStatementPassNoSemicolonBIfFail.pt yeilded:
+  
+
+The test file ./loopStatementMutipleStmtPass.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   .tWhileBegin
+   .tWhilePreBreak
+     .tWhileBegin
+     .tWhilePreBreak
+     .tWhileBreakIf
+        .tLiteralInteger
+        oEmitValue
+        % value emitted 100
+        .tLiteralInteger
+        oEmitValue
+        % value emitted 100
+        .tEQ
+     .tNot
+     .tWhileTest
+     oEmitNullAddress
+     % value emitted -32767
+     .tWhileEnd
+     % value emitted 13
+   .tWhileBreakIf
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 100
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 100
+      .tEQ
+   .tNot
+   .tWhileTest
+   oEmitNullAddress
+   % value emitted -32767
+     .tWhileBegin
+     .tWhilePreBreak
+     .tWhileBreakIf
+        .tLiteralInteger
+        oEmitValue
+        % value emitted 100
+        .tLiteralInteger
+        oEmitValue
+        % value emitted 100
+        .tEQ
+     .tNot
+     .tWhileTest
+     oEmitNullAddress
+     % value emitted -32767
+     .tWhileEnd
+     % value emitted 41
+   .tWhileEnd
+   % value emitted 11
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
 

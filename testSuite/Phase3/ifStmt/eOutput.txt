@@ -1,138 +1,174 @@
 The test file ./ifElseStatementPass.pt yeilded:
-  .sProgram
- .sIdentifier
- .sParmEnd
- % .sNewLine
-  .sBegin
-   .sIfStmt
-       .sInteger
-       .sInteger
-    .sEq
-   .sExpnEnd
-   .sThen
-   % .sNewLine
-    .sBegin
-    .sEnd
-   % .sNewLine
-   .sElse
-    .sBegin
-    .sEnd
-   % .sNewLine
-  .sEnd
- % .sNewLine 
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   .tIfBegin
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 100
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 1
+      .tEQ
+   .tIfThen
+   oEmitNullAddress
+   % value emitted -32767
+   .tIfMerge
+   oEmitNullAddress
+   % value emitted -32767
+   .tIfEnd
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
 
 The test file ./ifStatement2Pass.pt yeilded:
-  .sProgram
- .sIdentifier
- .sParmEnd
- % .sNewLine
-  .sBegin
-   .sIfStmt
-       .sInteger
-       .sInteger
-    .sNE
-   .sExpnEnd
-   .sThen
-   % .sNewLine
-    .sBegin
-    .sEnd
-   % .sNewLine
-  .sEnd
- % .sNewLine 
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   .tIfBegin
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 100
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 1
+      .tNE
+   .tIfThen
+   oEmitNullAddress
+   % value emitted -32767
+   .tIfEnd
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
 
 The test file ./ifElseStatementSemicolonPass.pt yeilded:
-  .sProgram
- .sIdentifier
- .sParmEnd
- % .sNewLine
-  .sBegin
-   .sIfStmt
-       .sInteger
-       .sInteger
-    .sEq
-   .sExpnEnd
-   .sThen
-   % .sNewLine
-    .sBegin
-    .sEnd
-   .sNullStmt
-   % .sNewLine
-   .sElse
-    .sBegin
-    .sEnd
-   % .sNewLine
-  .sEnd
- % .sNewLine 
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   .tIfBegin
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 100
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 1
+      .tEQ
+   .tIfThen
+   oEmitNullAddress
+   % value emitted -32767
+   .tIfMerge
+   oEmitNullAddress
+   % value emitted -32767
+   .tIfEnd
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
 
 The test file ./ifElseIfStatementPass.pt yeilded:
-  .sProgram
- .sIdentifier
- .sParmEnd
- % .sNewLine
-  .sBegin
-   .sIfStmt
-       .sInteger
-       .sInteger
-    .sEq
-   .sExpnEnd
-   .sThen
-   % .sNewLine
-    .sBegin
-    .sEnd
-   .sElse
-    .sIfStmt
-        .sInteger
-        .sInteger
-     .sEq
-    .sExpnEnd
-    .sThen
-    % .sNewLine
-     .sBegin
-     .sEnd
-    % .sNewLine
-    .sElse
-     .sBegin
-     .sEnd
-    % .sNewLine
-  .sEnd
- % .sNewLine 
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   .tIfBegin
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 100
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 1
+      .tEQ
+   .tIfThen
+   oEmitNullAddress
+   % value emitted -32767
+   .tIfMerge
+   oEmitNullAddress
+   % value emitted -32767
+     .tIfBegin
+        .tLiteralInteger
+        oEmitValue
+        % value emitted 100
+        .tLiteralInteger
+        oEmitValue
+        % value emitted 3
+        .tEQ
+     .tIfThen
+     oEmitNullAddress
+     % value emitted -32767
+     .tIfMerge
+     oEmitNullAddress
+     % value emitted -32767
+     .tIfEnd
+   .tIfEnd
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
 
 The test file ./ifStatementPass.pt yeilded:
-  .sProgram
- .sIdentifier
- .sParmEnd
- % .sNewLine
-  .sBegin
-   .sIfStmt
-       .sInteger
-       .sInteger
-    .sEq
-   .sExpnEnd
-   .sThen
-   % .sNewLine
-    .sBegin
-    .sEnd
-   % .sNewLine
-  .sEnd
- % .sNewLine 
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   .tIfBegin
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 100
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 1
+      .tEQ
+   .tIfThen
+   oEmitNullAddress
+   % value emitted -32767
+   .tIfEnd
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
 
 The test file ./ifStatementSemicolonPass.pt yeilded:
-  .sProgram
- .sIdentifier
- .sParmEnd
- % .sNewLine
-  .sBegin
-   .sIfStmt
-       .sInteger
-       .sInteger
-    .sEq
-   .sExpnEnd
-   .sThen
-   % .sNewLine
-    .sBegin
-    .sEnd
-   % .sNewLine
-   .sNullStmt
-  .sEnd
- % .sNewLine 
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   .tIfBegin
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 100
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 1
+      .tEQ
+   .tIfThen
+   oEmitNullAddress
+   % value emitted -32767
+   .tIfEnd
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
 
