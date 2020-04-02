@@ -1,0 +1,13 @@
+##--- The Match Statement and Default Alternative ---##
+This document outlines the changes of the PT case statement to handle the Qust match statements with
+optional default alternative. These changes all occured in semantic.ssl.
+
+## Changes in semantic.ssl
+Changes were made by reusing the CaseStmt S/Sl rule to be able to handle default alterative in the match
+statement. The change was adding a condition of sCaseOtherwise in the while loop before the sCaseEnd. Next,
+the addition of the T-code of .tCaseOtherwise was emitted, to be used as a delimiter for the default alterative 
+case. Also, to handle the sequence of statements of the default alterative case, the oSymbolTblPushScope operation was used 
+to enter a new scope and the Block S/SL rule was called. Then, the oSymbolTblPopScope operation was used to exit the new scope. 
+Ending with a .tCaseMerge as the end delimiter. Thus, the match statement can handle both cases; when there is a default alternative 
+and when there isn't.
+
