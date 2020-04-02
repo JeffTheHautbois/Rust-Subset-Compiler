@@ -1,0 +1,3 @@
+The types test ensures coverage for new Qust array format generation.
+And also make sure user defined range array supported in PT Pascal is
+now no longer valid.

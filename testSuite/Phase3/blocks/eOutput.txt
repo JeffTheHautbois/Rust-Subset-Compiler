@@ -1,0 +1,474 @@
+t file ./block_test_type.pt yeilded:
+ @Program
+ ?sProgram (sProgram)
+ oSymbolTblPushScope
+ oCountPush(three)
+ [ (sIdentifier)
+ | *:
+ @ProgramParameter
+  ?sIdentifier (sIdentifier)
+  oSymbolStkPushLocalIdentifier
+  [ oSymbolStkChooseKind (syUndefined)
+  | syUndefined:
+  [ oSymbolStkChooseStandardFile (stdOutput)
+  | stdOutput:
+  oSymbolStkSetKind(syVariable)
+  oSymbolStkLinkToStandardType(stdText)
+  oTypeStkPushSymbol
+  oValuePush(two)
+  ] or >
+  @AllocateVar
+   [ oSymbolStkChooseKind (syVariable)
+   | *:
+   [ oTypeStkChooseKind (tpFile)
+   | tpFile:
+   oAllocateAlignOnWord
+   oSymbolStkEnterDataAddress
+   .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   oAllocateDescriptor
+   ] or >
+   >>
+  ;AllocateVar
+  oSymbolTblEnter
+  ] or >
+  oSymbolStkPop
+  oTypeStkPop
+  oValuePop
+  >>
+ ;ProgramParameter
+ }
+ [ (sParmEnd)
+ | sParmEnd:
+ ] or >
+ oCountPop
+ @Block
+  ?sBegin (sBegin)
+  [ (sType)
+  | sType:
+  @TypeDefinitions
+   [ (sIdentifier)
+   | sIdentifier:
+   oSymbolStkPushLocalIdentifier
+   [ oSymbolStkChooseKind (syUndefined)
+   | syUndefined:
+   ] or >
+   oSymbolStkSetKind(syType)
+   @TypeBody
+    [ (sIdentifier)
+    | *:
+    @SimpleType
+     [ (sIdentifier)
+     | sIdentifier:
+     oSymbolStkPushIdentifier
+     [ oSymbolStkChooseKind (syType)
+     | syType:
+     @ValuePushTypeBounds
+      oTypeStkPushSymbol
+      [ oTypeStkChooseKind (tpInteger)
+      | *:
+      oValuePush(one)
+      @ValuePushValuePlusOne
+       oCountPushValue
+       oCountIncrement
+       oValuePushCount
+       oCountPop
+       >>
+      ;ValuePushValuePlusOne
+      oTypeStkPop
+      >>
+     ;ValuePushTypeBounds
+     ] or >
+     ] or >
+     >>
+    ;SimpleType
+    [ oSymbolStkChooseKind (syType)
+    | syType:
+    oTypeStkPushSymbol
+    ] or >
+    oValuePop
+    oValuePop
+    oSymbolStkPop
+    @TypeTblEnterIfNew
+     [ oTypeStkChooseTypeReference (yes)
+     | *:
+     >>
+    ;TypeTblEnterIfNew
+    >>
+   ;TypeBody
+   oSymbolStkEnterTypeReference
+   oTypeStkPop
+   oSymbolTblEnter
+   oSymbolStkPop
+   ] or >
+   }
+   [ (sType)
+   | *:
+   ] or >
+   >>
+  ;TypeDefinitions
+  ] or >
+  }
+  [ (sType)
+  | sType:
+  @TypeDefinitions
+   [ (sIdentifier)
+   | sIdentifier:
+   oSymbolStkPushLocalIdentifier
+   [ oSymbolStkChooseKind (syUndefined)
+   | syUndefined:
+   ] or >
+   oSymbolStkSetKind(syType)
+   @TypeBody
+    [ (sIdentifier)
+    | *:
+    @SimpleType
+     [ (sIdentifier)
+     | sIdentifier:
+     oSymbolStkPushIdentifier
+     [ oSymbolStkChooseKind (syType)
+     | syType:
+     @ValuePushTypeBounds
+      oTypeStkPushSymbol
+      [ oTypeStkChooseKind (tpBoolean)
+      | *:
+      oValuePush(one)
+      @ValuePushValuePlusOne
+       oCountPushValue
+       oCountIncrement
+       oValuePushCount
+       oCountPop
+       >>
+      ;ValuePushValuePlusOne
+      oTypeStkPop
+      >>
+     ;ValuePushTypeBounds
+     ] or >
+     ] or >
+     >>
+    ;SimpleType
+    [ oSymbolStkChooseKind (syType)
+    | syType:
+    oTypeStkPushSymbol
+    ] or >
+    oValuePop
+    oValuePop
+    oSymbolStkPop
+    @TypeTblEnterIfNew
+     [ oTypeStkChooseTypeReference (yes)
+     | *:
+     >>
+    ;TypeTblEnterIfNew
+    >>
+   ;TypeBody
+   oSymbolStkEnterTypeReference
+   oTypeStkPop
+   oSymbolTblEnter
+   oSymbolStkPop
+   ] or >
+   }
+   [ (sEnd)
+   | *:
+   ] or >
+   >>
+  ;TypeDefinitions
+  ] or >
+  }
+  [ (sEnd)
+  | *:
+  ] or >
+  ?sEnd (sEnd)
+  >>
+ ;Block
+ [ oSymbolTblLookupExternal (no)
+ | *:
+ oSymbolTblPopScope
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0
+ >>
+;Program
+
+PT Pascal v4.2 (c) 2019 Queen's University, (c) 1980 University of Toronto
+The test file ./block_const_var_pass.pt yeilded:
+ @Program
+ ?sProgram (sProgram)
+ oSymbolTblPushScope
+ oCountPush(three)
+ [ (sIdentifier)
+ | *:
+ @ProgramParameter
+  ?sIdentifier (sIdentifier)
+  oSymbolStkPushLocalIdentifier
+  [ oSymbolStkChooseKind (syUndefined)
+  | syUndefined:
+  [ oSymbolStkChooseStandardFile (stdOutput)
+  | stdOutput:
+  oSymbolStkSetKind(syVariable)
+  oSymbolStkLinkToStandardType(stdText)
+  oTypeStkPushSymbol
+  oValuePush(two)
+  ] or >
+  @AllocateVar
+   [ oSymbolStkChooseKind (syVariable)
+   | *:
+   [ oTypeStkChooseKind (tpFile)
+   | tpFile:
+   oAllocateAlignOnWord
+   oSymbolStkEnterDataAddress
+   .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   oAllocateDescriptor
+   ] or >
+   >>
+  ;AllocateVar
+  oSymbolTblEnter
+  ] or >
+  oSymbolStkPop
+  oTypeStkPop
+  oValuePop
+  >>
+ ;ProgramParameter
+ }
+ [ (sParmEnd)
+ | sParmEnd:
+ ] or >
+ oCountPop
+ @Block
+  ?sBegin (sBegin)
+  [ (sVar)
+  | sVar:
+  @VariableDeclarations
+   [ (sIdentifier)
+   | sIdentifier:
+   oSymbolStkPushLocalIdentifier
+   [ oSymbolStkChooseKind (syUndefined)
+   | syUndefined:
+   ] or >
+   [ (sIdentifier)
+   | *:
+   @TypeBody
+    [ (sIdentifier)
+    | *:
+    @SimpleType
+     [ (sIdentifier)
+     | sIdentifier:
+     oSymbolStkPushIdentifier
+     [ oSymbolStkChooseKind (syType)
+     | syType:
+     @ValuePushTypeBounds
+      oTypeStkPushSymbol
+      [ oTypeStkChooseKind (tpInteger)
+      | *:
+      oValuePush(one)
+      @ValuePushValuePlusOne
+       oCountPushValue
+       oCountIncrement
+       oValuePushCount
+       oCountPop
+       >>
+      ;ValuePushValuePlusOne
+      oTypeStkPop
+      >>
+     ;ValuePushTypeBounds
+     ] or >
+     ] or >
+     >>
+    ;SimpleType
+    [ oSymbolStkChooseKind (syType)
+    | syType:
+    oTypeStkPushSymbol
+    ] or >
+    oValuePop
+    oValuePop
+    oSymbolStkPop
+    @TypeTblEnterIfNew
+     [ oTypeStkChooseTypeReference (yes)
+     | *:
+     >>
+    ;TypeTblEnterIfNew
+    >>
+   ;TypeBody
+   @EnterVariableAttributes
+    [ oSymbolStkChooseKind (syUndefined)
+    | *:
+    oSymbolStkSetKind(syVariable)
+    [ oTypeStkChooseKind (tpInteger)
+    | *:
+    @AllocateVar
+     [ oSymbolStkChooseKind (syVariable)
+     | *:
+     [ oTypeStkChooseKind (tpInteger)
+     | tpInteger:
+     oAllocateAlignOnWord
+     oSymbolStkEnterDataAddress
+     oAllocateVariable
+     ] or >
+     >>
+    ;AllocateVar
+    oSymbolStkEnterTypeReference
+    oSymbolTblEnter
+    >>
+   ;EnterVariableAttributes
+   [ (sVar)
+   | *:
+   [ (sVar)
+   | *:
+   oTypeStkPop
+   oSymbolStkPop
+   ] or >
+   }
+   [ (sVar)
+   | *:
+   ] or >
+   >>
+  ;VariableDeclarations
+  ] or >
+  }
+  [ (sVar)
+  | sVar:
+  @VariableDeclarations
+   [ (sIdentifier)
+   | sIdentifier:
+   oSymbolStkPushLocalIdentifier
+   [ oSymbolStkChooseKind (syUndefined)
+   | syUndefined:
+   ] or >
+   [ (sIdentifier)
+   | *:
+   @TypeBody
+    [ (sIdentifier)
+    | *:
+    @SimpleType
+     [ (sIdentifier)
+     | sIdentifier:
+     oSymbolStkPushIdentifier
+     [ oSymbolStkChooseKind (syType)
+     | syType:
+     @ValuePushTypeBounds
+      oTypeStkPushSymbol
+      [ oTypeStkChooseKind (tpBoolean)
+      | *:
+      oValuePush(one)
+      @ValuePushValuePlusOne
+       oCountPushValue
+       oCountIncrement
+       oValuePushCount
+       oCountPop
+       >>
+      ;ValuePushValuePlusOne
+      oTypeStkPop
+      >>
+     ;ValuePushTypeBounds
+     ] or >
+     ] or >
+     >>
+    ;SimpleType
+    [ oSymbolStkChooseKind (syType)
+    | syType:
+    oTypeStkPushSymbol
+    ] or >
+    oValuePop
+    oValuePop
+    oSymbolStkPop
+    @TypeTblEnterIfNew
+     [ oTypeStkChooseTypeReference (yes)
+     | *:
+     >>
+    ;TypeTblEnterIfNew
+    >>
+   ;TypeBody
+   @EnterVariableAttributes
+    [ oSymbolStkChooseKind (syUndefined)
+    | *:
+    oSymbolStkSetKind(syVariable)
+    [ oTypeStkChooseKind (tpBoolean)
+    | *:
+    @AllocateVar
+     [ oSymbolStkChooseKind (syVariable)
+     | *:
+     [ oTypeStkChooseKind (tpBoolean)
+     | tpBoolean:
+     oSymbolStkEnterDataAddress
+     oAllocateVariable
+     ] or >
+     >>
+    ;AllocateVar
+    oSymbolStkEnterTypeReference
+    oSymbolTblEnter
+    >>
+   ;EnterVariableAttributes
+   [ (sConst)
+   | *:
+   [ (sConst)
+   | *:
+   oTypeStkPop
+   oSymbolStkPop
+   ] or >
+   }
+   [ (sConst)
+   | *:
+   ] or >
+   >>
+  ;VariableDeclarations
+  ] or >
+  }
+  [ (sConst)
+  | sConst:
+  @ConstantDefinitions
+   [ (sIdentifier)
+   | sIdentifier:
+   @ConstantValue
+    oSymbolStkPushLocalIdentifier
+    [ oSymbolStkChooseKind (syUndefined)
+    | syUndefined:
+    ] or >
+    oSymbolStkSetKind(syConstant)
+    [ (sInteger)
+    | sInteger:
+    oValuePushInteger
+    oSymbolStkLinkToStandardType(stdInteger)
+    [ (sEnd)
+    | *:
+    oSymbolStkEnterValue
+    oValuePop
+    ] or >
+    oSymbolTblEnter
+    oSymbolStkPop
+    >>
+   ;ConstantValue
+   ] or >
+   }
+   [ (sEnd)
+   | *:
+   ] or >
+   >>
+  ;ConstantDefinitions
+  ] or >
+  }
+  [ (sEnd)
+  | *:
+  ] or >
+  ?sEnd (sEnd)
+  >>
+ ;Block
+ [ oSymbolTblLookupExternal (no)
+ | *:
+ oSymbolTblPopScope
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0
+ >>
+;Program

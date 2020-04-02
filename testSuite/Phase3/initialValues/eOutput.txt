@@ -1,0 +1,50 @@
+t file ./initial_value_other_fail.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+    .tAssignBegin
+     .tLiteralAddress
+     oEmitValue
+     % value emitted 4
+      .tLiteralString
+      oEmitValue
+      % value emitted 6
+      oEmitString
+      % value emitted 115
+      % value emitted 116
+      % value emitted 114
+      % value emitted 105
+      % value emitted 110
+      % value emitted 103
+     #eTypeMismatch
+    .tAssignInteger
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0
+
+PT Pascal v4.2 (c) 2019 Queen's University, (c) 1980 University of Toronto
+The test file ./initial_value_integer_pass.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+    .tAssignBegin
+     .tLiteralAddress
+     oEmitValue
+     % value emitted 4
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 1
+    .tAssignInteger
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0
