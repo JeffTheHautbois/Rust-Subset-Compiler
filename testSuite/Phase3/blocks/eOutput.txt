@@ -1,0 +1,26 @@
+The test file ./block_test_type.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
+The test file ./block_const_var_pass.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+

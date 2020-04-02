@@ -58,6 +58,7 @@ Finally, all assertions of syProcedure are changed to allow for syPublicProcedur
 the same reason as above.
 
 #### The Match Statement and Default Alternative ####
+
 This document outlines the changes of the PT case statement to handle the Qust match statements with
 optional default alternative. These changes all occured in semantic.ssl.
 

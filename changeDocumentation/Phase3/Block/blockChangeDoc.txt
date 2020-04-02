@@ -1,3 +1,0 @@
-#Changes were made in semantic.ssl Block, and Statement rules:
-Why: Qust supports statement and declaration in any order.
-How: All choices in Statement rules were removed and lifted into Block.

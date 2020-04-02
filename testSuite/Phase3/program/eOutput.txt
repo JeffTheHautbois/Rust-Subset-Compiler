@@ -1,0 +1,34 @@
+The test file ./nullProgramPass.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
+The test file ./twoParamProgramPass.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 3
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 4
+   .tFileDescriptor
+ #eExternalUndeclared
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+

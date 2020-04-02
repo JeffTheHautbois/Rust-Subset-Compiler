@@ -1,0 +1,48 @@
+The test file ./types_new_array_pass.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+     .tLiteralInteger
+     oEmitValue
+     % value emitted 1
+     .tLiteralAddress
+     oEmitDataAddress
+     % value emitted 4
+     .tArrayDescriptor
+     .tLiteralInteger
+     oEmitValue
+     % value emitted 10
+     .tLiteralAddress
+     oEmitDataAddress
+     % value emitted 8
+     .tArrayDescriptor
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
+The test file ./types_new_init_no_type_pass.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+    .tAssignBegin
+     .tLiteralAddress
+     oEmitValue
+     % value emitted 4
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 10
+    .tAssignInteger
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
