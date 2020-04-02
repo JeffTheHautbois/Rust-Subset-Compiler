@@ -25,7 +25,7 @@ is expected for the immutable variable passing.
 
 Cases Tested: 
 
-QUST: If statement, If else statement, QUST unique if else if statement, optional semicolon
-at the end of the statement brace. The file names identify the tests.
+QUST: Declaring mutable variable, declaring non mutable variable, passing mut and non-mut 
+into procedure expecting mut varible.
 
-* All changes are identified in comments made in parser.ssl
+* All changes are identified in comments made in semantic.ssl
