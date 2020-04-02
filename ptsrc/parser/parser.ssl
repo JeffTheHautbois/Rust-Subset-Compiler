@@ -344,7 +344,7 @@ OptionallySignedIntegerConstant :
 VariableDeclarations :
 	% Accept one or more variable declarations.
 	{[ 
-	|';':
+	| ';':
 		>
 	% Accept mutable variables
         | pMut:
@@ -376,8 +376,10 @@ VariableDeclarations :
 				|',':
 					>
 				|*:
-					>
+					';'
+					>>
             ]}
+	
     ]};
 
 ProcedureHeading :
