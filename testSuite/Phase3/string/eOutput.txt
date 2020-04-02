@@ -1,0 +1,689 @@
+The test file ./new_string_length_pass.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   #eTypeMismatch
+    .tAssignBegin
+     .tLiteralAddress
+     oEmitValue
+     % value emitted 4
+      .tLiteralString
+      oEmitValue
+      % value emitted 5
+      oEmitString
+      % value emitted 104
+      % value emitted 101
+      % value emitted 108
+      % value emitted 108
+      % value emitted 111
+      .tLength
+    .tAssignInteger
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
+The test file ./new_string_file_param_pass.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 1
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 4
+   .tFileDescriptor
+     .tLiteralInteger
+     oEmitValue
+     % value emitted 0
+     .tLiteralAddress
+     oEmitDataAddress
+     % value emitted 8
+     .tFileDescriptor
+   .tTrapBegin
+      .tLiteralAddress
+      oEmitValue
+      % value emitted 8
+    .tVarParm
+    .tParmEnd
+      .tLiteralString
+      oEmitValue
+      % value emitted 3
+      oEmitString
+      % value emitted 115
+      % value emitted 116
+      % value emitted 114
+    .tParmEnd
+    oEmitValue
+    % value emitted 1024
+    .tParmEnd
+   .tTrap
+   oEmitTrapKind(trAssign)
+   % value emitted 12
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
+The test file ./int_LT_pass.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   .tIfBegin
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 3
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 4
+      .tLT
+   .tIfThen
+   oEmitNullAddress
+   % value emitted -32767
+   .tIfEnd
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
+The test file ./new_const_string_pass.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+    .tAssignBegin
+    .tLiteralAddress
+    oEmitValue
+    % value emitted 4
+    .tLiteralString
+    oEmitValue
+    % value emitted 11
+    oEmitString
+    % value emitted 72
+    % value emitted 101
+    % value emitted 108
+    % value emitted 108
+    % value emitted 111
+    % value emitted 32
+    % value emitted 87
+    % value emitted 111
+    % value emitted 114
+    % value emitted 108
+    % value emitted 100
+    .tAssignString
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
+The test file ./int_LTE_pass.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   .tIfBegin
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 3
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 4
+      .tLE
+   .tIfThen
+   oEmitNullAddress
+   % value emitted -32767
+   .tIfEnd
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
+The test file ./new_substring_pass.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   #eTypeMismatch
+    .tAssignBegin
+     .tLiteralAddress
+     oEmitValue
+     % value emitted 4
+      .tLiteralString
+      oEmitValue
+      % value emitted 5
+      oEmitString
+      % value emitted 104
+      % value emitted 101
+      % value emitted 108
+      % value emitted 108
+      % value emitted 111
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 4
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 5
+      .tSubstring
+    .tAssignString
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
+The test file ./int_GT_pass.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   .tIfBegin
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 3
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 4
+      .tGT
+   .tIfThen
+   oEmitNullAddress
+   % value emitted -32767
+   .tIfEnd
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
+The test file ./string_GT_fail.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   .tIfBegin
+      .tLiteralString
+      oEmitValue
+      % value emitted 4
+      oEmitString
+      % value emitted 116
+      % value emitted 104
+      % value emitted 105
+      % value emitted 115
+      .tLiteralString
+      oEmitValue
+      % value emitted 4
+      oEmitString
+      % value emitted 116
+      % value emitted 104
+      % value emitted 97
+      % value emitted 116
+      #eInvalidExpn
+   .tIfThen
+   oEmitNullAddress
+   % value emitted -32767
+   .tIfEnd
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
+The test file ./multiply_pass.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   #eTypeMismatch
+    .tAssignBegin
+     .tLiteralAddress
+     oEmitValue
+     % value emitted 4
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 5
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 6
+      .tMultiply
+    .tAssignInteger
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
+The test file ./old_add_pass.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   #eTypeMismatch
+    .tAssignBegin
+     .tLiteralAddress
+     oEmitValue
+     % value emitted 4
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 5
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 7
+      .tAdd
+    .tAssignInteger
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
+The test file ./int_not_equal_pass.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   .tIfBegin
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 3
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 4
+      .tNE
+   .tIfThen
+   oEmitNullAddress
+   % value emitted -32767
+   .tIfEnd
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
+The test file ./new_string_not_equal_pass.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   .tIfBegin
+      .tLiteralString
+      oEmitValue
+      % value emitted 4
+      oEmitString
+      % value emitted 116
+      % value emitted 104
+      % value emitted 105
+      % value emitted 115
+      .tLiteralString
+      oEmitValue
+      % value emitted 4
+      oEmitString
+      % value emitted 116
+      % value emitted 104
+      % value emitted 97
+      % value emitted 116
+      .tStringEqual
+      .tNot
+   .tIfThen
+   oEmitNullAddress
+   % value emitted -32767
+   .tIfEnd
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
+The test file ./new_string_equality_pass.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   .tIfBegin
+      .tLiteralString
+      oEmitValue
+      % value emitted 4
+      oEmitString
+      % value emitted 116
+      % value emitted 104
+      % value emitted 105
+      % value emitted 115
+      .tLiteralString
+      oEmitValue
+      % value emitted 4
+      oEmitString
+      % value emitted 116
+      % value emitted 104
+      % value emitted 97
+      % value emitted 116
+      .tStringEqual
+   .tIfThen
+   oEmitNullAddress
+   % value emitted -32767
+   .tIfEnd
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
+The test file ./concat_type_mismatch_fail.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   #eTypeMismatch
+    .tAssignBegin
+     .tLiteralAddress
+     oEmitValue
+     % value emitted 4
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 5
+      .tLiteralString
+      oEmitValue
+      % value emitted 5
+      oEmitString
+      % value emitted 104
+      % value emitted 101
+      % value emitted 108
+      % value emitted 108
+      % value emitted 111
+      .tConcatenate
+        #eTypeMismatch
+    .tAssignString
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
+The test file ./string_LT_fail.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   .tIfBegin
+      .tLiteralString
+      oEmitValue
+      % value emitted 4
+      oEmitString
+      % value emitted 116
+      % value emitted 104
+      % value emitted 105
+      % value emitted 115
+      .tLiteralString
+      oEmitValue
+      % value emitted 4
+      oEmitString
+      % value emitted 116
+      % value emitted 104
+      % value emitted 97
+      % value emitted 116
+      #eInvalidExpn
+   .tIfThen
+   oEmitNullAddress
+   % value emitted -32767
+   .tIfEnd
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
+The test file ./new_string_concat_pass.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   #eTypeMismatch
+    .tAssignBegin
+     .tLiteralAddress
+     oEmitValue
+     % value emitted 4
+      .tLiteralString
+      oEmitValue
+      % value emitted 3
+      oEmitString
+      % value emitted 104
+      % value emitted 101
+      % value emitted 108
+      .tLiteralString
+      oEmitValue
+      % value emitted 2
+      oEmitString
+      % value emitted 108
+      % value emitted 111
+      .tConcatenate
+    .tAssignString
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
+The test file ./int_GTE_pass.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   .tIfBegin
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 3
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 4
+      .tGE
+   .tIfThen
+   oEmitNullAddress
+   % value emitted -32767
+   .tIfEnd
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
+The test file ./new_basic_string_assignment_pass.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   #eTypeMismatch
+    .tAssignBegin
+     .tLiteralAddress
+     oEmitValue
+     % value emitted 4
+      .tLiteralString
+      oEmitValue
+      % value emitted 11
+      oEmitString
+      % value emitted 72
+      % value emitted 101
+      % value emitted 108
+      % value emitted 108
+      % value emitted 111
+      % value emitted 32
+      % value emitted 87
+      % value emitted 111
+      % value emitted 114
+      % value emitted 108
+      % value emitted 100
+    .tAssignString
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
+The test file ./string_LTE_fail.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   .tIfBegin
+      .tLiteralString
+      oEmitValue
+      % value emitted 4
+      oEmitString
+      % value emitted 116
+      % value emitted 104
+      % value emitted 105
+      % value emitted 115
+      .tLiteralString
+      oEmitValue
+      % value emitted 4
+      oEmitString
+      % value emitted 116
+      % value emitted 104
+      % value emitted 97
+      % value emitted 116
+      #eInvalidExpn
+   .tIfThen
+   oEmitNullAddress
+   % value emitted -32767
+   .tIfEnd
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
+The test file ./string_GTE_fail.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   .tIfBegin
+      .tLiteralString
+      oEmitValue
+      % value emitted 4
+      oEmitString
+      % value emitted 116
+      % value emitted 104
+      % value emitted 105
+      % value emitted 115
+      .tLiteralString
+      oEmitValue
+      % value emitted 4
+      oEmitString
+      % value emitted 116
+      % value emitted 104
+      % value emitted 97
+      % value emitted 116
+      #eInvalidExpn
+   .tIfThen
+   oEmitNullAddress
+   % value emitted -32767
+   .tIfEnd
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
+The test file ./length_operator_wrong_type_fail.pt yeilded:
+  
+
+The test file ./int_equal_pass.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   .tIfBegin
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 3
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 4
+      .tEQ
+   .tIfThen
+   oEmitNullAddress
+   % value emitted -32767
+   .tIfEnd
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
+The test file ./new_repeat_string_pass.pt yeilded:
+    .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tFileDescriptor
+   #eTypeMismatch
+    .tAssignBegin
+     .tLiteralAddress
+     oEmitValue
+     % value emitted 4
+      .tLiteralString
+      oEmitValue
+      % value emitted 2
+      oEmitString
+      % value emitted 104
+      % value emitted 105
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 5
+      .tRepeatString
+    .tAssignString
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0 
+
