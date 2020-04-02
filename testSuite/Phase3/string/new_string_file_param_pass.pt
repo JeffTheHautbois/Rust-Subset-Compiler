@@ -1,0 +1,5 @@
+//new file assignment parameter test
+mod main(input, output){
+	let myfile : text;
+	assign(myfile, "str");
+}

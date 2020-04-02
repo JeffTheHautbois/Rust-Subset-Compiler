@@ -32,4 +32,7 @@ operand pairs were tested which still function as expected.
 
 The set of operators '<', '>', '<=', '>=' were all tested with string operands and all tests
 with one or two string operands failed as expeced. Only integer-integer operand pairs passed
-as expected. 
+as expected.
+
+All string trap operation is working tested using pt assign procedure call. trReadString and 
+trWriteString trapKind number has been updated to 108 and 109 

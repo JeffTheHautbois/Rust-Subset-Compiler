@@ -1,1 +1,19 @@
 Place holder text
+
+Removal of tpPackedArrays
+Where: semantic.ssl Operands, AssignProcedure, ConstantValue
+Why: tpPackedArrays is no longer the proper presentation for Strings
+How: remove tpPackedArrays boundary checking and pushes tpString
+and and omit proper String Length after tLiteralString
+
+String Size
+Where: semantic.pt oAllocateVariable
+Why: String size in Qust is 1024 which is way larger than wordSize
+How: adds extra choice in semantic mechanism to allocate stringSize.
+
+Trap Operations
+Where: semantic.ssl AssignProcedure
+Why: Strings in Qust are no longer represented as tpPackedArray
+How: now accepts tpString instead of tpPackedArray and emits length of string
+using oValuePush(stringSize) and oValueOmit
+

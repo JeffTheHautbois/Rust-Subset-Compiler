@@ -361,9 +361,9 @@
         trWriteln = 6;
         trWriteString = 108;
         trWriteInteger = 8;
-        trReadInteger = 9;
+        trReadInteger = 10;
         trReadString = 109;
-        trAssign = 11;
+        trAssign = 12;
 
         { S/SL Rule Table Addresses } {
         Program = 0;
