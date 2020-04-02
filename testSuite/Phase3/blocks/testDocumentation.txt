@@ -1,0 +1,3 @@
+The block tests provides coverage to ensure declaration and statements,
+as well as call statements are all valid after the merging of Block and
+Statement rule in the semantic phase.

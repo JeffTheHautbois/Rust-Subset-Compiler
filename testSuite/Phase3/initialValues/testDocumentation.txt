@@ -1,0 +1,2 @@
+The declaration with initial value without type ensures the semantic is valid
+And the test also makes sure to only default to Integer value.
