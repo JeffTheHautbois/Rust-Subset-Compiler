@@ -1,0 +1,138 @@
+The test file ./ifElseStatementPass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sIfStmt
+       .sInteger
+       .sInteger
+    .sEq
+   .sExpnEnd
+   .sThen
+   % .sNewLine
+    .sBegin
+    .sEnd
+   % .sNewLine
+   .sElse
+    .sBegin
+    .sEnd
+   % .sNewLine
+  .sEnd
+ % .sNewLine 
+
+The test file ./ifStatement2Pass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sIfStmt
+       .sInteger
+       .sInteger
+    .sNE
+   .sExpnEnd
+   .sThen
+   % .sNewLine
+    .sBegin
+    .sEnd
+   % .sNewLine
+  .sEnd
+ % .sNewLine 
+
+The test file ./ifElseStatementSemicolonPass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sIfStmt
+       .sInteger
+       .sInteger
+    .sEq
+   .sExpnEnd
+   .sThen
+   % .sNewLine
+    .sBegin
+    .sEnd
+   .sNullStmt
+   % .sNewLine
+   .sElse
+    .sBegin
+    .sEnd
+   % .sNewLine
+  .sEnd
+ % .sNewLine 
+
+The test file ./ifElseIfStatementPass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sIfStmt
+       .sInteger
+       .sInteger
+    .sEq
+   .sExpnEnd
+   .sThen
+   % .sNewLine
+    .sBegin
+    .sEnd
+   .sElse
+    .sIfStmt
+        .sInteger
+        .sInteger
+     .sEq
+    .sExpnEnd
+    .sThen
+    % .sNewLine
+     .sBegin
+     .sEnd
+    % .sNewLine
+    .sElse
+     .sBegin
+     .sEnd
+    % .sNewLine
+  .sEnd
+ % .sNewLine 
+
+The test file ./ifStatementPass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sIfStmt
+       .sInteger
+       .sInteger
+    .sEq
+   .sExpnEnd
+   .sThen
+   % .sNewLine
+    .sBegin
+    .sEnd
+   % .sNewLine
+  .sEnd
+ % .sNewLine 
+
+The test file ./ifStatementSemicolonPass.pt yeilded:
+  .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sIfStmt
+       .sInteger
+       .sInteger
+    .sEq
+   .sExpnEnd
+   .sThen
+   % .sNewLine
+    .sBegin
+    .sEnd
+   % .sNewLine
+   .sNullStmt
+  .sEnd
+ % .sNewLine 
+

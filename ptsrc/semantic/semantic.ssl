@@ -35,14 +35,14 @@ Input :
         sEnd
         sNegate
         sModule		%Added Qust Module input 
-	sPublic		%Added Qust Public input
-	sMutable	%Added Qust Mutable input
-	sInitialValue	%Added Qust variable input token
-	sArray
+	    sPublic		%Added Qust Public input
+	    sMutable	%Added Qust Mutable input
+	    sInitialValue	%Added Qust variable input token
+	    sArray
         sFile
         sRange
         sCaseStmt
-	sCaseOtherwise	%Added Qust alternate case token
+	    sCaseOtherwise	%Added Qust alternate case token
         sCaseEnd
         sLabelEnd
         sExpnEnd
@@ -55,11 +55,11 @@ Input :
         sThen
         sElse
         sWhileStmt
-	%Removed PT tokens RepeatStmt and RepeatEnd
-	sLoopStmt	%Added Qust loop token
-	sLoopBreakIf	%Added Qust loop breakIf token
-	sLoopEnd        %Added Qust loop end token
-	sEq
+	    %Removed PT tokens RepeatStmt and RepeatEnd
+	    sLoopStmt	%Added Qust loop token
+	    sLoopBreakIf	%Added Qust loop breakIf token
+	    sLoopEnd        %Added Qust loop end token
+	    sEq
         sNE
         sLT
         sLE
@@ -73,8 +73,8 @@ Input :
         sInfixOr
         sOr
         sInfixAnd
-	sSubstring	%Added Qust substring token
-	sLength		%Added Qust length token
+	    sSubstring	%Added Qust substring token
+	    sLength		%Added Qust length token
         sAnd
         sNot
         sNewLine
@@ -325,6 +325,7 @@ type SymbolKind :
         syConstant
         syType
         syVariable
+        syMutableVariable %adding syMutableVariable
         syVarParameter
         syProcedure
         syFunction
@@ -820,7 +821,7 @@ Block :
             | sVar:
                 @VariableDeclarations 
            %--- copied from Statement rule:
-	    | sAssignmentStmt:
+	        | sAssignmentStmt:
                 @AssignmentStmt
             | sCallStmt:
                 @CallStmt
@@ -832,6 +833,8 @@ Block :
                 @WhileStmt
             | sCaseStmt:
                 @CaseStmt
+            | sLoopStmt: %--Adding handling of loopStmt
+                @LoopStmt
            %--- | sRepeatStmt:
            %---     @RepeatStmt
             | sNullStmt:
@@ -1205,17 +1208,31 @@ VariableDeclarations :
                 % Accepts a type specification and pushes its type to the Type Stack.
                 % Creates type table entries for the type and any new subtypes as necessary.
                 @TypeBody
-        	@EnterVariableAttributes
-		[
-		|sInitialValue:
-			@Assignment
-		|*:
-		]
+        	    @EnterVariableAttributes 
+		    [
+		        |sInitialValue:
+			    @Assignment
+		        |*:
+		    ]
 
-                oTypeStkPop
-        	oSymbolStkPop
-		]
-            | *:
+            [
+            |sMutable:
+                oSymbolStkSetKind(syMutableVariable) %Mutable type symbStk
+                oSymbolTblUpdate
+                [
+                    oSymbolStkChooseKind
+                    |syMutableVariable: %checking type is mutable
+                    |*:
+                        #eTypeMismatch
+                ]
+            |*:
+            ]
+
+            oTypeStkPop
+            oSymbolStkPop
+		
+        ]
+        | *:
                 >
         ]};
 
@@ -1405,7 +1422,7 @@ ProcedureParameterType :
         oSymbolStkPop           	        % parameter type symbol
 
         [ oSymbolStkChooseKind
-            | syVariable:
+            | syVariable, syMutableVariable: %adding syMutableVariable
                 [ oTypeStkChooseKind
                     | tpArray, tpFile:
                         #eNonScalarValParm
@@ -1527,6 +1544,12 @@ Statement :
 
 AssignmentStmt :
         sIdentifier  oSymbolStkPushIdentifier
+        [
+            oSymbolStkChooseKind
+            |syMutableVariable: %checking variable is mutable
+            |*:
+                #eTypeMismatch
+        ]
         @Assignment
         oSymbolStkPop;
 
@@ -1653,11 +1676,20 @@ ActualParameters :
                 % formal parameter must be a variable
                 % or a variable parameter
                 [ oSymbolStkChooseKind
-                    | syVariable:
-                        % value parameter, actual should be an expression
-                        @Expression
-                        @CompareAndSwapTypes
+                    | syVariable, syMutableVariable: %adding syMutableVariable
+                        [|sMutable: % CHANGE - check for sMutable. If found then raise an error
+                            #eParameterTypeMismatch
+                         |*:
+                            % value parameter, actual should be an expression
+                            @Expression
+                            @CompareAndSwapTypes
+                        ]
+
                     | syVarParameter:
+                        [|sMutable: % CHANGE - check for sMutable. If not found then raise an error 
+                         |*:
+                            #eParameterTypeMismatch
+                        ]
                         @VarActual
                 ]
                 oSymbolStkPop  oTypeStkPop      % actual
@@ -1681,6 +1713,12 @@ VarActual :
         [
             | sIdentifier:
                 oSymbolStkPushIdentifier
+                [
+                    oSymbolStkChooseKind
+                    |syMutableVariable: %check parameter is mutable
+                    |*:
+                        #eParameterTypeMismatch
+                ]
                 @Variable
                 .tVarParm
                 [ oTypeStkCompareNames
@@ -1702,8 +1740,7 @@ VarActual :
                 % Flush the expression
                 @Expression
         ];
-
-IfStmt :
+IfStmt : % Parser output handles ifStmt already, no changes in semantic phase
         .tIfBegin
         @BooleanControlExpression
         sThen  .tIfThen
@@ -1725,22 +1762,22 @@ IfStmt :
         .tIfEnd
         oFixPopForwardBranch;
 
-WhileStmt :
+WhileStmt : 
         .tWhileBegin
         oFixPushTargetAddress           % top-of-loop branch target
         @BooleanControlExpression
-        .tWhileTest
+        .tWhileTest % Output While Test
         oFixPushForwardBranch
         oEmitNullAddress                % exit branch
         oFixSwap                % top-of-loop target back on top
        	oSymbolTblPushScope %--- enter new scope
-	 @Block %--- changed from @Statement to @Block
-	oSymbolTblPopScope %--- exit new scope
+	    @Block %--- changed from @Statement to @Block
+	    oSymbolTblPopScope %--- exit new scope
         .tWhileEnd
         oFixPopTargetAddress
         oFixPopForwardBranch;
 
-%RepeatStmt :
+%RepeatStmt : %Removed RepeatStmt, functionality moved to loopStmt
 %        .tRepeatBegin
 %        oFixPushTargetAddress           % top-of-loop branch target
 %        {[
@@ -1754,52 +1791,59 @@ WhileStmt :
 %        .tRepeatTest
 %        oFixPopTargetAddress;
 
-%LoopStmt :
-%
-%        .tWhileBegin
-%        .tWhilePreBreak
-%        oFixPushTargetAddress   % top-of-loop branch target
-%        @Block
-%        .tWhileBreakIf
-%        @BooleanControlExpression
-%        .tNot
-%        .tWhileTest
-%        oFixPushForwardBranch
-%        oEmitNullAddress        % exit branch
-%        oFixSwap                % top-of-loop target back on top
-%        %@Statement
-%        @Block
-%        .tWhileEnd
-%        oFixPopTargetAddress
-%        oFixPopForwardBranch;
+LoopStmt : %Adding loopStmt rule, recycling While functionality
+       .tWhileBegin
+       .tWhilePreBreak
+       oFixPushTargetAddress   % top-of-loop branch target
+       @Block
+       sLoopBreakIf
+       .tWhileBreakIf
+       @BooleanControlExpression
+       .tNot % .tNot added for the expression
+       .tWhileTest
+       oFixPushForwardBranch
+       oEmitNullAddress        % exit branch
+       oFixSwap                % top-of-loop target back on top
+       %@Statement %commenting out Statment to replace with Block
+       @Block
+       sLoopEnd
+       .tWhileEnd
+       oFixPopTargetAddress
+       oFixPopForwardBranch;
 
 CaseStmt :
-        .tCaseBegin
-        @CaseSelectorExpression
-        oCasePushDisplay                % handle nested case statements
-        oCountPush (zero)       % count case alternative statements
-        .tCaseSelect
-        oFixPushForwardBranch
-        oEmitNullAddress                % address of case branch table
-        {[
-            | sCaseEnd:
-                >
-            | *:
-                @CaseAlternative
-        ]}
-        .tCaseEnd
-        oFixPopForwardBranch
-        oEmitCaseBranchTable
-        % emit merge branches for case alternatives
-        {[ oCountChoose         % number of case alternatives
-            | zero:
-                >
-            | *:
-                oFixPopForwardBranch
-                oCountDecrement
-        ]}
-        oCasePopDisplay
-        oCountPop;
+    .tCaseBegin
+    @CaseSelectorExpression
+    oCasePushDisplay            % handle nested case statements
+    oCountPush(zero)           % count case alternative statements
+    .tCaseSelect
+    oFixPushForwardBranch
+    oEmitNullAddress                % address of case branch table
+    {[
+	|sCaseOtherwise:
+	    .tCaseOtherwise
+	    oSymbolTblPushScope % enter new scope
+            @Block %---changed fromt @Statement to @Block
+            oSymbolTblPopScope % exit new scope
+	    .tCaseMerge                 			  
+        | sCaseEnd:
+            >
+        | *:
+            @CaseAlternative
+    ]}
+    .tCaseEnd
+    oFixPopForwardBranch
+    oEmitCaseBranchTable
+    % emit merge branches for case alternatives
+    {[ oCountChoose         % number of case alternatives
+        | zero:
+            >
+        | *:
+            oFixPopForwardBranch
+            oCountDecrement
+    ]}
+    oCasePopDisplay
+    oCountPop;
 
 CaseAlternative :
         % A case alternative is a series of integer
@@ -1894,7 +1938,7 @@ Operand :
                 [ oSymbolStkChooseKind
                     | syConstant:
                         @ConstantOperand
-                    | syVariable, syVarParameter:
+                    | syVariable, syVarParameter, syMutableVariable: %adding syMutableVariable
                         @Variable
                         @VariableOperand
                     | syFunction:
@@ -2172,7 +2216,7 @@ Variable :
         % and a Symbol Stack entry has been pushed for it.
 
         [ oSymbolStkChooseKind
-            | syVariable:
+            | syVariable, syMutableVariable: %adding syMutableVariable
                 .tLiteralAddress
                 oValuePushSymbol
                 oEmitValue
@@ -2341,7 +2385,7 @@ StandardFunctionActual :
                         @FlushActuals
                 ]
                 [ oSymbolStkChooseKind
-                    | syVariable, syVarParameter:
+                    | syVariable, syVarParameter, syMutableVariable: %adding syMutableVariable
                         oTypeStkPushSymbol
                         [ oTypeStkChooseKind
                             | tpFile:
@@ -2508,7 +2552,7 @@ WriteProcedure :
                                 >>
                         ]
                         [ oSymbolStkChooseKind
-                            | syVariable, syVarParameter:
+                            | syVariable, syVarParameter, syMutableVariable: %adding syMutableVariable
                                 oTypeStkPushComponent
                                 oValuePushSymbol        % file descriptor
                                 [ oTypeStkChooseKind
@@ -2604,7 +2648,7 @@ WriteProcedure :
                         [ oSymbolStkChooseKind
                             | syConstant:
                                 @ConstantOperand
-                            | syVariable, syVarParameter:
+                            | syVariable, syVarParameter, syMutableVariable: %adding syMutableVariable
                                 @Variable
                                 @VariableOperand
                             | syFunction:
@@ -2855,7 +2899,7 @@ ReadProcedure :
                                 >>
                         ]
                         [ oSymbolStkChooseKind
-                            | syVariable, syVarParameter:
+                            | syVariable, syVarParameter, syMutableVariable: %adding syMutableVariable
                                 oValuePushSymbol        % file descriptor
                                 oTypeStkPushComponent
                                 [ oTypeStkChooseKind
@@ -3086,7 +3130,7 @@ FileVariable :
         [ oTypeStkChooseKind
             | tpFile:
         	[ oSymbolStkChooseKind
-        	    | syVariable, syVarParameter:
+        	    | syVariable, syVarParameter, syMutableVariable: %adding syMutableVariable
         		[
         		    | sExpnEnd:
         		    | *:
@@ -3108,7 +3152,7 @@ TextFileVariable :
         [ oTypeStkChooseKind
             | tpFile:
         	[ oSymbolStkChooseKind
-        	    | syVariable, syVarParameter:
+        	    | syVariable, syVarParameter, syMutableVariable: %adding syMutableVariable
         		oTypeStkPushComponent
         		[ oTypeStkChooseKind
         		    | tpChar:
