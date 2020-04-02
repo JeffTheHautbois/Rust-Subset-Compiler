@@ -1497,7 +1497,7 @@ ModuleDefinition:
         oTypeTblUpdate
         oTypeStkPop
 	oSymbolTblStripScope %--Removed oSymbolTblPopScope and replaced with  
-	oSymbolTblMergeScope; %--oSymbolTble and oSymbolTblMergeScope
+	oSymbolTblMergeScope; %--oSymbolTbleStripScope and oSymbolTblMergeScope
 
 	%--Removed .tProcedureEnd
         % oFixPopForwardBranch   % fix branch around procedure above
