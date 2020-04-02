@@ -1,5 +1,5 @@
 mod main(output) {
-    let x : int = 1;
+    let mut x : int = 1;
     fn function(mut a : int) {}
 
     function(x);

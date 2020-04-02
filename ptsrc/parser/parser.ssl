@@ -352,7 +352,6 @@ VariableDeclarations :
             {[
                 |':':
 					@TypeBody
-					.sMutable
 
 				|'=':
 					.sInitialValue
@@ -363,6 +362,7 @@ VariableDeclarations :
 				|*:
 					>
             ]}
+			.sMutable
         % Accept immutable variables
         | *:
 			pIdentifier  .sIdentifier
