@@ -1,0 +1,12 @@
+mod main (output) {
+	loop { loop { 
+		break if 100 == 100;
+	}
+
+	break if 100 == 100;
+	
+	loop {
+		break if 100 == 100;
+	}
+	} 
+	}
