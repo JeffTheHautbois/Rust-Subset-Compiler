@@ -1,0 +1,188 @@
+#### Block, Statement ####
+
+##Changes were made in semantic.ssl Block, and Statement rules:
+Why: Qust supports statement and declaration in any order.
+How: All choices in Statement rules were removed and lifted into Block.
+
+#### Types ####
+
+##Changes were made in semantic.ssl in SimpleType and TypeBody
+Why: Qust array type by defaults has lower range index of 1.
+And it disallow any user defined range starting greater than 1
+How: Modifies sRange in SimpleType to always push one as lowerbound.
+
+
+##Changes were made in semantic.ssl in VariableDeclaration
+Why: Qust supports declaration without type but with initial value
+How: Adds additional choice block to handle sInitialValue token
+without specifiying type, and force typeStk to default Integer
+
+#### Modules ####
+
+##Changes in semantic.ssl
+To start a new rule was implemented for ModuleDefenition. This rule is a copy of
+ProcedureDefenition other than the changes described in the following section. The
+first difference is we remove tSkipProc oFixPushforwardBranch and oEmitNullAddress
+as this is no longer needed in the module. Next, the symbol type was set to the new 
+syModule instead of syProcedure to be used as the enclosing module's symbol. After
+this the call to ProcedureHeading was commented out because we don't need to handle
+params in a module. Next oSymbolTblPopScope was replaced with a new semantic
+mechanisms called oSymbolTblStripScope and oSymbolTblMergeScope. This allows
+everything that is public from within the modules scope to now exist within the scope 
+that encloses the module. Finally we remove tProcedureEnd and oFixPopForwardBranch 
+b/c these are not needed in a module.
+
+##Changes in semantic.pt
+Next the implementation of oSymbolTblStripScope and oSymbolTblMergeScope were added
+to semantic.pt. The oSymbolTblStripScope is mostly a copy of oSymbolTblPop scope
+sets the identSymbolTableRef for each identifier to the one at the lower lexical
+level by setting it to symbolTableIdentLink. This causes the symbols to be invisible
+in the module's scope. The only change made was in the if stmt which disallows this
+action if the symbolTbleType is syPublicProcedure b/c obviously we don't want to hide
+those symbols.
+
+Finally, we implement oSymbolTblMergeScope which simply decriments the lexical level.
+
+#### Procedures ####
+
+##Changes in semantic.ssl
+To allow for public procedures a case was added in ProcedureDefenition to check for
+a sPublic token following the procedure sIdentifier token. If sPublic is detected
+symbolStk kind is set to syPublicProcedure and otherwise is set ro syProcedure. This
+allows for identification of public procedures. Next all instances requiring
+syProcedure on the symbol stack were changed to also allow syPublicProcedure. This
+change was only needed in CallStmt rule.
+
+##Changes in semantic.pt
+Finally, all assertions of syProcedure are changed to allow for syPublicProcedure, for 
+the same reason as above.
+
+#### The Match Statement and Default Alternative ####
+This document outlines the changes of the PT case statement to handle the Qust match statements with
+optional default alternative. These changes all occured in semantic.ssl.
+
+##Changes in semantic.ssl
+Changes were made by reusing the CaseStmt S/Sl rule to be able to handle default alterative in the match
+statement. The change was adding a condition of sCaseOtherwise in the while loop before the sCaseEnd. Next,
+the addition of the T-code of .tCaseOtherwise was emitted, to be used as a delimiter for the default alterative 
+case. Also, to handle the sequence of statements of the default alterative case, the oSymbolTblPushScope operation was used 
+to enter a new scope and the Block S/SL rule was called. Then, the oSymbolTblPopScope operation was used to exit the new scope. 
+Ending with a .tCaseMerge as the end delimiter. Thus, the match statement can handle both cases; when there is a default alternative 
+and when there isn't.
+
+#### IfElseStmt #######
+
+##In semantic.ssl, no changes were required other than enforcing the block rule. 
+Major changes were not required since the parser output was configured such that
+the pt semantic phase would handle the QUST ifElse and ifElseIf format properly. 
+
+#### LoopStmt #######
+
+##In semantic.ssl, a new rule "LoopStmt" was created in order to handle the QUST
+loop statement in the semantic phase. This loop reconfigured the "WhileStmt" rule,
+generating the required output tokens for the code generation stage while absorbing
+the output tokens from the parser. The break if statement should have
+the proper output for the expression associated with the break condition. This involved calls to block, and using a inverted 
+condition (using .tNot) for ending the loop based on the Boolean expression. LoopStmt 
+is triggered by block and outputs a .tWhileEnd token when finished. 
+The While breakif, end and test t tokens are used and are expected in the output. 
+
+#### MutableImmutable #####
+
+##in semantic.ssl, mutable/immutable setting and
+type checking for a mutable variables types and assignment
+were configured according to QUST standards. The parser output
+from the procedure and variable declaration rules is handled
+in the semantic phase. In Qust, not all variables can be assigned, 
+value parameter variables cannot be assigned. The changes involved various rules such
+as VariableDecalration, VarActual, AssignmentStmt and procedureHeading.
+Where appropirate, the new added symbol type syMutableVariable is checked for,
+and is set during declaration of a mutable variable in VariableDeclaration. 
+Multiple checks for mutable tokens are added during assignment, and 
+an appropirate error is outputted when found for value parameters and not
+found for variable parameters. syMutable variable is accepted anywhere
+syVariable is accepted, except in circumstances where a value parameter is
+expected. These changes are visible in the semantic.ssl file and highlighted
+with comments. 
+
+#### Strings ####
+
+#Changes in semantic.ssl Operands, AssignProcedure, ConstantValue rules:
+Why: Removal of tpPackedArrays as it is no longer the proper presentation for Strings
+How: remove tpPackedArrays boundary checking and pushes tpString
+and and omit proper String Length after tLiteralString
+
+#Changes in  semantic.pt oAllocateVariable semantic mechanism:
+Why: String size in Qust is 1024 which is way larger than wordSize
+How: adds extra choice in semantic mechanism to allocate stringSize.
+
+#Changes in semantic.ssl AssignProcedure, WriteText, ReadText rules:
+Why: token are no longer trWriteChar/ReadChar as Strings in Qust handles that
+How: now accepts tpString instead of tpPackedArray and emits length of string
+using oValuePush(stringSize) and oValueOmit
+
+#Changes in semantic.ssl Operand rule:
+To implement new string assignments the operand rule was modified to allow for a case where
+an sStringLiteral is handeled. When sStringLiteral is detected the symbol stack is pushed with
+syExpression because the string literal is an expression and the type stack is pushed with spString
+because obviously that is the type. After this the string length is pushed to the value stack so it
+can be emitted then the tLiteralString token is emitted followed by the length value from the value
+stack and then the string is emitted and finally the string length is poped off the value stack.
+
+#Changes in semantic.ssl to ConstantValue rule:
+To implement const string declarations the case for sStringLiteral was modified for the new Qust
+strings. Inside this case first the symbol kind is set to syVariable and the type is set to tpString
+and then the standard type stdString is linked. This linked type is then pushed to the type stack 
+and EnterVariableAttributes is then called to allocate storage for the string. Following this the
+typical assignment t-tokens tAssignBegin and tLiteralAddress are emitted along with the value of the
+address itself. Next, approximatly the same sequence as described in the paragraph above was performed 
+to output the necisary tokens for a string literal including the .StringLiteral token, string length,
+and the string itself. Finally the symbol stack's top element is changed to syConstant so that it can
+not be assigned to in the future and the type stack elements that were used in this section are poped.
+
+#Changes in semantic.ssl to UnaryOperator rule:
+A new case was added in the main section of this rule to accept the sLength token denoting the string
+length operator. Inside this case alternative we first perform an oTypeStackChooseKind choice to be
+sure that the type stack has a string b/c otherwise the length operator is being performed on an invalid 
+type and should throw an error. Once The type is confirmed to be a string the tLength token is emitted
+and the string type is poped from the type stack and an tpInteger is pushed to the type stack because 
+the result of this operator is an integer.
+
+#Changes in semantic.ssl to BinaryOperator rule: 
+In the main section of the BinaryOperator rule a new case was added to handle the new sSubstring operator.
+This case starts by emitting the desired tSubstring token followed by a push to type stack to set the 
+operator required result type of tpInteger. CompareOperandAndResultTypes is then called to be sure both
+operands are also tpIntegers and then the two operands are poped inside the CompareOperandAndResultTypes
+rule. Following this we pop the integer type from the type stack because it's job is now done and then we
+check to make sure that the next type is tpString because that is what we are performing the substring 
+operations on. We then pop the element from the symbol stack and set it's top element to be and syExpression 
+because that is what we've got here.
+
+In the body of the BinaryOperator rule we've also made a number of changes to existing cases The first is
+sAdd case which handles addition as well as straing concatenation. The first thing we do in the case block
+is check if the type stack contains a string type and if not we perform the old addition code and if not we
+enter the new string concatenation. In this part we emit a tConcatenate token as expected and then push a
+tpString to the type stack as this is the reulting type from this operarion. We then call 
+CompareOperandAndResultTypes which in this case makes sure that the operands are both strings and then leaves
+the type stack with only one tpString and then sets up the symbol stack to be with an syExpression.
+
+The next change made was to the sEq and sNE cases where we sinply evaluate if we're handeling a string and if
+so we emit tStringEqual for the sEq case and tStringEqual followed by tNot for the sNE case to flip the boolean
+value. We then finish handeling string equality by calling CompareEqualityOperandTypes to be sure that both
+operands are of the same type. If a string type wasn't on the stack we simply perform the old functionality
+the sEq and sNE cases.
+
+The next change was made to the sGT, sGE, sLT, and sLE rules where again we have a special case for when the
+type stack containts a string. In this special case we simply emit an eInvalidExpn because these operators
+operating on a string is invalid. If a string is not detected appropriate t-token is emmitted and then
+regardless of string or not we perform CompareRelationalOperandTypes. We do this even in the invalid case so
+that the stack can be set correctly and won't cause a cascade of errors in rest of the compiled code.
+
+Finally, the sMultiply rule was changed wherein we start by calling oTypeStackSwap because we want to know
+if the second element in type stack is a string. If it's not we carry on with typical multiplication but
+if it is then we start into a section to handle the repeat operator. In this section we emit the
+appropriate token and flip the type stack because and check that the top element is now and integer b/c
+otherwise we would have an invalid repeat operation. If all is well we pop the integer type of the type
+and symbol stack and set the symbol stack kind to syExpression. The type stack is simply left because 
+it now contains the resulting type of the repeat string operation. 
+>>>>>>> 4e54659973e0a57e152641cc44c73ca3759fc7b7
