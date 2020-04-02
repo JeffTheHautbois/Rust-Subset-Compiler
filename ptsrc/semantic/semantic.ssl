@@ -542,12 +542,12 @@ type TrapKind :
         trReadln = 4
         trWrite = 5
         trWriteln = 6
-        trWriteString = 7
+        trWriteString = 108
         trWriteInteger = 8
         %trWriteChar = 9 removed
-        trReadInteger = 9
-        trReadString = 10
-        trAssign = 11;
+        trReadInteger = 10
+        trReadString = 109
+        trAssign = 12;
 
 mechanism Emit :
     % Emit writes to the output "t-code" stream (the code area),
@@ -2498,34 +2498,41 @@ AssignProcedure :
                             | *:
                         ]
                         [ oTypeStkChooseKind
-                            | tpArray, tpPackedArray:   % must be a char array or literal string        
-                                oTypeStkPushComponent
-                                [ oTypeStkChooseKind
-                                    | tpString:
-                                    | *:
-                                        #eFileNameReqd
-                                ]
-                                oTypeStkPop     % component type
-                                oValuePushTypeStkLowerBound
-                                [ oValueChoose
-                                    | one:
-                                    | *:        % string has lower bound one
-                                        #eFileNameReqd
-                                ]
-                                oValuePop
-                                .tParmEnd
-                                % need length of string as well
-                                .tLiteralInteger
-                                oValuePushTypeStkUpperBound
-                                [ oTypeStkChooseKind
-                                    | tpPackedArray:    % a literal string      
-                                        oValueNegate    % mark as code segment  
-                                    | tpArray:
-                                ]
-                                oEmitValue
-                                oValuePop
-                                .tParmEnd
-                                sParmEnd
+			    | tpString:
+				.tParmEnd %--- for ending array
+				oValuePush(stringSize)
+				oEmitValue	%emit string length
+				oValuePop
+				.tParmEnd
+				sParmEnd				
+                        %    | tpArray, tpPackedArray:   % must be a char array or literal string        
+                        %        oTypeStkPushComponent
+                        %        [ oTypeStkChooseKind
+                        %            | tpString:
+                        %            | *:
+                        %                #eFileNameReqd
+                        %        ]
+                        %        oTypeStkPop     % component type
+                        %        oValuePushTypeStkLowerBound
+                        %        [ oValueChoose
+                        %            | one:
+                        %            | *:        % string has lower bound one
+                        %                #eFileNameReqd
+                        %        ]
+                        %        oValuePop
+                        %        .tParmEnd
+                        %        % need length of string as well
+                        %        .tLiteralInteger
+                        %        oValuePushTypeStkUpperBound
+                        %        [ oTypeStkChooseKind
+                        %            | tpPackedArray:    % a literal string      
+                        %                oValueNegate    % mark as code segment  
+                        %            | tpArray:
+                        %        ]
+                        %        oEmitValue
+                        %        oValuePop
+                        %        .tParmEnd
+                        %        sParmEnd
                             | *:
                                 #eFileNameReqd
                                 @FlushActuals
@@ -2770,23 +2777,24 @@ WriteText :
             | tpInteger, tpSubrange:
                 .tTrap
                 oEmitTrapKind(trWriteInteger)
-            | tpArray, tpPackedArray:   % must be a char array or literal string
-                oTypeStkPushComponent
-                [ oTypeStkChooseKind
-                    | tpString:
-                    | *:
-                        #eWriteExpn
-                ]
-                oTypeStkPop     % component type
-                oValuePushTypeStkLowerBound
-                [ oValueChoose
-                    | one:
-                    | *:        % string has lower bound one
-                        #eWriteExpn
-                ]
-                oValuePop
-                .tTrap
-                oEmitTrapKind(trWriteString)
+	   %---removed as it is being handled by tpString on top
+           % | tpArray, tpPackedArray:   % must be a char array or literal string
+           %     oTypeStkPushComponent
+           %     [ oTypeStkChooseKind
+           %         | tpString:
+           %         | *:
+           %             #eWriteExpn
+           %     ]
+           %     oTypeStkPop     % component type
+           %     oValuePushTypeStkLowerBound
+           %     [ oValueChoose
+           %         | one:
+           %         | *:        % string has lower bound one
+           %             #eWriteExpn
+           %     ]
+           %     oValuePop
+           %     .tTrap
+           %     oEmitTrapKind(trWriteString)
             | *:
                 #eWriteExpn
         ]
